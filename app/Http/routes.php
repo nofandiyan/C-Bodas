@@ -16,14 +16,28 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'throttle'], function () {
-	Route::post('','CustomerRegistrationController@store');
+	Route::post('/registration','CustomerController@store');
+	Route::post('/login','CustomerController@getLogin');
 });
 
 
 Route::get('register/verify/{confirmationCode}', [
     'as' => 'confirmation_path',
-    'uses' => 'CustomerRegistrationController@confirm'
+    'uses' => 'CustomerController@confirm'
 ]);
+
+Route::get('forgot/password/{confirmationCode}', [
+    'as' => 'forgotpassword_path',
+    'uses' => 'CustomerController@forgot'
+]);
+
+Route::post('reset/password', [
+    'as' => 'resetpassword_path',
+    'uses' => 'CustomerController@reset'
+]);
+
+
+
 
 Route::group(['prefix' => '/api/v1/products'], function () {
 	Route::get('/catalog', 'ControllerProducts@getCatalog');
