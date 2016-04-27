@@ -26,9 +26,14 @@ Route::get('register/verify/{confirmationCode}', [
     'uses' => 'CustomerController@confirm'
 ]);
 
-Route::get('forgot/password/{confirmationCode}', [
+Route::get('request/password/', [
     'as' => 'forgotpassword_path',
-    'uses' => 'CustomerController@forgot'
+    'uses' => 'CustomerController@requestLinkPassword'
+]);
+
+Route::get('reset/password/{confirmationCode}', [
+    'as' => 'forgotpassword_path',
+    'uses' => 'CustomerController@getLinkPassword'
 ]);
 
 Route::post('reset/password', [
