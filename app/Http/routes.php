@@ -53,3 +53,53 @@ Route::group(['prefix' => '/api/v1/products'], function () {
 	Route::get('/find','ProductsController@findProductName');
 
 });
+
+Route::group(['middleware' => 'web'], function () {
+
+    Route::auth();
+
+    Route::get('/homepage', 'HomeController@showHomepage');
+
+    Route::get('/signin', 'SigninController@showSignin');
+
+    Route::get('/signup', 'SignupController@showSignup');
+
+    Route::get('/signuppembeli', 'SignuppembeliController@showSignuppembeli');
+
+    Route::get('/signuppenjual', 'SignuppenjualController@showSignuppenjual');
+
+    Route::get('/single-product', 'SingleproductController@showSingleproduct');
+
+    Route::get('/lost-password', 'LostpasswordController@showLostpassword');
+
+    Route::get('/katalogpariwisata', 'KatalogpariwisataController@showKatalogpariwisata');
+
+    Route::get('/katalogdomba', 'KatalogdombaController@showKatalogdomba');
+
+    Route::get('/katalogsapi', 'KatalogsapiController@showKatalogsapi');
+
+    Route::get('/cart', 'CartController@showCart');
+
+    Route::get('/', function(){
+        if (!empty(Auth::user())) {
+            if(Auth::user()->userAs == 1){
+                return view ('templates/homepage');
+            }else{
+                return view('pembeli/pembeli_home');
+            }
+        }else{
+            return view('templates/homepage');
+        }
+    });
+
+Route::resource('user/profile', 'UserController');
+
+    Route::resource('user/editProfile', 'UserController@editProfile');
+
+    Route::resource('merchant/product', 'ProductController');
+
+    Route::resource('merchant/create', 'ProductController@create');
+
+
+
+});
