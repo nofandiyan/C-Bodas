@@ -17,7 +17,13 @@ Route::get('/', function () {
 
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'throttle'], function () {
 	Route::post('/registration','CustomerController@store');
-	Route::post('/login','CustomerController@getLogin');
+	Route::post('/login','CustomerController@getLogin');	
+	Route::post('/update/login','CustomerController@updateLogin');
+	Route::post('/update/address','CustomerController@updateAddress');
+});
+
+Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'throttle'], function () {
+	Route::post('/store','ReservationsController@store');
 });
 
 
@@ -42,10 +48,8 @@ Route::post('reset/password', [
 ]);
 
 
-
-
 Route::group(['prefix' => '/api/v1/products'], function () {
-	Route::get('/catalog', 'ControllerProducts@getCatalog');
-	Route::get('/find','ControllerProducts@findProductName');
+	Route::get('/catalog', 'ProductsController@getCatalog');
+	Route::get('/find','ProductsController@findProductName');
 
 });
