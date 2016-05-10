@@ -11,19 +11,70 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::auth();
+
+Route::group(['middleware' => 'web'], function () {
+
+    // Route::get('/homepage', 'HomeController@index');
+
+    Route::get('/', 'HomeController@showHomepage');
+
+    // Route::get('/signin', 'SigninController@showSignin');
+
+    Route::get('/signup', 'SignupController@showSignup');
+
+    Route::get('/signuppembeli', 'SignuppembeliController@showSignuppembeli');
+
+    Route::get('/sellerSignUp', 'SignuppenjualController@showSignuppenjual');
+
+    Route::get('/single-product', 'SingleproductController@showSingleproduct');
+
+    Route::get('/lost-password', 'LostpasswordController@showLostpassword');
+
+    Route::get('/katalogpariwisata', 'KatalogpariwisataController@showKatalogpariwisata');
+
+    Route::get('/katalogdomba', 'KatalogdombaController@showKatalogdomba');
+
+    Route::get('/katalogsapi', 'KatalogsapiController@showKatalogsapi');
+
+    Route::get('/cart', 'CartController@showCart');
+
+    Route::resource('user/profile', 'UserController');
+
+    Route::resource('user/editProfile', 'UserController@editProfile');
+
+    Route::resource('merchant/product', 'ProductController');
+
+    Route::resource('merchant/create', 'ProductController@create');
+
+    // -----------------------------------------------------------------------
+    Route::resource('sellerProfile', 'sellerController@index');
+
+    Route::resource('produkTani', 'TaniController');
+
+    Route::resource('produkTernak', 'TernakController');
+
+    Route::resource('produkWisata', 'WisataController');
+
+    Route::resource('produkVilla', 'VillaController');
+
+    Route::resource('produkEdukasi', 'EdukasiController');
+
 });
 
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'throttle'], function () {
-	Route::post('/registration','CustomerController@store');
-	Route::post('/login','CustomerController@getLogin');	
-	Route::post('/update/login','CustomerController@updateLogin');
-	Route::post('/update/address','CustomerController@updateAddress');
+    Route::post('/registration','CustomerController@store');
+    Route::post('/login','CustomerController@getLogin');    
+    Route::post('/update/login','CustomerController@updateLogin');
+    Route::post('/update/address','CustomerController@updateAddress');
 });
 
 Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'throttle'], function () {
-	Route::post('/store','ReservationsController@store');
+    Route::post('/store','ReservationsController@store');
 });
 
 
@@ -49,57 +100,7 @@ Route::post('reset/password', [
 
 
 Route::group(['prefix' => '/api/v1/products'], function () {
-	Route::get('/catalog', 'ProductsController@getCatalog');
-	Route::get('/find','ProductsController@findProductName');
-
-});
-
-Route::group(['middleware' => 'web'], function () {
-
-    Route::auth();
-
-    Route::get('/homepage', 'HomeController@showHomepage');
-
-    Route::get('/signin', 'SigninController@showSignin');
-
-    Route::get('/signup', 'SignupController@showSignup');
-
-    Route::get('/signuppembeli', 'SignuppembeliController@showSignuppembeli');
-
-    Route::get('/signuppenjual', 'SignuppenjualController@showSignuppenjual');
-
-    Route::get('/single-product', 'SingleproductController@showSingleproduct');
-
-    Route::get('/lost-password', 'LostpasswordController@showLostpassword');
-
-    Route::get('/katalogpariwisata', 'KatalogpariwisataController@showKatalogpariwisata');
-
-    Route::get('/katalogdomba', 'KatalogdombaController@showKatalogdomba');
-
-    Route::get('/katalogsapi', 'KatalogsapiController@showKatalogsapi');
-
-    Route::get('/cart', 'CartController@showCart');
-
-    Route::get('/', function(){
-        if (!empty(Auth::user())) {
-            if(Auth::user()->userAs == 1){
-                return view ('templates/homepage');
-            }else{
-                return view('pembeli/pembeli_home');
-            }
-        }else{
-            return view('templates/homepage');
-        }
-    });
-
-Route::resource('user/profile', 'UserController');
-
-    Route::resource('user/editProfile', 'UserController@editProfile');
-
-    Route::resource('merchant/product', 'ProductController');
-
-    Route::resource('merchant/create', 'ProductController@create');
-
-
+    Route::get('/catalog', 'ProductsController@getCatalog');
+    Route::get('/find','ProductsController@findProductName');
 
 });

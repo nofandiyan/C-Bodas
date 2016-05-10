@@ -35,7 +35,7 @@
                     </div>
                     <div class="row">
                         
-                        <a href="signuppenjual" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Sebagai Penjual</button></a>
+                        <a href="{{ url('/sellerSignUp') }}" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Sebagai Penjual</button></a>
                     </div>
                   </div>  
                 </div>    

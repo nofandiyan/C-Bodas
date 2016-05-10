@@ -24,6 +24,6 @@ class SignuppenjualController extends Controller
      */
     public function showSignuppenjual()
     {
-        return view('templates\signuppenjual'); 
+        return view('seller.sellerSignUp'); 
     }
 }

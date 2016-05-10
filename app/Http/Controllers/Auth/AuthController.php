@@ -49,14 +49,14 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-            'telp' => 'required|max:12',
-            'street' => 'required|max:255',
-            'city' => 'required|max:255',
-            'prov' => 'required|max:255',
-            'zipCode' => 'required|max:5',
+            'name'      => 'required|max:255',
+            'email'     => 'required|email|max:255|unique:users',
+            'password'  => 'required|confirmed|min:6',
+            'telp'      => 'required|max:12',
+            'street'    => 'required|max:255',
+            'city'      => 'required|max:255',
+            'prov'      => 'required|max:255',
+            'zipCode'   => 'required|max:5',
         ]);
     }
 
@@ -68,16 +68,35 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'userAs' => $data['userAs'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'telp' => $data['telp'],
-            'street' => $data['street'],
-            'city' => $data['city'],
-            'prov' => $data['prov'],
-            'zipCode' => $data['zipCode'],
+        $user=User::create([
+            'userAs'    => $data['userAs'],
+            'email'     => $data['email'],
+            'password'  => bcrypt($data['password']),
+            'typeId'    => $data['typeId'],
+            'noId'      => $data['noId'],
+            'name'      => $data['name'],
+            'telp'      => $data['telp'],
+            'street'    => $data['street'],
+            'city'      => $data['city'],
+            'prov'      => $data['prov'],
+            'zipCode'   => $data['zipCode'],
+            'bankName'  => $data['bankName'],
+            'rekName'   => $data['rekName'],
+            'rekId'     => $data['rekId'],
         ]);
+
+        if ($data['profPict']) {
+            $file=$data['profPict'];
+            $destinationPath = 'images/profile/';
+            $uploadSuccess = $file->move(public_path().'/'.$destinationPath,
+                $user->id.'-'.$file->getClientOriginalName());
+
+            $user->profPict = $destinationPath.$user->id.'-'.$file->getClientOriginalName();    
+            // $user->profPict = $destinationPath.$user->id;  
+            // dd($user);
+            $user->save();
+        }
+        
+        return $user;
     }
 }

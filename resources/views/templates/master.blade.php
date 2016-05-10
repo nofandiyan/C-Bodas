@@ -23,7 +23,7 @@
     <!-- ==========================
         CSS 
     =========================== -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
     <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="assets/css/dragtable.css" rel="stylesheet" type="text/css">
@@ -31,7 +31,17 @@
     <link href="assets/css/animate.css" rel="stylesheet" type="text/css">
     <link href="assets/css/color-switcher.css" rel="stylesheet" type="text/css">
     <link href="assets/css/custom.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/color/red.css" id="main-color" rel="stylesheet" type="text/css">
+    <link href="assets/css/color/red.css" id="main-color" rel="stylesheet" type="text/css"> -->
+
+    <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('assets/css/dragtable.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('assets/css/owl.carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('assets/css/animate.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('assets/css/color-switcher.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('assets/css/color/red.css') }}" id="main-color" rel="stylesheet" type="text/css">
     
     <!-- ==========================
         JS 
@@ -40,6 +50,69 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    
+    <!-- bootsrap datepicker-->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">   -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">  
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>   -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+    
+
+    <style>
+        body {
+            font-family: 'Lato';
+        }
+
+        .fa-btn {
+            margin-right: 6px;
+        }
+    </style>
+    
+    <style type="text/css">
+        .wrapper {
+            width: 700px;
+            position: relative;
+        }
+        .wrapper .thumbnails {
+            width: 150px;
+            float: left;
+            top: 0;
+            left: 0;
+        }
+        .wrapper a {
+            margin: 2px;
+        }
+        .wrapper img {
+            border: 1px solid #000;
+        }
+        .wrapper label > img {
+            opacity: 0.6;
+        }
+        .wrapper label > img:hover {
+            opacity: 1;
+        }
+        .wrapper input {
+            display: none;
+        }
+        .wrapper input:checked + .full-image {
+            display: block;
+        }
+        .wrapper input:checked ~ img {
+            opacity: 1;
+        }
+        .wrapper .full-image {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 125px;
+        }
+        .wrapper .description {
+            width:95%;
+            padding:5px;
+            background-color:#DDDDDD;
+        }
+    </style>
     
 </head>
 <body>
@@ -69,7 +142,7 @@
                 <div class="col-sm-7 text-right">
                     <ul class="list-inline links">
                         <li><a href="my-account.html">Akun Saya</a></li>
-                        <li><a href="signin.html">Keluar</a></li>
+                        <li><a href="{{ url('/logout') }}">Keluar</a></li>
                     </ul>
                 </div>
             </div>
@@ -88,7 +161,8 @@
                 <ul class="nav navbar-nav navbar-right">
                    
                     <li class="dropdown megamenu">
-                        <a href="signin">Masuk</a>
+                        <!-- <a href="signin">Masuk</a> -->
+                        <a href="{{ url('/login') }}">Masuk</a>
                     </li>
 
                     <li class="dropdown megamenu">
@@ -219,10 +293,11 @@
     <!-- ==========================
         JS 
     =========================== -->        
-    <script src="code.jquery.com/jquery-latest.min.js"></script>
-    <script src="code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=true"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!-- <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/bootstrap-hover-dropdown.min.js"></script>
     <script src="assets/js/SmoothScroll.js"></script>
     <script src="assets/js/jquery.dragtable.js"></script>
@@ -231,7 +306,30 @@
     <script src="assets/js/twitterFetcher_min.js"></script>
     <script src="assets/js/jquery.mb.YTPlayer.min.js"></script>
     <script src="assets/js/color-switcher.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/custom.js"></script> -->
+
+    
+    <script src="{{ URL::asset('assets/js/bootstrap.min.js') }}"></script>
+    
+    <script src="{{ URL::asset('assets/js/bootstrap-hover-dropdown.min.js') }}"></script>
+    
+    <script src="{{ URL::asset('assets/js/SmoothScroll.js') }}"></script>
+    
+    <script src="{{ URL::asset('assets/js/jquery.dragtable.js') }}"></script>
+    
+    <script src="{{ URL::asset('assets/js/jquery.card.js') }}"></script>
+    
+    <script src="{{ URL::asset('assets/js/owl.carousel.min.js') }}"></script>
+    
+    <script src="{{ URL::asset('assets/js/twitterFetcher_min.js') }}"></script>
+    
+    <script src="{{ URL::asset('assets/js/jquery.mb.YTPlayer.min.js') }}"></script>
+    
+    <script src="{{ URL::asset('assets/js/color-switcher.js') }}"></script>
+
+    <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
+    
+
 </body>
 
 <!-- Mirrored from demos.pixelized.cz/C-Bodas/v1.1/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Apr 2016 15:38:50 GMT -->

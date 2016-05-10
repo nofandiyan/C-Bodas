@@ -41,7 +41,6 @@
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
-
                             </div>
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="Kata Sandi...">
