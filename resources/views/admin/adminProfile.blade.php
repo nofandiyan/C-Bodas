@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Profil {{$profile->name}}</div>
+                <div class="panel-heading">Profil $profile->name</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/">
                         {!! csrf_field() !!}
@@ -113,10 +113,10 @@
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                     <div class="col-md-3" align="right">
-                                        <a href="/seller/{{$profile->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
+                                        <a href="/admin/{{$profile->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
                                     </div>
                                 </div>
-                            
+                                
                             </div>
                         </div>
                     </form>

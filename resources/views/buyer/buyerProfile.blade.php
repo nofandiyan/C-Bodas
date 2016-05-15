@@ -112,9 +112,6 @@
                                     <div class="col-md-3" align="right">
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
-                                    <div class="col-md-3" align="right">
-                                        <a href="/seller/{{$profile->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
-                                    </div>
                                 </div>
                             
                             </div>

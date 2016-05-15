@@ -22,7 +22,7 @@ class WisataController extends Controller
     public function index()
     {
         $wisata = WisataModel::all();
-        return view ('products.list.listWisata', ['wisata'=>$wisata]);
+        return redirect ('products.list.listWisata', ['wisata'=>$wisata]);
     }
 
     /**
@@ -175,6 +175,8 @@ class WisataController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $wisata = WisataModel::find($id);
+        $wisata->delete();
+        return redirect('/');
     }
 }

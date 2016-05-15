@@ -2,10 +2,6 @@
 
 @section('konten')
 
-@if (!empty(Auth::user()))
-    @if(Auth::user()->userAs == 1)
-                
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -151,12 +147,19 @@
 		                            </div>
 		                        </div>
 
-		                        <div class="col-md-12">
-		                            <div class="col-md-3" align="right">
-		                                <a href="/produkEdukasi/{{$edukasi->id}}/edit" class="btn btn-primary" role="button">Edit Lapak</a>
-		                            </div>
-		                        </div>
-                        	
+                        		@if(Auth::user()->userAs == 1)
+                                <div class="col-md-7">
+                                    <div class="col-md-3" align="right">
+                                        <a href="/produkEdukasi/{{$edukasi->id}}/edit" class="btn btn-primary" role="button">Edit Lapak</a>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="col-md-7">
+                                    <div class="col-md-3" align="right">
+                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                    </div>
+                                </div>
+                                @endif
                         	</div>
                         </div>
                     </form>
@@ -165,10 +168,5 @@
         </div>
     </div>
 </div>
-
-@else
-    return view('/');
-@endif
-@endif
 
 @stop

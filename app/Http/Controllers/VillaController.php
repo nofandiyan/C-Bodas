@@ -22,7 +22,7 @@ class VillaController extends Controller
     public function index()
     {
         $villa = VillaModel::all();
-        return view ('products.list.listVilla', ['villa'=>$villa]);
+        return redirect ('products.list.listVilla', ['villa'=>$villa]);
     }
 
     /**
@@ -179,6 +179,8 @@ class VillaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $villa = VillaModel::find($id);
+        $villa->delete();
+        return redirect('/');
     }
 }

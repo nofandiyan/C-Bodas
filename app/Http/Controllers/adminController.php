@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 use App\User;
 
-class sellerController extends Controller
+class adminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class sellerController extends Controller
     public function index($id)
     {
         $profile = User::find($id);
-        return view ('seller.sellerProfile', ['profile'=>$profile]);
+        return view ('admin.adminProfile', ['profile'=>$profile]);
     }
 
     /**
@@ -65,7 +65,7 @@ class sellerController extends Controller
         if(!$profile){
             abort(404);
         }
-        return view('seller.sellerProfileEdit')->with('profile', $profile);
+        return view('admin.adminProfileEdit')->with('profile', $profile);
     }
 
     /**
@@ -77,6 +77,7 @@ class sellerController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $this->validate($request, [
             'typeId'    => 'required',
             'noId'      => 'required',
@@ -128,8 +129,6 @@ class sellerController extends Controller
      */
     public function destroy($id)
     {
-        $data = User::find($id);
-        $data->delete();
-        return redirect('/');
+        //
     }
 }

@@ -22,7 +22,7 @@ class TernakController extends Controller
     public function index()
     {
         $ternak = TernakModel::all();
-        return view ('products.list.listTernak', ['ternak'=>$ternak]);
+        return redirect ('products.list.listTernak', ['ternak'=>$ternak]);
     }
 
     /**
@@ -203,6 +203,8 @@ class TernakController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ternak = TernakModel::find($id);
+        $ternak->delete();
+        return redirect('/');
     }
 }

@@ -2,50 +2,42 @@
 
 @section('konten')
 
-@if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+                <div class="panel-heading">Edit Profil</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="/seller/{{$profile->id}}" enctype="multipart/form-data">
                         
                         {!! csrf_field() !!}
+                        <input type="hidden" name="_method" value="put">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name='id' value="{{Auth::user()->id}}">
+                        <input type="hidden" name='userAs' value="{{Auth::user()->userAs}}">
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                                <!-- <select class="form-control" name="userAs" id="userAs" onchange="changeFunc();"> -->
+                        <div class="form-group">    
 
-                                <!-- <select class="form-control" name="userAs" id="userAs" onchange="java_script_:show(this.options[this.selectedIndex].value)"> -->
-                                <select class="form-control" name="userAs" id="userAs">
-                                    <option>--Daftar Sebagai--</option>
-                                    <option value="1">Penjual</option>
-                                    <option value="0">Pembeli</option>
-                                </select>
-
-                            </div>
-
-                        <!-- <p id="showValue"></p> -->
-
-                        <!-- </div>
-                        <div> -->
                             <label class="col-md-10 col-md-offset-2">Informasi Akun</label>
+
+                            <div class="form-group{{ $errors->has('profPict') ? ' has-error' : '' }}" align="center">
+                                <label>Foto Profil</label>
+                                <div class="full-image">
+                                    <img src="{{ url($profile->profPict) }}" class="img-thumbnail" height="300" width="300">
+                                </div>
+                                <label>Ganti Foto Profil</label>
+                                <input type="file" name="profPict" id="profPict">
+                                 @if ($errors->has('profPict'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('profPict') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
 
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 
                                  <div class="col-md-6 col-md-offset-3">
-                                    <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Alamat E-Mail">
+                                    <input type="email" class="form-control" name="email" value="{{ $profile->email }}" placeholder="Alamat E-Mail" readonly>
 
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -55,44 +47,14 @@
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-
-                                <div class="col-md-6 col-md-offset-3">
-                                    <input type="password" class="form-control" name="password" placeholder="Password">
-
-                                    @if ($errors->has('password'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-
-                                <div class="col-md-6 col-md-offset-3">
-                                    <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
-
-                                    @if ($errors->has('password_confirmation'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                        <!-- </div>
-
-                        <div> -->
                             <label class="col-md-10 col-md-offset-2">Informasi Data Diri</label>
 
                             <div class="form-group{{ $errors->has('typeId') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
                                     <select class="form-control" name="typeId" id="typeId">
-                                    <option>--Jenis Identitas--</option>
-                                    <option value="KTP">KTP</option>
-                                    <option value="SIM">SIM</option>
+                                    <option value="KTP" <?php if("{{Auth::user()->typeId->KTP}}") echo 'selected'; ?>>KTP</option>
+                                    <option value="SIM" <?php if("{{Auth::user()->typeId->SIM}}") echo 'selected'; ?>>SIM</option>
                                 </select>
 
                                     @if ($errors->has('typeId'))
@@ -107,7 +69,7 @@
                             <div class="form-group{{ $errors->has('noId') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="noId" value="{{ old('noId') }}" placeholder="Nomor Identitas">
+                                    <input type="text" class="form-control" name="noId" value="{{ Auth::user()->noId }}" placeholder="Nomor Identitas">
 
                                     @if ($errors->has('noId'))
                                         <span class="help-block">
@@ -121,7 +83,7 @@
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Nama Lengkap">
+                                    <input type="text" class="form-control" name="name" value="{{ Auth::user()->name }}" placeholder="Nama Lengkap">
 
                                     @if ($errors->has('name'))
                                         <span class="help-block">
@@ -134,7 +96,7 @@
                             <div class="form-group{{ $errors->has('telp') ? ' has-error' : '' }}">
 
                                  <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="telp" value="{{ old('telp') }}" placeholder="Nomor Telepon">
+                                    <input type="text" class="form-control" name="telp" value="{{ Auth::user()->telp }}" placeholder="Nomor Telepon">
 
                                     @if ($errors->has('telp'))
                                         <span class="help-block">
@@ -152,7 +114,7 @@
                             <div class="form-group{{ $errors->has('street') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="street" placeholder="Jalan + Nomor" value="{{ old('street') }}">
+                                    <input type="text" class="form-control" name="street" placeholder="Jalan + Nomor" value="{{ Auth::user()->street }}">
 
                                     @if ($errors->has('street'))
                                         <span class="help-block">
@@ -188,7 +150,7 @@
                             <div class="form-group{{ $errors->has('bankName') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="bankName" placeholder="Nama Bank" value="{{ old('bankName') }}">
+                                    <input type="text" class="form-control" name="bankName" placeholder="Nama Bank" value="{{ Auth::user()->bankName }}">
 
                                     @if ($errors->has('bankName'))
                                         <span class="help-block">
@@ -201,7 +163,7 @@
                             <div class="form-group{{ $errors->has('rekName') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="rekName" value="{{ old('rekName') }}" placeholder="Nama Dalam Buku Rekening">
+                                    <input type="text" class="form-control" name="rekName" value="{{ Auth::user()->rekName }}" placeholder="Nama Dalam Buku Rekening">
 
                                     @if ($errors->has('rekName'))
                                         <span class="help-block">
@@ -214,7 +176,7 @@
                             <div class="form-group{{ $errors->has('rekId') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="rekId" value="{{ old('rekId') }}" placeholder="Nomor Rekening">
+                                    <input type="text" class="form-control" name="rekId" value="{{ Auth::user()->rekId }}" placeholder="Nomor Rekening">
 
                                     @if ($errors->has('rekId'))
                                         <span class="help-block">
@@ -227,8 +189,8 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary" name="submit" value="Register">
+                            <div class="col-md-6 col-md-offset-3" align="center">
+                                <button type="submit" class="btn btn-primary" name="submit" value="POST">
                                     <i class="fa fa-btn fa-user"></i>Simpan
                                 </button>
                             </div>
@@ -240,4 +202,5 @@
         </div>
     </div>
 </div>
-@stop
+
+@endsection

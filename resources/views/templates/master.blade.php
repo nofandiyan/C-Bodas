@@ -139,12 +139,21 @@
                         <li><i class="fa fa-phone"></i> 022 6671806</li>
                     </ul>
                 </div>
+                @if (Auth::user())
                 <div class="col-sm-7 text-right">
                     <ul class="list-inline links">
-                        <li><a href="my-account.html">Akun Saya</a></li>
+                        @if (Auth::user()->userAs==0)
+                        <!-- <li><a href="my-account.html">Akun Saya</a></li> -->
+                        <li><a href="/adminProfile/{{Auth::user()->id}}">Akun Saya</a></li>
+                        @elseif (Auth::user()->userAs==1)
+                        <li><a href="/sellerProfile/{{Auth::user()->id}}">Akun Saya</a></li>
+                        @elseif (Auth::user()->userAs==2)
+                        <li><a href="/buyerProfile/{{Auth::user()->id}}">Akun Saya</a></li>
+                        @endif
                         <li><a href="{{ url('/logout') }}">Keluar</a></li>
                     </ul>
                 </div>
+                @endif
             </div>
         </div>
     </div>

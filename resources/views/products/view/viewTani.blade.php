@@ -2,10 +2,6 @@
 
 @section('konten')
 
-@if (!empty(Auth::user()))
-    @if(Auth::user()->userAs == 1)
-                
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -87,11 +83,19 @@
                                         {{ $tani->price }} / {{ $tani->massSell}}
                                     </div>
                                 </div>
+                                @if(Auth::user()->userAs == 1)
                                 <div class="col-md-7">
                                     <div class="col-md-3" align="right">
                                         <a href="/produkTani/{{$tani->id}}/edit" class="btn btn-primary" role="button">Edit Lapak</a>
                                     </div>
-                                </div>  
+                                </div>
+                                @else
+                                <div class="col-md-7">
+                                    <div class="col-md-3" align="right">
+                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -100,10 +104,5 @@
         </div>
     </div>
 </div>
-
-@else
-    return view('/');
-@endif
-@endif
 
 @stop

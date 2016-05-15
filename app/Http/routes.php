@@ -27,6 +27,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/signup', 'SignupController@showSignup');
 
+    Route::get('/adminSignUp', function(){
+        return view ('admin.adminSignUp');
+    });
+
     Route::get('/signuppembeli', 'SignuppembeliController@showSignuppembeli');
 
     Route::get('/sellerSignUp', 'SignuppenjualController@showSignuppenjual');
@@ -43,16 +47,26 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/cart', 'CartController@showCart');
 
-    Route::resource('user/profile', 'UserController');
+    // Route::resource('user/profile', 'UserController');
 
-    Route::resource('user/editProfile', 'UserController@editProfile');
+    // Route::resource('user/editProfile', 'UserController@editProfile');
 
-    Route::resource('merchant/product', 'ProductController');
+    // Route::resource('merchant/product', 'ProductController');
 
-    Route::resource('merchant/create', 'ProductController@create');
+    // Route::resource('merchant/create', 'ProductController@create');
 
     // -----------------------------------------------------------------------
+    Route::resource('profile', 'ProfileController@index');
+
+    Route::resource('adminProfile', 'adminController@index');
+
+    Route::resource('admin', 'adminController');
+
     Route::resource('sellerProfile', 'sellerController@index');
+
+    Route::resource('seller', 'sellerController');
+
+    Route::resource('buyer', 'buyerController');
 
     Route::resource('produkTani', 'TaniController');
 

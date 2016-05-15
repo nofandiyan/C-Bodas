@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 use App\TaniModel;
 
-use Validator;
+// use Validator;
 
 use DB;
 
@@ -16,10 +16,10 @@ use App\Quotation;
 
 class TaniController extends Controller
 {
-public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ public function __construct()
     public function index()
     {
         $tani = TaniModel::all();
-        return view ('products.list.listTani', ['tani'=>$tani]);
+        return redirect ('products.list.listTani', ['tani'=>$tani]);
     }
 
     /**
@@ -50,7 +50,7 @@ public function __construct()
      */
     public function store(Request $request)
     {
-        $validator= Validator::make($request->all(), [
+       $this->validate($request, [
             'title'     => 'required|max:255|min:5',
             'desc'      => 'required|max:255|min:5',
             'stock'     => 'required|max:255|min:1',
@@ -208,6 +208,8 @@ public function __construct()
      */
     public function destroy($id)
     {
-        //
+        $tani = TaniModel::find($id);
+        $tani->delete();
+        return redirect('/');
     }
 }

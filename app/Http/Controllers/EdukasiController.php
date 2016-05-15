@@ -22,7 +22,7 @@ class EdukasiController extends Controller
     public function index()
     {
         $edukasi = EdukasiModel::all();
-        return view ('products.list.listEdukasi', ['edukasi'=>$edukasi]);
+        return redirect ('products.list.listEdukasi', ['edukasi'=>$edukasi]);
     }
 
     /**
@@ -150,11 +150,7 @@ class EdukasiController extends Controller
             'zipCode'       => 'required|min:5|max:5',
             'dateOrdered'   => '',
             'quota'         => 'required',
-            'price'         => 'required',
-            // 'fotoEdukasi1'   => 'required|image|mimes:jpeg,png|max:1048576',
-            // 'fotoEdukasi2'   => 'required|image|mimes:jpeg,png|max:1048576',
-            // 'fotoEdukasi3'   => 'required|image|mimes:jpeg,png|max:1048576',
-            // 'fotoEdukasi4'   => 'required|image|mimes:jpeg,png|max:1048576'
+            'price'         => 'required'
         ]);
 
         $edukasi = EdukasiModel::find($id);
@@ -218,6 +214,8 @@ class EdukasiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $edukasi = EdukasiModel::find($id);
+        $edukasi->delete();
+        return redirect('/');
     }
 }

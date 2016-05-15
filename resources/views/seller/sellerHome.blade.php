@@ -27,7 +27,7 @@
                             <div class="col-md-4" align="center">
                                 <img src="{{ url(Auth::user()->profPict) }}" class="img-thumbnail" height="250" width="250">
                                 <br>
-                                <a href="/sellerProfile/{{Auth::user()->id}}" class="btn btn-info" role="button">Edit Profil</a>
+                                <a href="/sellerProfile/{{Auth::user()->id}}" class="btn btn-info" role="button">Lihat Profil</a>
                                 <!-- <button type="submit" class="btn btn-primary" name="submit" value="">
                                     <i class="fa fa-btn fa-user"></i>Lihat Profil
                                 </button>     -->
@@ -159,41 +159,10 @@
                                 </div>
                             </div>
                         </div> 
-                                
-                            
                         
                     </div>
                     <div class="col-md-9">
                         <h3 align="center"><label>Lapak Terdaftar</label></h3>
-                        <!-- <div>
-                            <a href="/produkTani/" class="btn btn-info" role="button">Daftar Lapak Pertanian</a>
-                        </div>
-                        <div>
-                            <a href="/produkTernak/" class="btn btn-info" role="button">Daftar Lapak Hewan Ternak</a>
-                        </div>
-                        <div>
-                            <a href="/produkWisata/" class="btn btn-info" role="button">Daftar Lapak Pariwisata</a>
-                        </div>
-                        <div>
-                            <a href="/produkVilla/" class="btn btn-info" role="button">Daftar Lapak Persewaan Villa</a>
-                        </div>
-                        <div>
-                            <a href="/produkEdukasi/" class="btn btn-info" role="button">Daftar Lapak Edukasi Tani</a>
-                        </div> -->
-<!-- button -->
-                        <!-- <div align="center">
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#lapakTani">Lapak Pertanian</button>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#lapakTernak">Lapak Hewan Ternak</button>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#lapakWisata">Lapak Pariwisata</button>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#lapakVilla">Lapak Persewaan Villa</button>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#lapakEdukasi">Lapak Edukasi Tani</button>
-                        </div>
-                        <div align="center">
-                            <br>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#lapakTani, #lapakTernak, #lapakWisata, #lapakVilla, #lapakEdukasi">Semua Lapak</button>
-                        </div> -->
-
-
                         <div id="accordion1">
                             <div class="panel">
                                 <div align="center">
@@ -241,27 +210,27 @@
                                 <script type="text/javascript">
                                     $(function () {
 
-                                    var active = true;
+                                        var active = true;
 
-                                    $('#collapse-init').click(function () {
-                                        if (active) {
-                                            active = false;
-                                            $('.showHide').collapse('show');
-                                            // $('.panel-title').attr('data-toggle', '');
-                                            $(this).text('(-) Semua Lapak');
-                                        } else {
-                                            active = true;
-                                            $('.showHide').collapse('hide');
-                                            // $('.panel-title').attr('data-toggle', 'collapse');
-                                            $(this).text('(+) Semua Lapak');
-                                        }
-                                    });
-                                    
-                                    $('#accordion1').on('show.bs.collapse', function () {
-                                        if (active) $('#accordion1 .in').collapse('hide');
-                                    });
+                                        $('#collapse-init').click(function () {
+                                            if (active) {
+                                                active = false;
+                                                $('.showHide').collapse('show');
+                                                // $('.panel-title').attr('data-toggle', '');
+                                                $(this).text('(-) Semua Lapak');
+                                            } else {
+                                                active = true;
+                                                $('.showHide').collapse('hide');
+                                                // $('.panel-title').attr('data-toggle', 'collapse');
+                                                $(this).text('(+) Semua Lapak');
+                                            }
+                                        });
+                                        
+                                        $('#accordion1').on('show.bs.collapse', function () {
+                                            if (active) $('#accordion1 .in').collapse('hide');
+                                        });
 
-                                });
+                                    });
                                 </script>
                                 <br>
                                 <div align="center">
@@ -273,16 +242,6 @@
                                         </h4>
                                     </button>
                                 </div>
-                                <!-- <button id="collapse-init" class="btn btn-info">
-                                    (+) Semua Lapak
-                                </button> -->
-                                <!-- <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTani, #lapakTernak, #lapakWisata, #lapakVilla, #lapakEdukasi">
-                                    <h4 class="panel-title">
-                                        <a class="accordion-toggle">
-                                          Semua Lapak
-                                        </a>
-                                    </h4>
-                                </button> -->
 
                                 <div id="lapakTani" class="panel-collapse collapse showHide" align="center">
                                     <h4><label>Lapak Pertanian</label></h4>
