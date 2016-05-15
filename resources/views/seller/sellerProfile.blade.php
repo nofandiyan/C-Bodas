@@ -76,7 +76,6 @@
                                     <label class="col-md-3" align="right">Alamat</label>
                                     <div class="col-md-9">
                                         {{$profile->street}}    <br>
-                                        {{Auth::user()->village}}  <br>
                                         {{$profile->city}}      <br>
                                         {{$profile->prov}}      <br>
                                         {{$profile->zipCode}}   

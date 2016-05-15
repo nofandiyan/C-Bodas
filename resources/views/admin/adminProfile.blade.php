@@ -13,7 +13,7 @@
 
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="put">
-                        <input type="hidden" name='idMerchant' value="{{$profile->id}}">
+                        <input type="hidden" name='idMerchant' value="0">
 
                         <div class="col-md-5" align="center">
                             <!-- <div class="wrapper"> -->
@@ -76,7 +76,6 @@
                                     <label class="col-md-3" align="right">Alamat</label>
                                     <div class="col-md-9">
                                         {{$profile->street}}    <br>
-                                        {{Auth::user()->village}}  <br>
                                         {{$profile->city}}      <br>
                                         {{$profile->prov}}      <br>
                                         {{$profile->zipCode}}   

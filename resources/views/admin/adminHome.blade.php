@@ -206,9 +206,7 @@
                                             <th>No.</th>
                                             <th>ID</th>
                                             <th>Nama Penjual</th>
-                                            <!-- <th class="col-md-9">Deskripsi Lapak</th> -->
                                             <th colspan="2">Opsi</th>
-                                            <!-- <th class="col-md-2">Opsi</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -243,12 +241,11 @@
 
                                 <table class="table table-hover" style="table-layout: fixed;">
                                     <thead>
-                                        <tr>
-                                            <th class="col-md-1">No.</th>
-                                            <th class="col-md-1">ID</th>
-                                            <th class="col-md-3">Nama Penjual</th>
-                                            <!-- <th class="col-md-9">Deskripsi Lapak</th> -->
-                                            <th class="col-md-2">Opsi</th>
+                                        <tr align="center">
+                                            <th>No.</th>
+                                            <th>ID</th>
+                                            <th>Nama Penjual</th>
+                                            <th colspan="2">Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -259,9 +256,10 @@
                                             <td class="short"><?php echo "$i"; ?></td>
                                             <td class="short">{{$buyer->id}}</td>
                                             <td class="short">{{$buyer->name}}</td>
-                                            <!-- <td class="short"></td> -->
                                             <td>
                                                 <a href="/buyerProfile/{{$buyer->id}}" class="btn btn-info" role="button">Detail</a>
+                                            </td>
+                                            <td>
                                                 <form class="" action="/buyer/{{$buyer->id}}" method="POST">
                                                     <input type="hidden" name="_method" value="delete">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -286,7 +284,6 @@
                                             <th class="col-md-1">No.</th>
                                             <th class="col-md-1">ID Lapak</th>
                                             <th class="col-md-1">ID Seller</th>
-                                            <!-- <th class="col-md-3">Nama Merchant</th> -->
                                             <th class="col-md-2">Judul Lapak</th>
                                             <th class="col-md-4">Deskripsi Lapak</th>
                                             <th colspan="2">Opsi</th>
@@ -328,12 +325,11 @@
                                     <thead>
                                         <tr>
                                             <th class="col-md-1">No.</th>
-                                            <th class="col-md-2">ID Lapak</th>
-                                            <th class="col-md-2">ID Seller</th>
-                                            <!-- <th class="col-md-3">Nama Merchant</th> -->
-                                            <th class="col-md-3">Judul Lapak</th>
-                                            <th class="col-md-9">Deskripsi Lapak</th>
-                                            <th class="col-md-2">Opsi</th>
+                                            <th class="col-md-1">ID Lapak</th>
+                                            <th class="col-md-1">ID Seller</th>
+                                            <th class="col-md-2">Judul Lapak</th>
+                                            <th class="col-md-4">Deskripsi Lapak</th>
+                                            <th colspan="2">Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -348,6 +344,8 @@
                                             <td class="short">{{$ternak->desc}}</td>
                                             <td>
                                                 <a href="/produkTani/{{$ternak->id}}" class="btn btn-info" role="button">Detail</a>
+                                            </td>
+                                            <td>
                                                 <form class="" action="/produkTernak/{{$ternak->id}}" method="POST">
                                                     <input type="hidden" name="_method" value="delete">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -370,12 +368,11 @@
                                     <thead>
                                         <tr>
                                             <th class="col-md-1">No.</th>
-                                            <th class="col-md-2">ID Lapak</th>
-                                            <th class="col-md-2">ID Seller</th>
-                                            <!-- <th class="col-md-3">Nama Merchant</th> -->
-                                            <th class="col-md-3">Judul Lapak</th>
-                                            <th class="col-md-9">Deskripsi Lapak</th>
-                                            <th class="col-md-2">Opsi</th>
+                                            <th class="col-md-1">ID Lapak</th>
+                                            <th class="col-md-1">ID Seller</th>
+                                            <th class="col-md-2">Judul Lapak</th>
+                                            <th class="col-md-4">Deskripsi Lapak</th>
+                                            <th colspan="2">Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -390,6 +387,8 @@
                                             <td class="short">{{$wisata->desc}}</td>
                                             <td>
                                                 <a href="/produkWisata/{{$wisata->id}}" class="btn btn-info" role="button">Detail</a>
+                                            </td>
+                                            <td>
                                                 <form class="" action="/produkWisata/{{$wisata->id}}" method="POST">
                                                     <input type="hidden" name="_method" value="delete">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -412,12 +411,11 @@
                                     <thead>
                                         <tr>
                                             <th class="col-md-1">No.</th>
-                                            <th class="col-md-2">ID Lapak</th>
-                                            <th class="col-md-2">ID Seller</th>
-                                            <!-- <th class="col-md-3">Nama Merchant</th> -->
-                                            <th class="col-md-3">Judul Lapak</th>
-                                            <th class="col-md-9">Deskripsi Lapak</th>
-                                            <th class="col-md-2">Opsi</th>
+                                            <th class="col-md-1">ID Lapak</th>
+                                            <th class="col-md-1">ID Seller</th>
+                                            <th class="col-md-2">Judul Lapak</th>
+                                            <th class="col-md-4">Deskripsi Lapak</th>
+                                            <th colspan="2">Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -432,6 +430,8 @@
                                             <td class="short">{{$villa->desc}}</td>
                                             <td>
                                                 <a href="/produkVilla/{{$villa->id}}" class="btn btn-info" role="button">Detail</a>
+                                            </td>
+                                            <td>
                                                 <form class="" action="/produkVilla/{{$villa->id}}" method="POST">
                                                     <input type="hidden" name="_method" value="delete">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -454,12 +454,11 @@
                                     <thead>
                                         <tr>
                                             <th class="col-md-1">No.</th>
-                                            <th class="col-md-2">ID Lapak</th>
-                                            <th class="col-md-2">ID Seller</th>
-                                            <!-- <th class="col-md-3">Nama Merchant</th> -->
-                                            <th class="col-md-3">Judul Lapak</th>
-                                            <th class="col-md-9">Deskripsi Lapak</th>
-                                            <th class="col-md-2">Opsi</th>
+                                            <th class="col-md-1">ID Lapak</th>
+                                            <th class="col-md-1">ID Seller</th>
+                                            <th class="col-md-2">Judul Lapak</th>
+                                            <th class="col-md-4">Deskripsi Lapak</th>
+                                            <th colspan="2">Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -474,6 +473,8 @@
                                             <td class="short">{{$edukasi->desc}}</td>
                                             <td>
                                                 <a href="/produkEdukasi/{{$edukasi->id}}" class="btn btn-info" role="button">Detail</a>
+                                            </td>
+                                            <td>
                                                 <form class="" action="/produkEdukasi/{{$edukasi->id}}" method="POST">
                                                     <input type="hidden" name="_method" value="delete">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -8,13 +8,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Edit Profil</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/seller/{{$profile->id}}" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" action="/buyer/{{$profile->id}}" enctype="multipart/form-data">
                         
                         {!! csrf_field() !!}
                         <input type="hidden" name="_method" value="put">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name='id' value="{{Auth::user()->id}}">
-                        <input type="hidden" name='userAs' value="1">
 
                         <div class="form-group">    
 

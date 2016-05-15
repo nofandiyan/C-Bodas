@@ -1,9 +1,6 @@
 @extends('templates.master')
 
 @section('konten')
-
-@if (!empty(Auth::user()))
-    @if(Auth::user()->userAs == 1)
                 
 
 <div class="container">
@@ -126,10 +123,5 @@
         </div>
     </div>
 </div>
-
-@else
-    return view('/');
-@endif
-@endif
 
 @stop

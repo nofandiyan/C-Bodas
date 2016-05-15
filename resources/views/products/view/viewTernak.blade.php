@@ -1,10 +1,7 @@
 @extends('templates.master')
 
 @section('konten')
-
-@if (!empty(Auth::user()))
-    @if(Auth::user()->userAs == 1)
-                
+               
 
 <div class="container">
     <div class="row">
@@ -128,20 +125,5 @@
         </div>
     </div>
 </div>
-
-<!-- <p>{{$ternak->title}}</p>
-	<p>{{$ternak->desc}}</p>
-	<p>{{$ternak->year}}</p>
-	<p>{{$ternak->month}}</p>
-	<p>{{$ternak->day}}</p>
-	<p>{{$ternak->gender}}</p>
-	<p>{{$ternak->weight}}</p>
-	<p>{{$ternak->price}}</p>
-	<a href="/produkTernak/{{$ternak->id}}/edit" class="btn btn-info" role="button">Edit</a> -->
-
-@else
-    return view('/');
-@endif
-@endif
 
 @stop

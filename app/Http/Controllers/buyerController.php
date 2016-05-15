@@ -65,7 +65,7 @@ class buyerController extends Controller
         if(!$profile){
             abort(404);
         }
-        return view('buyer.buyerEdit')->with('profile', $profile);
+        return view('buyer.buyerProfileEdit')->with('profile', $profile);
     }
 
     /**

@@ -66,6 +66,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('seller', 'sellerController');
 
+    Route::resource('buyerProfile', 'buyerController@index');
+
     Route::resource('buyer', 'buyerController');
 
     Route::resource('produkTani', 'TaniController');
