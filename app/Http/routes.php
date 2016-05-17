@@ -66,41 +66,45 @@ Route::group(['middleware' => 'web'], function () {
 
 });
 
+
+/// Route Mobile App
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'throttle'], function () {
-    Route::post('/registration','CustomerController@store');
-    Route::post('/login','CustomerController@getLogin');    
-    Route::post('/update/login','CustomerController@updateLogin');
-    Route::post('/update/address','CustomerController@updateAddress');
+    Route::post('/registration','ApiCustomerController@store');
+    Route::post('/login','ApiCustomerController@getLogin');    
+    Route::post('/maintainLogin','ApiCustomerController@maintainLogin');
+    Route::post('/update/address','ApiCustomerController@updateAddress');
 });
 
 Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'throttle'], function () {
-    Route::post('/store','ReservationsController@store');
+    Route::post('/store', 'ApiReservationsController@store');
+    Route::get('/getReservation', 'ApiReservationsController@getReservation');
+    Route::post('/paymentConfirmation', 'ApiReservationsController@paymentConfirmation');
 });
 
 
 Route::get('register/verify/{confirmationCode}', [
     'as' => 'confirmation_path',
-    'uses' => 'CustomerController@confirm'
+    'uses' => 'ApiCustomerController@confirm'
 ]);
 
-Route::post('/api/v1/request/password/', [
+Route::post('/api/v1/request/password', [
     'as' => 'forgotpassword_path',
-    'uses' => 'CustomerController@requestLinkPassword'
+    'uses' => 'ApiCustomerController@requestLinkPassword'
 ]);
 
 Route::get('reset/password/{confirmationCode}', [
     'as' => 'forgotpassword_path',
-    'uses' => 'CustomerController@getLinkPassword'
+    'uses' => 'ApiCustomerController@getLinkPassword'
 ]);
 
 Route::post('reset/password', [
     'as' => 'resetpassword_path',
-    'uses' => 'CustomerController@reset'
+    'uses' => 'ApiCustomerController@reset'
 ]);
 
 
 Route::group(['prefix' => '/api/v1/products'], function () {
-    Route::get('/catalog', 'ProductsController@getCatalog');
-    Route::get('/find','ProductsController@findProductName');
+    Route::get('/catalog', 'ApiProductsController@getCatalog');
+    Route::get('/find','ApiProductsController@findProductName');
 
 });
