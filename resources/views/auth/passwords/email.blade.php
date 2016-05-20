@@ -1,4 +1,4 @@
-@extends('templates.master')
+@extends('templates\master')
 
 @section('konten')
 <div class="container">
@@ -14,7 +14,7 @@
                     @endif
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
-                        {!! csrf_field() !!}
+                        {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">E-Mail Address</label>

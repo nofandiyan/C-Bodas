@@ -17,23 +17,23 @@
 
 Route::auth();
 
+Route::get('/CustomerSignUp', function(){
+	return view('customer.CustomerSignUp');
+});
+
 Route::group(['middleware' => 'web'], function () {
+	
+	Route::get('/', 'HomeController@index');
 
-    // Route::get('/homepage', 'HomeController@index');
+	Route::get('/signup', 'SignupController@showSignup');
 
-    Route::get('/', 'HomeController@showHomepage');
+	Route::get('/AdminSignUp', function(){
+		return view('admin.AdminSignUp');
+	});
 
-    // Route::get('/signin', 'SigninController@showSignin');
+	Route::get('/CustomerSignUp', 'CustomerSignUpController@showCustomerSignUp');
 
-    Route::get('/signup', 'SignupController@showSignup');
-
-    Route::get('/adminSignUp', function(){
-        return view ('admin.adminSignUp');
-    });
-
-    Route::get('/signuppembeli', 'SignuppembeliController@showSignuppembeli');
-
-    Route::get('/sellerSignUp', 'SignuppenjualController@showSignuppenjual');
+    Route::get('/SellerSignUp', 'SellerSignUpController@showSellerSignUp');
 
     Route::get('/single-product', 'SingleproductController@showSingleproduct');
 
@@ -46,42 +46,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/katalogsapi', 'KatalogsapiController@showKatalogsapi');
 
     Route::get('/cart', 'CartController@showCart');
-
-    // Route::resource('user/profile', 'UserController');
-
-    // Route::resource('user/editProfile', 'UserController@editProfile');
-
-    // Route::resource('merchant/product', 'ProductController');
-
-    // Route::resource('merchant/create', 'ProductController@create');
-
-    // -----------------------------------------------------------------------
-    Route::resource('profile', 'ProfileController@index');
-
-    Route::resource('adminProfile', 'adminController@index');
-
-    Route::resource('admin', 'adminController');
-
-    Route::resource('sellerProfile', 'sellerController@index');
-
-    Route::resource('seller', 'sellerController');
-
-    Route::resource('buyerProfile', 'buyerController@index');
-
-    Route::resource('buyer', 'buyerController');
-
-    Route::resource('produkTani', 'TaniController');
-
-    Route::resource('produkTernak', 'TernakController');
-
-    Route::resource('produkWisata', 'WisataController');
-
-    Route::resource('produkVilla', 'VillaController');
-
-    Route::resource('produkEdukasi', 'EdukasiController');
-
 });
-
 
 /// Route Mobile App
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'throttle'], function () {
