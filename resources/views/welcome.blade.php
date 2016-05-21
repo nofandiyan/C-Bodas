@@ -8,7 +8,9 @@
                 <div class="panel-heading">Welcome</div>
 
                 <div class="panel-body">
-                    Your Application's Landing Page.
+                    <a href="{{'/AdminSignUp'}}" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Admin</button></a><br>
+                    <a href="{{'/SellerSignUp'}}" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Seller</button></a><br>
+                    <a href="{{'/CustomerSignUp'}}" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Customer</button></a><br>
                 </div>
             </div>
         </div>

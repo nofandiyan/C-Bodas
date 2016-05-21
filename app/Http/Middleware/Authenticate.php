@@ -21,9 +21,8 @@ class Authenticate
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                // return redirect()->guest('templates/home');
-                // return view('templates/home');
-                return view('templates/homepage');
+                // return redirect()->guest('login');
+                return view('templates\homepage');
             }
         }
 

@@ -17,23 +17,23 @@
 
 Route::auth();
 
+Route::get('/CustomerSignUp', function(){
+	return view('customer.CustomerSignUp');
+});
+
 Route::group(['middleware' => 'web'], function () {
+	
+	Route::get('/', 'HomeController@index');
 
-    // Route::get('/homepage', 'HomeController@index');
+	Route::get('/signup', 'SignupController@showSignup');
 
-    Route::get('/', 'HomeController@showHomepage');
+	Route::get('/AdminSignUp', function(){
+		return view('admin.AdminSignUp');
+	});
 
-    // Route::get('/signin', 'SigninController@showSignin');
+	Route::get('/CustomerSignUp', 'CustomerSignUpController@showCustomerSignUp');
 
-    Route::get('/signup', 'SignupController@showSignup');
-
-    Route::get('/adminSignUp', function(){
-        return view ('admin.adminSignUp');
-    });
-
-    Route::get('/signuppembeli', 'SignuppembeliController@showSignuppembeli');
-
-    Route::get('/sellerSignUp', 'SignuppenjualController@showSignuppenjual');
+    Route::get('/SellerSignUp', 'SellerSignUpController@showSellerSignUp');
 
     Route::get('/single-product', 'SingleproductController@showSingleproduct');
 
@@ -46,6 +46,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/katalogsapi', 'KatalogsapiController@showKatalogsapi');
 
     Route::get('/cart', 'CartController@showCart');
+<<<<<<< HEAD
 
     // Route::resource('user/profile', 'UserController');
 
@@ -84,6 +85,10 @@ Route::group(['middleware' => 'web'], function () {
 
 Route::get('/test', 'ApiTestController@test');
 
+=======
+});
+
+>>>>>>> 733d422fd83aa5f79a5af8fc80cbe857f584ad2b
 /// Route Mobile App
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function () {
     Route::post('/registration','ApiCustomerController@store');
@@ -126,3 +131,7 @@ Route::post('reset/password', [
 
 
 
+<<<<<<< HEAD
+=======
+});
+>>>>>>> 733d422fd83aa5f79a5af8fc80cbe857f584ad2b

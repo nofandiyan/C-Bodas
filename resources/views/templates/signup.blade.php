@@ -30,12 +30,12 @@
                     <h3>Daftar</h3><br>
                     <div class="row">
                         
-                        <a href="signuppembeli" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Sebagai Pembeli</button></a><br>
+                        <a href="{{ url('/CustomerSignUp') }}" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Sebagai Pembeli</button></a><br>
                        
                     </div>
                     <div class="row">
                         
-                        <a href="{{ url('/sellerSignUp') }}" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Sebagai Penjual</button></a>
+                        <a href="{{ url('/SellerSignUp') }}" button type="submit" class="btn btn-primary btn-lg btn-block">Daftar Sebagai Penjual</button></a>
                     </div>
                   </div>  
                 </div>    

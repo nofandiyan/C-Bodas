@@ -33,27 +33,145 @@
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                     <div class="login-form-wrapper">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}" enctype="multipart/form-data">
-                            {!! csrf_field() !!}
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" id="userAs" name="userAs" value="0">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}" enctype="multipart/form-data">
+                        {{ csrf_field() }}
 
-                            <h3>Form Pendaftaran Admin</h3>
+                        <input type="hidden" name="status" value="0">
+                        <input type="hidden" name="confirmation_code" value="0">
+                        <input type="hidden" name="role" value="0">
+
+                        <!-- <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Name</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+
+                                @if ($errors->has('name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">E-Mail Address</label>
+
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Password</label>
+
+                            <div class="col-md-6">
+                                <input type="password" class="form-control" name="password">
+
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Confirm Password</label>
+
+                            <div class="col-md-6">
+                                <input type="password" class="form-control" name="password_confirmation">
+
+                                @if ($errors->has('password_confirmation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('street') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">street</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="street" value="{{ old('street') }}">
+
+                                @if ($errors->has('street'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('street') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">city</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="city" value="{{ old('city') }}">
+
+                                @if ($errors->has('city'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('city') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('province') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">province</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="province" value="{{ old('province') }}">
+
+                                @if ($errors->has('province'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('province') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('zip_code') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">zip_code</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="zip_code" value="{{ old('zip_code') }}">
+
+                                @if ($errors->has('zip_code'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('zip_code') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">phone</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+
+                                @if ($errors->has('phone'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div> -->
+
+                        <h3>Form Pendaftaran Admin</h3>
 
                             <br>
                             <h4><label>Informasi Akun</label></h4>
 
-                            <div class="form-group{{ $errors->has('profPict') ? ' has-error' : '' }}" align="center">
-                                <label>Foto Profil</label>
-                                <input type="file" name="profPict" id="profPict">
-                                 @if ($errors->has('profPict'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('profPict') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}">
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -62,7 +180,7 @@
                                 @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <input type="password" class="form-control" name="password" placeholder="Kata Sandi...">
                                  @if ($errors->has('password'))
                                     <span class="help-block">
@@ -71,7 +189,7 @@
                                 @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                                 <input type="password" class="form-control" name="password_confirmation" placeholder="Ulangi Kata Sandi...">
 
                                 @if ($errors->has('password_confirmation'))
@@ -83,30 +201,8 @@
 
                             <br>
                             <h4><label>Informasi Data Diri</label></h4>
-                            
-                            <div class="form-group{{ $errors->has('typeId') ? ' has-error' : '' }}">
-                                <select class="form-control" name="typeId" id="typeId">
-                                    <option>--Jenis Identitas--</option>
-                                    <option value="KTP">KTP</option>
-                                    <option value="SIM">SIM</option>
-                                </select>
-                                @if ($errors->has('typeId'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('typeId') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
 
-                            <div class="form-group{{ $errors->has('noId') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="noId" placeholder="Nomor Identitas..." value="{{ old('noId') }}">
-                                 @if ($errors->has('noId'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('noId') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <div class="{ $errors->has('name') ? ' has-error' : '' }}">
                                 <input type="text" class="form-control" name="name" placeholder="Nama Lengkap..." value="{{ old('name') }}">
                                  @if ($errors->has('name'))
                                     <span class="help-block">
@@ -116,13 +212,13 @@
                             </div>
                             
                             
-                            <div class="form-group">
+                            <div>
 
-                                <input type="text" class="form-control" name="telp" maxlength="12" placeholder="Nomor Telepon..." value="{{ old('telp') }}">
+                                <input type="text" class="form-control" name="phone" maxlength="12" placeholder="Nomor Telepon..." value="{{ old('phone') }}">
 
-                                @if ($errors->has('telp'))
+                                @if ($errors->has('phone'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('telp') }}</strong>
+                                        <strong>{{ $errors->first('phone') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -130,7 +226,7 @@
                             <br>
                             <h4><label>Informasi Alamat</label></h4>
 
-                            <div class="form-group{{ $errors->has('street') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('street') ? ' has-error' : '' }}">
                                 <input type="text" class="form-control" name="street" placeholder="Nama Jalan dan Nomor..." value="{{ old('street') }}">
                                 @if ($errors->has('street'))
                                     <span class="help-block">
@@ -139,7 +235,7 @@
                                 @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('city') ? ' has-error' : '' }}">
                                 <input type="text" class="form-control" name="city" placeholder="Kota..." value="{{ old('street') }}">
                                 @if ($errors->has('city'))
                                     <span class="help-block">
@@ -148,77 +244,45 @@
                                 @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('prov') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="prov" placeholder="Propinsi..." value="{{ old('prov') }}">
-                                @if ($errors->has('prov'))
+                            <div class="{{ $errors->has('province') ? ' has-error' : '' }}">
+                                <input type="text" class="form-control" name="province" placeholder="Propinsi..." value="{{ old('province') }}">
+                                @if ($errors->has('province'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('prov') }}</strong>
+                                        <strong>{{ $errors->first('province') }}</strong>
                                     </span>
                                 @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('zipCode') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="zipCode" placeholder="Kode Pos..." value="{{ old('zipCode') }}">
-                                @if ($errors->has('zipCode'))
+                            <div class="{{ $errors->has('zip_code') ? ' has-error' : '' }}">
+                                <input type="text" class="form-control" name="zip_code" placeholder="Kode Pos..." value="{{ old('zip_code') }}">
+                                @if ($errors->has('zip_code'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('zipCode') }}</strong>
-                                    </span>
-                                @endif
-                            </div>                            
-
-                            <input type="hidden" name="bankName" value="-">
-                            <input type="hidden" name="rekId" value="-">
-                            <input type="hidden" name="rekName" value="-">
-                            <!-- <br>
-                            <h4><label>Informasi Rekening</label></h4> -->
-
-                            <!-- <div class="form-group{{ $errors->has('bankName') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="bankName" placeholder="Nama Bank..." value="{{ old('bankName') }}">
-                                @if ($errors->has('bankName'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('bankName') }}</strong>
+                                        <strong>{{ $errors->first('zip_code') }}</strong>
                                     </span>
                                 @endif
                             </div>
-
-                            <div class="form-group{{ $errors->has('rekId') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="rekId" placeholder="Nomor Rekening..." value="{{ old('rekId') }}">
-                                @if ($errors->has('rekId'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('rekId') }}</strong>
-                                    </span>
-                                @endif
+                            <br>
+                            <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
+                                    <div class="col-md-1">
+                                        <input type="checkbox" id="myCheck" name="test" required>
+                                    </div>
+                                    <div class="col-md-offset-1" align="justify">
+                                        Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada saat pengisian formulir adalah murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
+                                    </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('rekName') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="rekName" placeholder="Nama Dalam Buku Rekening..." value="{{ old('rekName') }}">
-                                @if ($errors->has('rekName'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('rekName') }}</strong>
-                                    </span>
-                                @endif
-                            </div> -->
-
-                            <div class="form-group{{ $errors->has('rekName') ? ' has-error' : '' }}">
-                                <div class="col-md-1">
-                                    <input type="checkbox" id="myCheck" name="test" required>
-                                </div>
-                                <div class="col-md-offset-1" align="justify">
-                                    Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada saat pengisian formulir adalah murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" value="Register">Submit</button>
-
-                        </form>
-                        
-                        <!-- <div class="row">
-                            <div class="col-xs-12">
-                                <a href="#" class="btn btn-brand btn-facebook"><i class="fa fa-facebook"></i>Daftar dengan Facebook</a>
+                        <!-- -------------------------------------------------------- -->
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" value="Register">Submit</button>
+                        <!-- <div>
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-btn fa-user"></i>Register
+                                </button>
                             </div>
                         </div> -->
-
-                    </div>
+                    </form>
+                </div>
                     <p class="form-text">Sudah memiliki akun? <a href="{{ url('/login') }}">Masuk</a></p>
                 </div>
             </div>
