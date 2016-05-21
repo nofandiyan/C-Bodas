@@ -26,13 +26,13 @@ class ApiCustomerController extends Controller{
         $Customer->phone = $request->input('PHONE');
         $Customer->confirmation_code = str_random(30);
 
-        $auth = DB::table('users')
+        $model = DB::table('users')
         ->where('email', $Customer->email)
         ->where('role', 'customer')
         ->get();
 
-        if(count($auth)>0){
-            $auth['Response']= false;            
+        if(isset($model)){
+            $model['Response']= false;            
         }else{            
             Mail::send('customer.verify', ['Customer' => $Customer], function($message) use ($Customer)
             {
@@ -47,9 +47,9 @@ class ApiCustomerController extends Controller{
             DB::table('customers')->insert(
                 ['user_id' => $id, 'gender' => $Customer->gender]
                 );
-            $auth['Response']= true;
+            $model['Response']= true;
         }    
-        return $auth; 
+        return $model; 
     }
         
     
@@ -75,7 +75,10 @@ class ApiCustomerController extends Controller{
     public function getLogin(Request $request){
         $customer=DB::table('users')
         ->join('customers', 'users.id', '=', 'customers.user_id')
-        ->select('users.*', 'customers.id as ID_CUSTOMER', 'GENDER')
+        ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY', 
+            'users.PROVINCE', 'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
+            'users.API_TOKEN', 'users.ROLE', 'users.ROLE', 'users.CREATED_AT', 'users.UPDATED_AT', 
+            'customers.id as ID_CUSTOMER', 'GENDER')
         ->where('email', $request->input('email'))
         ->where('password', $request->input('password'))
         ->get();
@@ -85,7 +88,10 @@ class ApiCustomerController extends Controller{
     public function maintainLogin(Request $request){
         $customer=DB::table('users')
         ->join('customers', 'users.id', '=', 'customers.user_id')
-        ->select('users.*', 'customers.id as ID_CUSTOMER', 'GENDER')
+        ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY', 
+            'users.PROVINCE', 'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
+            'users.API_TOKEN', 'users.ROLE', 'users.ROLE', 'users.CREATED_AT', 'users.UPDATED_AT', 
+            'customers.id as ID_CUSTOMER', 'GENDER')
         ->where('customers.id', $request->input('id_customer'))
         ->get();
         return $customer;
@@ -96,7 +102,7 @@ class ApiCustomerController extends Controller{
         $check=DB::table('users')
         ->where('email', $request->input('email'))
         ->get();
-        if(count($check)>0){
+        if(isset($check)){
             $Customer = new Customer;        
             $Customer->email= $request->input('email');
             $Customer->confirmation_code= str_random(30);
@@ -108,10 +114,10 @@ class ApiCustomerController extends Controller{
                 $message->from('cibodas.store@gmail.com');
                 $message->to($Customer->email)->subject('Reset Password');
             });    
-            $auth['Response']= true;
+            $model['Response']= true;
         }else
-            $auth['Response']= false;
-        return $auth;
+            $model['Response']= false;
+        return $model;
     }
 
     public function getLinkPassword($confirmation_code){

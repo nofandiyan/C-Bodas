@@ -56,7 +56,7 @@ Route::group(['middleware' => 'web'], function () {
     // Route::resource('merchant/create', 'ProductController@create');
 
     // -----------------------------------------------------------------------
-    Route::resource('profile', 'ProfileController@index');
+    // Route::resource('profile', 'ProfileController@index');
 
     Route::resource('adminProfile', 'adminController@index');
 
@@ -82,16 +82,22 @@ Route::group(['middleware' => 'web'], function () {
 
 });
 
+Route::get('/test', 'ApiTestController@test');
 
 /// Route Mobile App
-Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'throttle'], function () {
+Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function () {
     Route::post('/registration','ApiCustomerController@store');
     Route::post('/login','ApiCustomerController@getLogin');    
     Route::post('/maintainLogin','ApiCustomerController@maintainLogin');
     Route::post('/update/address','ApiCustomerController@updateAddress');
 });
 
-Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'throttle'], function () {
+Route::group(['prefix' => '/api/v1/products', 'middleware' => 'api'], function () {
+    Route::get('/catalog', 'ApiProductsController@getCatalog');
+    Route::get('/find','ApiProductsController@findProductName');
+});
+
+Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'api'], function () {
     Route::post('/store', 'ApiReservationsController@store');
     Route::get('/getReservation', 'ApiReservationsController@getReservation');
     Route::post('/paymentConfirmation', 'ApiReservationsController@paymentConfirmation');
@@ -119,8 +125,4 @@ Route::post('reset/password', [
 ]);
 
 
-Route::group(['prefix' => '/api/v1/products'], function () {
-    Route::get('/catalog', 'ApiProductsController@getCatalog');
-    Route::get('/find','ApiProductsController@findProductName');
 
-});

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <h2>Verify Your Email Address</h2>
+        <h2>Reset Password</h2>
         <script>
         function validateForm() {
             var x = document.forms["myForm"]["password"].value;
