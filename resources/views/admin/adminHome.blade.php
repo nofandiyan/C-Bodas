@@ -34,6 +34,29 @@
                 <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                     <div class="login-form-wrapper">
                         Admin Home
+                        @foreach ($users as $user)
+                            <div>
+                                {{$user->email}}
+                            </div>
+                            <div>
+                                {{$user->name}}
+                            </div>
+                            <div>
+                                {{$user->phone}}
+                            </div>
+                            <div>
+                                {{$user->street}}
+                            </div>
+                            <div>
+                                {{$user->city}}
+                            </div>
+                            <div>
+                                {{$user->province}}
+                            </div>
+                            <div>
+                                {{$user->zip_code}}
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

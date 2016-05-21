@@ -34,6 +34,12 @@
                 <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                     <div class="login-form-wrapper">
                         Seller Home
+                        @foreach($users as $user)
+                            {{ $user->email }}
+                        @endforeach
+                        @foreach($sellers as $seller)
+                            {{ $seller->no_id }}
+                        @endforeach
                     </div>
                 </div>
             </div>
