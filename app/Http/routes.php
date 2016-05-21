@@ -46,7 +46,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/katalogsapi', 'KatalogsapiController@showKatalogsapi');
 
     Route::get('/cart', 'CartController@showCart');
-<<<<<<< HEAD
+
 
     // Route::resource('user/profile', 'UserController');
 
@@ -83,12 +83,10 @@ Route::group(['middleware' => 'web'], function () {
 
 });
 
-Route::get('/test', 'ApiTestController@test');
+// Route::get('/test', 'ApiTestController@test');
 
-=======
-});
+// });
 
->>>>>>> 733d422fd83aa5f79a5af8fc80cbe857f584ad2b
 /// Route Mobile App
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function () {
     Route::post('/registration','ApiCustomerController@store');
@@ -131,7 +129,5 @@ Route::post('reset/password', [
 
 
 
-<<<<<<< HEAD
-=======
-});
->>>>>>> 733d422fd83aa5f79a5af8fc80cbe857f584ad2b
+// });
+

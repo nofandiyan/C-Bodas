@@ -39,18 +39,21 @@ class HomeController extends Controller
             // return view ('seller/sellerHome', compact('tanis','ternaks','wisatas','villas','edukasis'));
             return view ('admin.adminHome', compact('users'));
         }elseif(Auth::user()->role == 1){
-            $users      = User::where('id', Auth::user()->id)->get();
-            $sellers    = SellerModel::where('user_id', Auth::user()->id)->get();
-            // $users = DB::table('users')
-            // ->join('sellers', function ($join) {
-            //     $join->on('users.id', '=', 'sellers.user_id')
-            //          ->where('sellers.user_id', '=', Auth::user()->id);
-            // })
-            // ->get();
-            
-            return view ('seller.sellerHome', compact('users','sellers'));
+            $profiles   = DB::table('users')
+            ->join('sellers', function ($join) {
+                $join->on('users.id', '=', 'sellers.user_id')
+                     ->where('sellers.user_id', '=', Auth::user()->id);
+            })
+            ->get();
+            return view ('seller.sellerHome', compact('profiles'));
         }elseif(Auth::user()->role == 2){
-            return view ('customer.customerHome');
+            $profiles   = DB::table('users')
+            ->join('customers', function ($join) {
+                $join->on('users.id', '=', 'customers.user_id')
+                     ->where('customers.user_id', '=', Auth::user()->id);
+            })
+            ->get();
+            return view ('customer.customerHome', compact('profiles'));
         }
     }
 }
