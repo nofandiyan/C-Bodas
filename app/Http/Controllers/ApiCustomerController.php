@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use Hash;
+use Auth;
 use DB;
 use Mail;
 use App\Customer;
@@ -73,16 +75,27 @@ class ApiCustomerController extends Controller{
     }
 
     public function getLogin(Request $request){
-        $customer=DB::table('users')
-        ->join('customers', 'users.id', '=', 'customers.user_id')
-        ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY', 
-            'users.PROVINCE', 'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
-            'users.API_TOKEN', 'users.ROLE', 'users.ROLE', 'users.CREATED_AT', 'users.UPDATED_AT', 
-            'customers.id as ID_CUSTOMER', 'GENDER')
-        ->where('email', $request->input('email'))
-        ->where('password', $request->input('password'))
-        ->get();
-        return $customer;
+
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $credentials = $arrayName = array('email' => $email, 'password' => $password);
+        // $auth = auth()->guard('web'); 
+        // if ($auth->attempt($credentials)){
+        if(Auth::attempt(['email' => $email, 'password' => $password])){
+            $customer=DB::table('users')
+            ->join('customers', 'users.id', '=', 'customers.user_id')
+            ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY', 
+                'users.PROVINCE', 'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
+                'users.API_TOKEN', 'users.ROLE', 'users.ROLE', 'users.CREATED_AT', 'users.UPDATED_AT', 
+                'customers.id as ID_CUSTOMER', 'GENDER')
+            ->where('email', $email)
+            // ->where('password', $password)
+            ->get();
+            return $customer;
+        }else{
+            echo 'failed';
+        }
+
     }
 
     public function maintainLogin(Request $request){
@@ -144,16 +157,23 @@ class ApiCustomerController extends Controller{
     }
 
     public function updateAddress(Request $request){
-        $model = DB::table('users')
-        ->where('id', $request->input('user_id'))
-        ->update(['street' => $request->input('street'), 'zip_code' => $request->input('zip_code'), 
-            'city' => $request->input('city'), 'province' => $request->input('province') ]);
-        if($model==1){
-            $response['Response']=true;
+        // var_dump($request);
+        $auth = auth()->guard('api'); 
+        if (!$auth->check()) {
+            return response('Unauthorized.', 401);
         }else{
-            $response['Response']=false;
-        }        
-        return $response;
+            $model = DB::table('users')
+            ->where('id', $request->input('user_id'))
+            ->update(['street' => $request->input('street'), 'zip_code' => $request->input('zip_code'), 
+                'city' => $request->input('city'), 'province' => $request->input('province') ]);
+            if($model==1){
+                $response['Response']=true;
+            }else{
+                $response['Response']=false;
+            }        
+            return $response;
+        }
+
     }
   
 }

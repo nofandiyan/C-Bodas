@@ -19,7 +19,7 @@ class ApiProductsController extends Controller
             return response('Unauthorized.', 401);
         }else{
             $name=$request->input('catalog');
-            if($name=='agribisnis'){
+            if($name=='pertanian'){
                 return $this->getAgribisnisCatalog();
             }
             if($name=='pariwisata') {
