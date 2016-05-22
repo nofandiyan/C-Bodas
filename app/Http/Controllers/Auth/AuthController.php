@@ -93,7 +93,7 @@ class AuthController extends Controller
         ]);
         $user->save();
 
-        if ($data["role"]==1) {
+        if ($data["role"]=="seller") {
             if (!empty($data['prof_pic'])) {
                 $file=$data['prof_pic'];
                 $destinationPath = 'images/profile/';
@@ -113,7 +113,7 @@ class AuthController extends Controller
                 'prof_pic'      => $prof_pic
             ]);
             $seller->save();
-        }elseif ($data["role"]==2) {
+        }elseif ($data["role"]=="customer") {
             $customer = CustomerModel::create([
                 'user_id'      => $user->id,
                 'gender'       => $data['gender'],

@@ -24,7 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('zip_code',5);
             $table->string('phone',15);
             $table->smallInteger('status');
-            $table->string('confirmation_code',50);
+            // $table->string('confirmation_code',50);
+            $table->string('confirmation_code');
             $table->rememberToken();
             $table->timestamps();
         });

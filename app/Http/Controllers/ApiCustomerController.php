@@ -57,6 +57,7 @@ class ApiCustomerController extends Controller{
             $response['Response']= true;
             Mail::send('customer.verify', ['Customer' => $user], function($message) use ($user)
             {
+
                 $message->from('info.cbodas@gmail.com');
                 $message->to($user->email)->subject('Welcome!');
             });  
@@ -66,6 +67,8 @@ class ApiCustomerController extends Controller{
             // 'city' => $Customer->city, 'province' => $Customer->province, 'zip_code' => $Customer->zip_code, 'phone' => $Customer->phone, 
             // 'confirmation_code' => $Customer->confirmation_code, 'role' => 'customer']
             // );  
+
+
         }    
         
     }
