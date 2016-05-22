@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <h2>C-Bodas</h2>
-                    <p>Daftar</p>
+                    <p>Home</p>
                 </div>
                 <div class="col-xs-6">
                     <ol class="breadcrumb">
@@ -29,39 +29,52 @@
         ACCOUNT - START 
     =========================== -->
     <section class="content account">
-        <div class="container">
-            <div class="row">
-                <!-- <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3"> -->
-                <div class="col-md-12">
-                    <div class="login-form-wrapper">
-                        @foreach ($profiles as $profile)
-                        <label>Selamat Datang {{ $profile->name }}, Selamat Beraktifitas</label>
-                            <div>
-                                {{$profile->email}}
+
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Halaman Admin</div>
+                <div class="panel-body">
+                    <div>
+                    @foreach($profiles as $profile)
+
+                            <div class="col-md-4" align="center">
+                                
+                                <a href="/AdminProfile/{{$profile->id}}" class="btn btn-info" role="button">Lihat Profil</a>
                             </div>
-                            <div>
-                                {{$profile->name}}
-                            </div>
-                            <div>
-                                {{$profile->phone}}
-                            </div>
-                            <div>
-                                {{$profile->street}}
-                            </div>
-                            <div>
-                                {{$profile->city}}
-                            </div>
-                            <div>
-                                {{$profile->province}}
-                            </div>
-                            <div>
-                                {{$profile->zip_code}}
+
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    {{$profile->name}}
+                                </div>
+
+                                <div class="form-group">
+                                    {{$profile->phone}}
+                                </div>
+
+                                <div class="form-group">
+                                    {{$profile->street}}
+                                </div>
+                                
+                                <div class="form-group">
+                                    {{$profile->city}}
+                                </div>
+
+                                <div class="form-group">
+                                    {{$profile->province}}
+                                </div>
+
+                                <div class="form-group">
+                                    {{$profile->zip_code}}
+                                </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </section>
     <!-- ==========================
         ACCOUNT - END 

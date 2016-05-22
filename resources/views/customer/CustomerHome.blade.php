@@ -10,12 +10,12 @@
             <div class="row">
                 <div class="col-xs-6">
                     <h2>C-Bodas</h2>
-                    <p>Daftar</p>
+                    <p>Home</p>
                 </div>
                 <div class="col-xs-6">
                     <ol class="breadcrumb">
-                        <li><a href="homepage.html">Halaman Customer</a></li>
-                        <li class="active">Customer Home</li>
+                        <li><a href="homepage.html">Halaman Seller</a></li>
+                        <li class="active">Seller Home</li>
                     </ol>
                 </div>
             </div>
@@ -29,42 +29,56 @@
         ACCOUNT - START 
     =========================== -->
     <section class="content account">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-                    <div class="login-form-wrapper">
-                        Customer Home
-                        @foreach($profiles as $profile)
-                            <div>
-                                <div>
-                                    Email
-                                </div>
-                                <div>
-                                    {{ $profile->email }}        
-                                </div>
+
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Halaman Penjual</div>
+                <div class="panel-body">
+                    <div>
+                    @foreach($profiles as $profile)
+                        <!-- <form class="form-horizontal" role="form" method="POST"> -->
+                            {!! csrf_field() !!}
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                            <div class="col-md-4" align="center">
+                                
+                                <a href="/CustomerProfile/{{$profile->id}}" class="btn btn-info" role="button">Lihat Profil</a>
                             </div>
 
-                            <div>
-                                <div>
-                                    Nama
-                                </div>  
-                                <div>
-                                    {{ $profile->name }}    
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    {{$profile->name}}
+                                </div>
+
+                                <div class="form-group">
+                                    {{$profile->phone}}
+                                </div>
+
+                                <div class="form-group">
+                                    {{$profile->street}}
+                                </div>
+                                
+                                <div class="form-group">
+                                    {{$profile->city}}
+                                </div>
+
+                                <div class="form-group">
+                                    {{$profile->province}}
+                                </div>
+
+                                <div class="form-group">
+                                    {{$profile->zip_code}}
                                 </div>
                             </div>
-                            
-                            
-                            
-                            {{ $profile->street }}
-                            {{ $profile->city }}
-                            {{ $profile->province }}
-                            {{ $profile->zip_code }}
-                            {{ $profile->gender }}
+                        <!-- </form> -->
                         @endforeach
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </section>
     <!-- ==========================
         ACCOUNT - END 

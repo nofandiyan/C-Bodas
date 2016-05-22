@@ -14,8 +14,8 @@
                 </div>
                 <div class="col-xs-6">
                     <ol class="breadcrumb">
-                        <li><a href="homepage.html">Halaman Utama</a></li>
-                        <li class="active">Daftar Admin</li>
+                        <li><a href="/">Halaman Utama</a></li>
+                        <li class="active">Daftar Sebagai Penjual</li>
                     </ol>
                 </div>
             </div>
@@ -37,7 +37,6 @@
                         {{ csrf_field() }}
 
                         <input type="hidden" name="status" value="0">
-                        <input type="hidden" name="confirmation_code" value="0">
                         <input type="hidden" name="role" value="customer">
 
 
@@ -45,16 +44,6 @@
 
                             <br>
                             <h4><label>Informasi Akun</label></h4>
-
-                            <!-- <div class="form-group{{ $errors->has('prof_pic') ? ' has-error' : '' }}" align="center">
-                                <label>Foto Profil</label>
-                                <input type="file" name="prof_pic" id="prof_pic">
-                                 @if ($errors->has('prof_pic'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('prof_pic') }}</strong>
-                                    </span>
-                                @endif
-                            </div> -->
 
                             <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}">
@@ -86,30 +75,6 @@
 
                             <br>
                             <h4><label>Informasi Data Diri</label></h4>
-                            
-                            <div class="{{ $errors->has('type_id') ? ' has-error' : '' }}">
-                                <select class="form-control" name="type_id">
-                                    <option>--Jenis Identitas--</option>
-                                    <option value="KTP">KTP</option>
-                                    <option value="SIM">SIM</option>
-                                </select>
-
-                                @if ($errors->has('type_id'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('type_id') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-                            <div class="{{ $errors->has('no_id') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="no_id" placeholder="Nomor Identitas..." value="{{ old('no_id') }}">
-
-                                @if ($errors->has('no_id'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('no_id') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
 
                             <div class="{ $errors->has('name') ? ' has-error' : '' }}">
                                 <input type="text" class="form-control" name="name" placeholder="Nama Lengkap..." value="{{ old('name') }}">
@@ -185,42 +150,6 @@
                             </div>
                             
                             <br>
-
-                        <br>
-                        <h4><label>Informasi Rekening</label></h4>
-
-                        <div class="{{ $errors->has('bank_name') ? ' has-error' : '' }}">
-                            
-                                <input type="text" class="form-control" name="bank_name" placeholder="Nama Bank..." value="{{ old('bank_name') }}">
-
-                                @if ($errors->has('bank_name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('bank_name') }}</strong>
-                                    </span>
-                                @endif
-                            
-                        </div>
-
-                        <div class="{{ $errors->has('bank_account') ? ' has-error' : '' }}">
-                                
-                                <input type="text" class="form-control" name="bank_account" placeholder="Nama Dalam Buku Rekening..." value="{{ old('bank_account') }}">
-
-                                @if ($errors->has('bank_account'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('bank_account') }}</strong>
-                                    </span>
-                                @endif
-                        </div>
-
-                        <div class="{{ $errors->has('account_number') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="account_number" placeholder="Nomor Rekening..." value="{{ old('account_number') }}">
-
-                                @if ($errors->has('account_number'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('account_number') }}</strong>
-                                    </span>
-                                @endif
-                        </div>
 
                         <br>
                         <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">

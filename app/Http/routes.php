@@ -37,13 +37,25 @@ Route::group(['middleware' => 'web'], function () {
 
 	Route::get('/signup', 'SignupController@showSignup');
 
-    Route::get('/AdminSignUp', function(){
-        return view('admin.AdminSignUp');
-    });
+    Route::get('/AdminSignUp', 'AdminController@showSignup');
 
-	Route::get('/CustomerSignUp', 'CustomerSignUpController@showCustomerSignUp');
+    Route::resource('AdminProfile', 'AdminController@index');
 
-    Route::get('/SellerSignUp', 'SellerSignUpController@showSellerSignUp');
+    Route::resource('admin', 'AdminController');
+
+    Route::get('/SellerSignUp', 'SellerController@showSignUp');
+
+    Route::resource('SellerProfile', 'SellerController@index');
+
+    Route::resource('seller', 'SellerController');
+
+    Route::get('/CustomerSignUp', 'CustomerController@showSignUp');
+
+    Route::resource('CustomerProfile', 'CustomerController@index');
+
+    Route::resource('customer', 'CustomerController');
+
+    // --------------------------------------------------------------------------
 
     Route::get('/single-product', 'SingleproductController@showSingleproduct');
 
@@ -56,15 +68,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/katalogsapi', 'KatalogsapiController@showKatalogsapi');
 
     Route::get('/cart', 'CartController@showCart');
-
-
-    // Route::resource('user/profile', 'UserController');
-
-    // Route::resource('user/editProfile', 'UserController@editProfile');
-
-    // Route::resource('merchant/product', 'ProductController');
-
-    // Route::resource('merchant/create', 'ProductController@create');
 
     // -----------------------------------------------------------------------
     // Route::resource('profile', 'ProfileController@index');

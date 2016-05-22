@@ -10,13 +10,18 @@ use Illuminate\Support\Facades\Input as Input;
 
 // use Validator, Redirect, Session;
 use Illuminate\Support\Facades\ Session as Session;
+
 use Illuminate\Support\Facades\Validator as Validator;
+
 use Illuminate\Support\Facades\Redirect as Redirect;
 
 use App\User;
+
 use App\SellerModel;
 
-use Hash, Mail;
+use App\CustomerModel;
+
+use Mail;
 
 class RegistrationController extends Controller
 {
@@ -39,17 +44,10 @@ class RegistrationController extends Controller
  
         if($validator->fails())
         {
-          return Redirect::to('register')->withInput()->withErrors($validator);
+        	return Redirect::back()->withInput()->withErrors($validator);
         }
  
         $confirmation_code = str_random(30);
- 
-        // User::create([
-        //     'name' => Input::get('name'),
-        //     'email' => Input::get('email'),
-        //     'password' => Hash::make(Input::get('password')),
-        //     'confirmation_code' => $confirmation_code
-        // ]);
 
         $user=User::create([
             'name'      => Input::get('name'),
@@ -66,24 +64,25 @@ class RegistrationController extends Controller
         ]);
         $user->save();
 
-        if (Input::get('role')=="seller") {
-            // if (!empty(Input::get('prof_pic')) {
-            //     $file=Input::get('prof_pic');
-            //     $destinationPath = 'images/profile/';
-            //     $uploadSuccess = $file->move(public_path().'/'.$destinationPath,
-            //         $user->id.'-'.$user->role.'-'.$file->getClientOriginalName());
+        if (Input::get('role')=='seller') {
+            
+            $file = Input::file('prof_pic');
 
-            //     $prof_pic = $destinationPath.$user->id.'-'.$user->role.'-'.$file->getClientOriginalName();    
-            // }
+        	$filename=$user->id.'-'.$file->getClientOriginalName();
+            
+        	$file->move(base_path().'/public/images/profile/', $filename);
+        
+        	$prof_pic = 'images/profile/'.$filename;
+
             $seller = SellerModel::create([
                 'user_id'       => $user->id,
                 'type_id'       => Input::get('type_id'),
                 'no_id'         => Input::get('no_id'),
                 'rating'        => 0.0,
+                'prof_pic'      => $prof_pic,
                 'bank_account'  => Input::get('bank_account'),
                 'account_number'=> Input::get('account_number'),
                 'bank_name'     => Input::get('bank_name'),
-                // 'prof_pic'      => $prof_pic
             ]);
             $seller->save();
         }elseif (Input::get('role')=="customer") {

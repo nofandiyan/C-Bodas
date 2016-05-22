@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use Hash;
 use Auth;
 use DB;
@@ -11,17 +10,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-
 class ApiCustomerController extends Controller{
-
-
     public function store(Request $request)
     {        
         $model = DB::table('users')
         ->where('email', $request->input('EMAIL'))
         ->where('role', 'customer')
         ->get();
-
         if(count($model)> 0){
             $response['Response']= false;  
             return $response;           
@@ -57,7 +52,6 @@ class ApiCustomerController extends Controller{
             $response['Response']= true;
             Mail::send('customer.verify', ['Customer' => $user], function($message) use ($user)
             {
-
                 $message->from('info.cbodas@gmail.com');
                 $message->to($user->email)->subject('Welcome!');
             });  
@@ -67,14 +61,11 @@ class ApiCustomerController extends Controller{
             // 'city' => $Customer->city, 'province' => $Customer->province, 'zip_code' => $Customer->zip_code, 'phone' => $Customer->phone, 
             // 'confirmation_code' => $Customer->confirmation_code, 'role' => 'customer']
             // );  
-
-
         }    
         
     }
         
     
-
     public function confirm($confirmation_code)
     {
         $user = DB::table('users')
@@ -92,9 +83,7 @@ class ApiCustomerController extends Controller{
         // echo $user->email;
         // return $user;
     }
-
     public function getLogin(Request $request){
-
         $email = $request->input('email');
         $password = $request->input('password');
         // $credentials = $arrayName = array('email' => $email, 'password' => $password);
@@ -114,9 +103,7 @@ class ApiCustomerController extends Controller{
         }else{
             echo 'failed';
         }
-
     }
-
     public function maintainLogin(Request $request){
         $customer=DB::table('users')
         ->join('customers', 'users.id', '=', 'customers.user_id')
@@ -129,7 +116,6 @@ class ApiCustomerController extends Controller{
         return $customer;
     }
     
-
     public function requestLinkPassword(Request $request){
         $check=DB::table('users')
         ->where('email', $request->input('email'))
@@ -151,7 +137,6 @@ class ApiCustomerController extends Controller{
             $model['Response']= false;
         return $model;
     }
-
     public function getLinkPassword($confirmation_code){
         $user = DB::table('users')
         ->where('confirmation_code', $confirmation_code)
@@ -162,7 +147,6 @@ class ApiCustomerController extends Controller{
             echo 'shitstain';
         }         
     }
-
     public function reset(Request $request){
         $model = DB::table('users')
         ->where('confirmation_code', $request->confirmation_code)
@@ -174,7 +158,6 @@ class ApiCustomerController extends Controller{
         }
         
     }
-
     public function updateAddress(Request $request){
         // var_dump($request);
         $auth = auth()->guard('api'); 
@@ -192,7 +175,6 @@ class ApiCustomerController extends Controller{
             }        
             return $response;
         }
-
     }
   
 }

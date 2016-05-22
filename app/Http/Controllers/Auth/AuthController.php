@@ -63,65 +63,53 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
-    {
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => bcrypt($data['password']),
-        //     'street' => $data['street'],
-        //     'city' => $data['city'],
-        //     'province' => $data['province'],
-        //     'zip_code' => $data['zip_code'],
-        //     'phone' => $data['phone'],
-        //     'status' => $data['status'],
-        //     'confirmation_code' => $data['confirmation_code'],
-        //     'role' => $data['role'],
-        // ]);
-        $user=User::create([
-            'name'      => $data['name'],
-            'email'     => $data['email'],
-            'password'  => bcrypt($data['password']),
-            'street'    => $data['street'],
-            'city'      => $data['city'],
-            'province'  => $data['province'],
-            'zip_code'  => $data['zip_code'],
-            'phone'     => $data['phone'],
-            'status'    => $data['status'],
-            'confirmation_code' => $data['confirmation_code'],
-            'role'      => $data['role'],
-        ]);
-        $user->save();
+    // protected function create(array $data)
+    // {
+        
+    //     $user=User::create([
+    //         'name'      => $data['name'],
+    //         'email'     => $data['email'],
+    //         'password'  => bcrypt($data['password']),
+    //         'street'    => $data['street'],
+    //         'city'      => $data['city'],
+    //         'province'  => $data['province'],
+    //         'zip_code'  => $data['zip_code'],
+    //         'phone'     => $data['phone'],
+    //         'status'    => $data['status'],
+    //         'confirmation_code' => $data['confirmation_code'],
+    //         'role'      => $data['role'],
+    //     ]);
+    //     $user->save();
 
-        if ($data["role"]=="seller") {
-            if (!empty($data['prof_pic'])) {
-                $file=$data['prof_pic'];
-                $destinationPath = 'images/profile/';
-                $uploadSuccess = $file->move(public_path().'/'.$destinationPath,
-                    $user->id.'-'.$user->role.'-'.$file->getClientOriginalName());
+    //     if ($data["role"]=="seller") {
+    //         if (!empty($data['prof_pic'])) {
+    //             $file=$data['prof_pic'];
+    //             $destinationPath = 'images/profile/';
+    //             $uploadSuccess = $file->move(public_path().'/'.$destinationPath,
+    //                 $user->id.'-'.$user->role.'-'.$file->getClientOriginalName());
 
-                $prof_pic = $destinationPath.$user->id.'-'.$user->role.'-'.$file->getClientOriginalName();    
-            }
-            $seller = SellerModel::create([
-                'user_id'       => $user->id,
-                'type_id'       => $data['type_id'],
-                'no_id'         => $data['no_id'],
-                'rating'        => 0.0,
-                'bank_account'  => $data['bank_account'],
-                'account_number'=> $data['account_number'],
-                'bank_name'     => $data['bank_name'],
-                'prof_pic'      => $prof_pic
-            ]);
-            $seller->save();
-        }elseif ($data["role"]=="customer") {
-            $customer = CustomerModel::create([
-                'user_id'      => $user->id,
-                'gender'       => $data['gender'],
-            ]);
-            $customer->save();
-        }
+    //             $prof_pic = $destinationPath.$user->id.'-'.$user->role.'-'.$file->getClientOriginalName();    
+    //         }
+    //         $seller = SellerModel::create([
+    //             'user_id'       => $user->id,
+    //             'type_id'       => $data['type_id'],
+    //             'no_id'         => $data['no_id'],
+    //             'rating'        => 0.0,
+    //             'bank_account'  => $data['bank_account'],
+    //             'account_number'=> $data['account_number'],
+    //             'bank_name'     => $data['bank_name'],
+    //             'prof_pic'      => $prof_pic
+    //         ]);
+    //         $seller->save();
+    //     }elseif ($data["role"]=="customer") {
+    //         $customer = CustomerModel::create([
+    //             'user_id'      => $user->id,
+    //             'gender'       => $data['gender'],
+    //         ]);
+    //         $customer->save();
+    //     }
         
 
-        return $user;
-    }
+    //     return $user;
+    // }
 }
