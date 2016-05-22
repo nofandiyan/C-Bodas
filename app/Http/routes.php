@@ -15,16 +15,24 @@
 //     return view('welcome');
 // });
 
-Route::auth();
-
-// Route::get('/CustomerSignUp', function(){
-// 	return view('customer.CustomerSignUp');
-// });
-
-
-
+// Route::auth();
+// Authentication routes...
+    Route::get('login', 'Auth\AuthController@getLogin');
+    Route::post('login', 'LoginController@postLogin');
+    $this->get('logout', 'Auth\AuthController@logout');
+     
+    // Password Reset Routes...
+    $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+    $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+    $this->post('password/reset', 'Auth\PasswordController@reset');
+     
+    // Registration routes...
+    Route::get('register', 'Auth\AuthController@getRegister');
+    Route::post('register', 'RegistrationController@postRegister');
+    Route::get('register/verify/{confirmationCode}', 'RegistrationController@confirm');
+    
 Route::group(['middleware' => 'web'], function () {
-	
+
 	Route::get('/', 'HomeController@index');
 
 	Route::get('/signup', 'SignupController@showSignup');
@@ -61,33 +69,12 @@ Route::group(['middleware' => 'web'], function () {
     // -----------------------------------------------------------------------
     // Route::resource('profile', 'ProfileController@index');
 
-    Route::resource('adminProfile', 'adminController@index');
-
-    Route::resource('admin', 'adminController');
-
-    Route::resource('sellerProfile', 'sellerController@index');
-
-    Route::resource('seller', 'sellerController');
-
-    Route::resource('buyerProfile', 'buyerController@index');
-
-    Route::resource('buyer', 'buyerController');
-
-    Route::resource('produkTani', 'TaniController');
-
-    Route::resource('produkTernak', 'TernakController');
-
-    Route::resource('produkWisata', 'WisataController');
-
-    Route::resource('produkVilla', 'VillaController');
-
-    Route::resource('produkEdukasi', 'EdukasiController');
-
 });
 
 // Route::get('/test', 'ApiTestController@test');
 
-/// Route Mobile App
+
+// Route Mobile App
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function () {
     Route::post('/registration','ApiCustomerController@store');
     Route::post('/login','ApiCustomerController@getLogin');    
@@ -107,20 +94,20 @@ Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'api'], functio
 });
 
 
-Route::get('register/verify/{confirmationCode}', [
-    'as' => 'confirmation_path',
-    'uses' => 'ApiCustomerController@confirm'
-]);
+// Route::get('register/verify/{confirmationCode}', [
+//     'as' => 'confirmation_path',
+//     'uses' => 'ApiCustomerController@confirm'
+// ]);
 
 Route::post('/api/v1/request/password', [
     'as' => 'forgotpassword_path',
     'uses' => 'ApiCustomerController@requestLinkPassword'
 ]);
 
-Route::get('reset/password/{confirmationCode}', [
-    'as' => 'forgotpassword_path',
-    'uses' => 'ApiCustomerController@getLinkPassword'
-]);
+// Route::get('reset/password/{confirmationCode}', [
+//     'as' => 'forgotpassword_path',
+//     'uses' => 'ApiCustomerController@getLinkPassword'
+// ]);
 
 Route::post('reset/password', [
     'as' => 'resetpassword_path',

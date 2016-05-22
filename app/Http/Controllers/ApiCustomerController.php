@@ -38,7 +38,7 @@ class ApiCustomerController extends Controller{
         }else{            
             Mail::send('customer.verify', ['Customer' => $Customer], function($message) use ($Customer)
             {
-                $message->from('cibodas.store@gmail.com');
+                $message->from('noreply@c-bodas.com');
                 $message->to($Customer->email)->subject('Welcome!');
             });    
             $id = DB::table('users')->insertGetId(
