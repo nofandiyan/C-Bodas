@@ -34,6 +34,33 @@
                 <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                     <div class="login-form-wrapper">
                         Customer Home
+                        @foreach($profiles as $profile)
+                            <div>
+                                <div>
+                                    Email
+                                </div>
+                                <div>
+                                    {{ $profile->email }}        
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    Nama
+                                </div>  
+                                <div>
+                                    {{ $profile->name }}    
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            {{ $profile->street }}
+                            {{ $profile->city }}
+                            {{ $profile->province }}
+                            {{ $profile->zip_code }}
+                            {{ $profile->gender }}
+                        @endforeach
                     </div>
                 </div>
             </div>

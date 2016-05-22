@@ -83,11 +83,16 @@ Route::group(['middleware' => 'web'], function () {
 
 });
 
-Route::get('/test', 'ApiTestController@test');
+// Route::get('/test', 'ApiTestController@test');
+
+<<<<<<< HEAD
 
 
 
+=======
+// });
 
+>>>>>>> e2f863b6883bc5c219d53c9cac0c0178bce68fea
 /// Route Mobile App
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function () {
     Route::post('/registration','ApiCustomerController@store');
@@ -129,3 +134,9 @@ Route::post('reset/password', [
 ]);
 
 
+<<<<<<< HEAD
+=======
+
+// });
+
+>>>>>>> e2f863b6883bc5c219d53c9cac0c0178bce68fea
