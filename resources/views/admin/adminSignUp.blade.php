@@ -38,7 +38,7 @@
 
                         <input type="hidden" name="status" value="0">
                         <input type="hidden" name="confirmation_code" value="0">
-                        <input type="hidden" name="role" value="0">
+                        <input type="hidden" name="role" value="admin">
 
                         <!-- <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Name</label>

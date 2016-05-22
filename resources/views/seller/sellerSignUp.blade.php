@@ -38,7 +38,7 @@
 
                         <input type="hidden" name="status" value="0">
                         <input type="hidden" name="confirmation_code" value="0">
-                        <input type="hidden" name="role" value="1">
+                        <input type="hidden" name="role" value="seller">
                         <input type="hidden" name="rating" value="0.0">
 
 

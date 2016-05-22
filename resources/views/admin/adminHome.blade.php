@@ -31,30 +31,31 @@
     <section class="content account">
         <div class="container">
             <div class="row">
-                <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                <!-- <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3"> -->
+                <div class="col-md-12">
                     <div class="login-form-wrapper">
-                        Admin Home
-                        @foreach ($users as $user)
+                        @foreach ($profiles as $profile)
+                        <label>Selamat Datang {{ $profile->name }}, Selamat Beraktifitas</label>
                             <div>
-                                {{$user->email}}
+                                {{$profile->email}}
                             </div>
                             <div>
-                                {{$user->name}}
+                                {{$profile->name}}
                             </div>
                             <div>
-                                {{$user->phone}}
+                                {{$profile->phone}}
                             </div>
                             <div>
-                                {{$user->street}}
+                                {{$profile->street}}
                             </div>
                             <div>
-                                {{$user->city}}
+                                {{$profile->city}}
                             </div>
                             <div>
-                                {{$user->province}}
+                                {{$profile->province}}
                             </div>
                             <div>
-                                {{$user->zip_code}}
+                                {{$profile->zip_code}}
                             </div>
                         @endforeach
                     </div>

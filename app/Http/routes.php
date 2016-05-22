@@ -17,9 +17,11 @@
 
 Route::auth();
 
-Route::get('/CustomerSignUp', function(){
-	return view('customer.CustomerSignUp');
-});
+// Route::get('/CustomerSignUp', function(){
+// 	return view('customer.CustomerSignUp');
+// });
+
+
 
 Route::group(['middleware' => 'web'], function () {
 	
@@ -27,9 +29,9 @@ Route::group(['middleware' => 'web'], function () {
 
 	Route::get('/signup', 'SignupController@showSignup');
 
-	Route::get('/AdminSignUp', function(){
-		return view('admin.AdminSignUp');
-	});
+    Route::get('/AdminSignUp', function(){
+        return view('admin.AdminSignUp');
+    });
 
 	Route::get('/CustomerSignUp', 'CustomerSignUpController@showCustomerSignUp');
 
@@ -84,7 +86,6 @@ Route::group(['middleware' => 'web'], function () {
 });
 
 // Route::get('/test', 'ApiTestController@test');
-
 
 /// Route Mobile App
 Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function () {

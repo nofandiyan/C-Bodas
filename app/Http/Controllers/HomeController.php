@@ -29,16 +29,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role == 0){
-            $users = User::where('id', Auth::user()->id)->get();
+        if(Auth::user()->role == "admin"){
+            $profiles = User::where('id', Auth::user()->id)->get();
             // $tanis      = TaniModel::where('idMerchant',Auth::user()->id)->get();
             // $ternaks    = TernakModel::where('idMerchant',Auth::user()->id)->get();
             // $wisatas    = WisataModel::where('idMerchant',Auth::user()->id)->get();
             // $villas     = VillaModel::where('idMerchant',Auth::user()->id)->get();
             // $edukasis   = EdukasiModel::where('idMerchant',Auth::user()->id)->get();
             // return view ('seller/sellerHome', compact('tanis','ternaks','wisatas','villas','edukasis'));
-            return view ('admin.adminHome', compact('users'));
-        }elseif(Auth::user()->role == 1){
+            return view ('admin.adminHome', compact('profiles'));
+        }elseif(Auth::user()->role == "seller"){
             $profiles   = DB::table('users')
             ->join('sellers', function ($join) {
                 $join->on('users.id', '=', 'sellers.user_id')
@@ -46,7 +46,7 @@ class HomeController extends Controller
             })
             ->get();
             return view ('seller.sellerHome', compact('profiles'));
-        }elseif(Auth::user()->role == 2){
+        }elseif(Auth::user()->role == "customer"){
             $profiles   = DB::table('users')
             ->join('customers', function ($join) {
                 $join->on('users.id', '=', 'customers.user_id')

@@ -38,7 +38,7 @@
 
                         <input type="hidden" name="status" value="0">
                         <input type="hidden" name="confirmation_code" value="0">
-                        <input type="hidden" name="role" value="2">
+                        <input type="hidden" name="role" value="customer">
 
 
                         <h3>Form Pendaftaran Penjual</h3>
