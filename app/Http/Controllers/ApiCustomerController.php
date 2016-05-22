@@ -6,6 +6,7 @@ use Auth;
 use DB;
 use Mail;
 use App\Customer;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -16,42 +17,57 @@ class ApiCustomerController extends Controller{
 
     public function store(Request $request)
     {        
-        $Customer = new Customer;        
-        $Customer->email= $request->input('EMAIL');
-        $Customer->name = $request->input('NAME');
-        $Customer->gender= $request->input('GENDER');
-        $Customer->street= $request->input('STREET');
-        $Customer->city = $request->input('CITY');
-        $Customer->province = $request->input('PROVINCE');
-        $Customer->zip_code= $request->input('ZIP_CODE');
-        $Customer->password= $request->input('PASSWORD');
-        $Customer->phone = $request->input('PHONE');
-        $Customer->confirmation_code = str_random(30);
-
         $model = DB::table('users')
-        ->where('email', $Customer->email)
+        ->where('email', $request->input('EMAIL'))
         ->where('role', 'customer')
         ->get();
 
-        if(isset($model)){
-            $model['Response']= false;            
+        if(count($model)> 0){
+            $response['Response']= false;  
+            return $response;           
         }else{            
-            Mail::send('customer.verify', ['Customer' => $Customer], function($message) use ($Customer)
+            
+            // DB::table('customers')->insert(
+            //     ['user_id' => , 'gender' => ]
+            // );
+            $user=User::create([
+                'name'      => $request->input('NAME'),
+                'email'     => $request->input('EMAIL'),
+                'password'  => bcrypt($request->input('PASSWORD')),
+                'street'    => $request->input('STREET'),
+                'city'      => $request->input('CITY'),
+                'province'  => $request->input('PROVINCE'),
+                'zip_code'  => $request->input('ZIP_CODE'),
+                'phone'     => $request->input('PHONE'),
+                'status'    => 0,
+                'confirmation_code' => str_random(50),
+                'role'      => 'customer',
+                'api_token' => str_random(60),
+            ]);  
+            $user->save(); 
+            // $customer = Customer::Create([
+            //     'user_id' => $user->id,
+            //     'gender' => $request->input('GENDER'),
+            // ]);
+            // $customer->save();
+            DB::table('customers')->insert([
+                'user_id' => $user->id, 'gender' => $request->input('GENDER'),
+                'created_at' => $user->created_at, 'updated_at' => $user->updated_at
+                ]);
+            $response['Response']= true;
+            Mail::send('customer.verify', ['Customer' => $user], function($message) use ($user)
             {
-                $message->from('cibodas.store@gmail.com');
-                $message->to($Customer->email)->subject('Welcome!');
-            });    
-            $id = DB::table('users')->insertGetId(
-            ['email' => $Customer->email, 'password' => $Customer->password, 'name' => $Customer->name, 'street' => $Customer->street, 
-            'city' => $Customer->city, 'province' => $Customer->province, 'zip_code' => $Customer->zip_code, 'phone' => $Customer->phone, 
-            'confirmation_code' => $Customer->confirmation_code, 'role' => 'customer']
-            );            
-            DB::table('customers')->insert(
-                ['user_id' => $id, 'gender' => $Customer->gender]
-                );
-            $model['Response']= true;
+                $message->from('info.cbodas@gmail.com');
+                $message->to($user->email)->subject('Welcome!');
+            });  
+            return $response;   
+            // $id = DB::table('users')->insertGetId(
+            // ['email' => $user->email, 'password' => $Customer->password, 'name' => $Customer->name, 'street' => $Customer->street, 
+            // 'city' => $Customer->city, 'province' => $Customer->province, 'zip_code' => $Customer->zip_code, 'phone' => $Customer->phone, 
+            // 'confirmation_code' => $Customer->confirmation_code, 'role' => 'customer']
+            // );  
         }    
-        return $model; 
+        
     }
         
     
@@ -61,7 +77,7 @@ class ApiCustomerController extends Controller{
         $user = DB::table('users')
         ->where('confirmation_code', $confirmation_code)
         ->get();
-        if(count($user)>0){
+        if(count($user)> 0){
             // return $user;
             DB::table('users')
             ->where('confirmation_code', $confirmation_code)
@@ -78,10 +94,10 @@ class ApiCustomerController extends Controller{
 
         $email = $request->input('email');
         $password = $request->input('password');
-        $credentials = $arrayName = array('email' => $email, 'password' => $password);
-        // $auth = auth()->guard('web'); 
+        // $credentials = $arrayName = array('email' => $email, 'password' => $password);
+        $auth = auth()->guard('web'); 
         // if ($auth->attempt($credentials)){
-        if(Auth::attempt(['email' => $email, 'password' => $password])){
+        if($auth->attempt(['email' => $email, 'password' => $password])){
             $customer=DB::table('users')
             ->join('customers', 'users.id', '=', 'customers.user_id')
             ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY', 
