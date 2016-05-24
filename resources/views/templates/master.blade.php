@@ -160,7 +160,7 @@
     <header class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-                <a href="homepage" class="navbar-brand"><span>C-</span>Bodas</a>
+                <a href="{{ url('/') }}" class="navbar-brand"><span>C-</span>Bodas</a>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-bars"></i></button>
             </div>
             <div class="navbar-collapse collapse">

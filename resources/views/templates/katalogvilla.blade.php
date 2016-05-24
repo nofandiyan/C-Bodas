@@ -3,7 +3,7 @@
 @section('konten')
 
    <!-- ==========================
-    	BREADCRUMB - START 
+        BREADCRUMB - START 
     =========================== -->
     <section class="breadcrumb-wrapper">
         <div class="container">
@@ -20,8 +20,8 @@
             </div>
         </div>
     </section>
-	<!-- ==========================
-    	BREADCRUMB - END 
+    <!-- ==========================
+        BREADCRUMB - END 
     =========================== -->
     
     <!-- ==========================
@@ -40,22 +40,24 @@
                             <div class="collapse in" id="widget-categories-collapse" aria-expanded="true" role="tabpanel">
                                 <div class="widget-body">
                                     <ul class="list-unstyled" id="categories" role="tablist" aria-multiselectable="true">
-                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="katalogpertanian" aria-expanded="false" aria-controls="parent-1">Pertanian<span></span></a>
+                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="#parent-1" aria-expanded="false" aria-controls="parent-1">Pertanian<span></span></a>
                                            
                                         </li>
-                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="#parent-2" aria-expanded="false" aria-controls="parent-2">Peternakan<span>[2]</span></a>
-                                            <ul id="parent-2" class="list-unstyled panel-collapse collapse" role="menu">
+
+                                        <li class="panel"><a role="button" data-toggle="collapse" data-parent="#categories" href="#parent-2" aria-expanded="true" aria-controls="parent-2">Peternakan<span>[2]</span></a>
+                                            <ul id="parent-2" class="list-unstyled panel-collapse collapse in" role="menu">
                                                 <li><a href="katalogdomba">Domba</a></li>
-                                                <li><a href="katalogsapi">Sapi</a></li>
-                                                
+                                                <li class="active"><a href="#">Sapi</a></li>
                                             </ul>
                                         </li>
+
+                                        
                                         <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="katalogpariwisata" aria-expanded="false" aria-controls="parent-3">Pariwisata</a>
                                             <ul id="parent-4" class="list-unstyled panel-collapse collapse" role="menu">
                                                 
                                             </ul>
                                         </li>
-                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="katalogvilla" aria-expanded="false" aria-controls="parent-4">Vila</a>
+                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="#parent-4" aria-expanded="false" aria-controls="parent-4">Vila</a>
                                             <ul id="parent-5" class="list-unstyled panel-collapse collapse" role="menu">
                                                 
                                             </ul>
@@ -86,197 +88,59 @@
                         </div>
                         <!-- WIDGET:PRICE - END -->
                         
-                	</aside>
+                    </aside>
                 </div>
                 <div class="col-sm-9">
-                	
-                    <!-- JUMBOTRON - START -->
-                    <div class="jumbotron jumbotron-small">
-                        <div id="homepage-4-carousel" class="nav-inside">
-                            <div class="item slide-1">
-                                <div class="slide-mask"></div>
-                                <div class="slide-body">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-5 col-md-6 hidden-sm hidden-xs"><img src="assets/images/categories/category-7.png" class="img-responsive" alt=""></div>
-                                            <div class="col-lg-7 col-md-6 col-xs-12"><h1>Summer Collection 2015</h1></div>
-                                        </div>
+                    
+                   
+                    
+                    <div class="row grid" id="products">
+                        
+                    @foreach ($lapaks as $lapak)
+ 
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail" >
+                            <img src="{{$product->imageurl}}" class="img-responsive">
+                            <div class="caption">
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-6">
+                                        <h3>{{$product->name}}</h3>
+                                    </div>
+                                    <div class="col-md-6 col-xs-6 price">
+                                        <h3>
+                                            <label>${{$product->price}}</label></h3>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="item slide-2">
-                                <div class="slide-mask"></div>
-                                <div class="slide-body">
-                                    <div class="container">
-                                        <h1 class="grey-background">1000+</h1>
-                                        <div><h2 class="grey-background">Products in Stock</h2></div>
-                                    </div>
+                                <p>{{$product->description}}</p>
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <a href="/addProduct/{{$product->id}}" class="btn btn-success btn-product"><span class="fa fa-shopping-cart"></span> Buy</a></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- JUMBOTRON - END -->
-                    
-                    <div class="row grid" id="products">
-                        
+                @endforeach
+
                         <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-4 col-xs-6">
                             <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="product-overlay">
                                             <div class="product-mask"></div>
                                             <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/sapi_1.jpg" class="img-responsive" alt="">
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/sapi_2.jpg" class="img-responsive product-image-2" alt="">
+                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/domba.jpg" class="img-responsive" alt="">
                                             <div class="product-quickview">
                                                 <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Sapi Limosin Silang Simmental</h3>
-                                            <div class="product-labels">
-                                               
-                                                <span class="label label-danger">Sale</span>
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <del><span class="amount">Rp 18.000.000<br></span></del>
-                                                <ins><span class="amount">Rp 17.200.000</span></ins>
-                                            </span>
-                                            <p>Sapi Limosin terbaik usia 1,2 tahun. Berat badan 400 Kg. Sehat, tidak ada cacat, pemberian obat cacing rutin. </p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pertanian/brokoli_1.jpg" class="img-responsive" alt="">
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pertanian/brokoli_2.png" class="img-responsive product-image-2" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Brokoli</h3>
-                                            <div class="product-labels">
-                                               
-                                                <span class="label label-danger">Sale</span>
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <del><span class="amount">Rp 23.000<br></span></del>
-                                                <ins><span class="amount">Rp 21.000</span></ins>
-                                            </span>
-                                            <p>Brokoli Terbaik </p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pertanian/tomat1.png" class="img-responsive" alt="">
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pertanian/tomat2.jpg" class="img-responsive product-image-2" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Tomat Super</h3>
-                                            <div class="product-labels">
-                                               
-                                                <span class="label label-danger">Sale</span>
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <del><span class="amount">Rp 15.000<br></span></del>
-                                                <ins><span class="amount">Rp 11.000</span></ins>
-                                            </span>
-                                            <p>Brokoli terbaik </p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/domba.jpg" class="img-responsive" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                    	<div class="product-body">
+                                        <div class="product-body">
                                             <h3>Domba</h3>
                                             <div class="product-labels">
-                                                
-                                                <span class="label label-danger">sale</span>
+                                               
+                                                <span class="label label-danger">Sale</span>
                                             </div>
                                             <div class="product-rating">
                                                 <i class="fa fa-star"></i>
@@ -286,10 +150,10 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
                                             <span class="price">
-                                                <del><span class="amount">Rp 4.500.000<br></span></del>
-                                                <ins><span class="amount">Rp 4.200.000</span></ins>
+                                              
+                                                <span class="amount">Rp 4.200.000</span>
                                             </span>
-                                            <p>Domba terawat, umur 2 tahun dengan bobot 30Kg. </p>
+                                            <p>Domba sehat. </p>
                                             <div class="buttons">
                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
                                                 <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -303,25 +167,26 @@
                         <!-- PRODUCT - END -->
                         
                         <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-4 col-xs-6">
                             <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="product-overlay">
                                             <div class="product-mask"></div>
                                             <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/metal.jpg" class="img-responsive" alt="">
+                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/dombagarut.jpg" class="img-responsive" alt="">
+                                            
                                             <div class="product-quickview">
                                                 <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Sapi Limosin</h3>
+                                        <div class="product-body">
+                                            <h3>Domba Garut</h3>
                                             <div class="product-labels">
-                                                
-                                                <span class="label label-danger">sale</span>
+                                               
+                                    
                                             </div>
                                             <div class="product-rating">
                                                 <i class="fa fa-star"></i>
@@ -331,8 +196,140 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
                                             <span class="price">
-                                                <del><span class="amount">Rp 16.000.000<br></span></del>
-                                                <ins><span class="amount">Rp 15.000.000</span></ins>
+                                                <span class="amount">Rp 5.200.000</span>
+                                            </span>
+                                            <p>Sapi FH </p>
+                                            <div class="buttons">
+                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
+                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <!-- PRODUCT - END -->
+                        
+                        <!-- PRODUCT - START -->
+                        <div class="col-sm-4 col-xs-6">
+                            <article class="product-item">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="product-overlay">
+                                            <div class="product-mask"></div>
+                                            <a href="single-product.html" class="product-permalink"></a>
+                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/dombaa.jpg" class="img-responsive" alt="">
+                                            
+                                            <div class="product-quickview">
+                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="product-body">
+                                            <h3>Domba Siap Potong</h3>
+                                            <div class="product-labels">
+                
+                                            </div>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <span class="price">
+                                                <span class="amount">Rp 5.000.000</span>
+                                                
+                                            </span>
+                                            <p>Domba bagus</p>
+                                            <div class="buttons">
+                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
+                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <!-- PRODUCT - END -->
+                        
+                        <!-- PRODUCT - START -->
+                        <div class="col-sm-4 col-xs-6">
+                            <article class="product-item">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="product-overlay">
+                                            <div class="product-mask"></div>
+                                            <a href="single-product.html" class="product-permalink"></a>
+                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/domba super.jpg" class="img-responsive" alt="">
+                                            <div class="product-quickview">
+                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="product-body">
+                                            <h3>Domba Super</h3>
+                                            <div class="product-labels">
+                                                
+                                                
+                                            </div>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <span class="price">
+                                                <span class="amount">Rp 6.300.000<br></span>
+                                            </span>
+                                            <p>Domba super </p>
+                                            <div class="buttons">
+                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
+                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <!-- PRODUCT - END -->
+                        
+                        <!-- PRODUCT - START -->
+                        <div class="col-sm-4 col-xs-6">
+                            <article class="product-item">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="product-overlay">
+                                            <div class="product-mask"></div>
+                                            <a href="single-product.html" class="product-permalink"></a>
+                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/dombaaa.jpg" class="img-responsive" alt="">
+                                            <div class="product-quickview">
+                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="product-body">
+                                            <h3>SDomba Sehat</h3>
+                                            <div class="product-labels">
+                                                
+                                            </div>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <span class="price">
+                                               
+                                                <span class="amount">Rp 5.300.000</span>
                                             </span>
                                             <p>Sapi Limosin murni umur 1 tahun bobot 300 Kg</p>
                                             <div class="buttons">
@@ -348,23 +345,23 @@
                         <!-- PRODUCT - END -->
                         
                         <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
+                        <div class="col-sm-4 col-xs-6">
                             <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="product-overlay">
                                             <div class="product-mask"></div>
                                             <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pariwisata/the lodge.jpg" class="img-responsive" alt="">
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pariwisata/thelodge.jpg" class="img-responsive product-image-2" alt="">
+                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/domba ikal.jpg" class="img-responsive" alt="">
+                                            
                                             <div class="product-quickview">
                                                 <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Tiket The Lodge</h3>
+                                        <div class="product-body">
+                                            <h3>Domba</h3>
                                             <div class="product-labels">
                                                
                                                 
@@ -377,10 +374,10 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
                                             <span class="price">
-                                                <del><span class="amount">Rp 15.000<br></span></del>
-                                                <ins><span class="amount">Rp 10.000</span></ins>
+                                                <span class="amount">Rp 4.800.000</span></del>
+                                               
                                             </span>
-                                            <p>Hamparan alam dan kenikmatan kuliner tersedia di satu tempat yang asri.</p>
+                                            <p>Domba ikal</p>
                                             <div class="buttons">
                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
                                                 <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -400,17 +397,17 @@
         </div>
     </section>
     <!-- ==========================
-    	PRODUCTS - END 
+        PRODUCTS - END 
     =========================== -->
     
     <!-- ==========================
-    	SERVICES - START 
+        SERVICES - START 
     =========================== -->
     <section class="content services services-3x border-top border-bottom">
         <div class="container">
-        	<div class="row row-no-padding">
+            <div class="row row-no-padding">
             
-            	<!-- SERVICE - START -->
+                <!-- SERVICE - START -->
                 <div class="col-xs-12 col-sm-4">
                     <div class="service">
                         <i class="fa fa-star"></i>
@@ -445,20 +442,20 @@
         </div>
     </section>
     <!-- ==========================
-    	SERVICES - END 
+        SERVICES - END 
     =========================== -->
     
     
     
     <!-- ==========================
-    	PRODUCT QUICKVIEW - START
+        PRODUCT QUICKVIEW - START
     =========================== -->
     <div class="modal fade modal-quickview" id="product-quickview" tabindex="-1" role="dialog">
-    	<div class="modal-dialog" role="document">
-    		<div class="modal-content">
-          		<div class="modal-header">
-            		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
-          		</div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+                </div>
                 <div class="modal-body">
                     <article class="product-item product-single">
                         <div class="row">
@@ -560,11 +557,11 @@
                         </div>
                     </article>
                 </div>
-    		</div>
-    	</div>
+            </div>
+        </div>
     </div>
     <!-- ==========================
-    	PRODUCT QUICKVIEW - END 
+        PRODUCT QUICKVIEW - END 
     =========================== -->
     
 
