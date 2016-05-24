@@ -41,7 +41,7 @@ class LapakController extends Controller
 
     public function createTani()
     {
-        return view('lapak.create.createTani');
+        return view('lapak.createTani');
     }
 
     public function store(Request $request)
