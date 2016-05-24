@@ -31,13 +31,14 @@ class HomeController extends Controller
     {
         if(Auth::user()->role == "admin"){
             $profiles = User::where('id', Auth::user()->id)->get();
+            $category = DB::table('category_products')->get();
             // $tanis      = TaniModel::where('idMerchant',Auth::user()->id)->get();
             // $ternaks    = TernakModel::where('idMerchant',Auth::user()->id)->get();
             // $wisatas    = WisataModel::where('idMerchant',Auth::user()->id)->get();
             // $villas     = VillaModel::where('idMerchant',Auth::user()->id)->get();
             // $edukasis   = EdukasiModel::where('idMerchant',Auth::user()->id)->get();
             // return view ('seller/sellerHome', compact('tanis','ternaks','wisatas','villas','edukasis'));
-            return view ('admin.adminHome', compact('profiles'));
+            return view ('admin.adminHome', compact('profiles', 'category'));
         }elseif(Auth::user()->role == "seller"){
             $profiles   = DB::table('users')
             ->join('sellers', function ($join) {
@@ -45,7 +46,14 @@ class HomeController extends Controller
                      ->where('sellers.user_id', '=', Auth::user()->id);
             })
             ->get();
-            return view ('seller.sellerHome', compact('profiles'));
+
+            $lapaks = DB::table('products')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('detail_products', 'products.id', '=', 'detail_products.product_id')
+            ->select('products.*', 'category_products.*', 'detail_products.*')
+            ->get();
+
+            return view ('seller.sellerHome', compact('profiles','lapaks'));
         }elseif(Auth::user()->role == "customer"){
             $profiles   = DB::table('users')
             ->join('customers', function ($join) {

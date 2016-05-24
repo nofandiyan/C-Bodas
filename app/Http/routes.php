@@ -55,6 +55,16 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('customer', 'CustomerController');
 
+    Route::post('/createCategory', 'LapakController@createCategory');
+
+    Route::get('/createTani', 'LapakController@createTani');
+
+    // Route::post('/insertTani', 'LapakController@insertTani');
+
+    Route::post('/lapakDetail', 'LapakController@lapakDetail');
+
+    Route::resource('/Lapak', 'LapakController');
+
     // --------------------------------------------------------------------------
 
     Route::get('/single-product', 'SingleproductController@showSingleproduct');
