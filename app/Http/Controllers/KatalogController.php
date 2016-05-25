@@ -6,6 +6,12 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use DB;
 
+use App\Category_ProductsModel;
+use App\ProductsModel;
+use App\Detail_ProductsModel;
+use App\Images_ProductsModel;
+use App\Prices_ProductsModel;
+
 class KatalogController extends Controller
 {
     /**
@@ -24,34 +30,76 @@ class KatalogController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //Domba
-
-    public function showKatalogdomba()
+    //Pertanian
+     public function showKatalogpertanian()
     {
-        return view('templates\katalogdomba'); 
+         $barang = DB::table('detail_products')
+            ->join('products', 'detail_products.product_id', '=', 'products.id')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
+            ->join('images_products','detail_products.id', '=', 'images_products.detail_product_id')
+            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','images_products.link')
+            ->where('category_id', '=' , 1 )
+            ->paginate(9);
+    
+    return view('templates.katalogpertanian', compact('barang')); 
     }
 
-    //Sapi
+    //Peternakan
 
-    public function showKatalogsapi()
+    public function showKatalogpeternakan()
     {
-        return view('templates\katalogsapi'); 
+        $barang = DB::table('detail_products')
+            ->join('products', 'detail_products.product_id', '=', 'products.id')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
+            ->join('images_products','detail_products.id', '=', 'images_products.detail_product_id')
+            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','images_products.link')
+            ->where('category_id', '=' , 2 )
+            ->paginate(9);
+    
+    return view('templates.katalogpeternakan', compact('barang')); 
     }
+
 
     //Pariwisata
 
     public function showKatalogpariwisata()
     {
-        return view('templates\katalogpariwisata'); 
+        $barang = DB::table('detail_products')
+            ->join('products', 'detail_products.product_id', '=', 'products.id')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
+            ->join('images_products','detail_products.id', '=', 'images_products.detail_product_id')
+            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','images_products.link')
+            ->where('category_id', '=' , 3 )
+            ->paginate(9);
+    
+    return view('templates.katalogpariwisata', compact('barang')); 
     }
+
+    /*//Sapi
+
+    public function showKatalogsapi()
+    {
+        return view('templates\katalogsapi'); 
+    }*/
+
+    
 
     //villa
-
+/*
     public function showKatalogvilla()
     {
-        $lapaks = DB::table('detail_products')
-         ->join('products', 'detail_products.product_id', '=', 'products.id')
-         ->get();
-         return view ('templates\katalogvilla', compact('lapaks'));
-    }
+    $barang = DB::table('detail_products')
+            ->join('products', 'detail_products.product_id', '=', 'products.id')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
+            ->join('images_products','detail_products.id', '=', 'images_products.detail_product_id')
+            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','images_products.link')
+            ->where('category_id', '=' , 1 )
+            ->paginate(9);
+    
+    return view('templates.katalogvilla', compact('barang')); 
+    }   */
 }

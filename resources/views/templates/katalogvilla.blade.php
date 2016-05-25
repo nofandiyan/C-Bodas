@@ -91,37 +91,11 @@
                     </aside>
                 </div>
                 <div class="col-sm-9">
-                    
-                   
-                    
                     <div class="row grid" id="products">
                         
-                    @foreach ($lapaks as $lapak)
- 
-                    <div class="col-sm-6 col-md-4">
-                        <div class="thumbnail" >
-                            <img src="{{$product->imageurl}}" class="img-responsive">
-                            <div class="caption">
-                                <div class="row">
-                                    <div class="col-md-6 col-xs-6">
-                                        <h3>{{$product->name}}</h3>
-                                    </div>
-                                    <div class="col-md-6 col-xs-6 price">
-                                        <h3>
-                                            <label>${{$product->price}}</label></h3>
-                                    </div>
-                                </div>
-                                <p>{{$product->description}}</p>
-                                <div class="row">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <a href="/addProduct/{{$product->id}}" class="btn btn-success btn-product"><span class="fa fa-shopping-cart"></span> Buy</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
 
-                        <!-- PRODUCT - START -->
+                        <!-- PRODUCT KATALOG -->
+                        @foreach ($barang as $bar)
                         <div class="col-sm-4 col-xs-6">
                             <article class="product-item">
                                 <div class="row">
@@ -129,7 +103,7 @@
                                         <div class="product-overlay">
                                             <div class="product-mask"></div>
                                             <a href="single-product.html" class="product-permalink"></a>
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/domba.jpg" class="img-responsive" alt="">
+                                            <img style="border:0px; width:300px; height:200px;" src="{{ url($bar->link) }}" class="img-responsive" alt="">
                                             <div class="product-quickview">
                                                 <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
                                             </div>
@@ -137,10 +111,10 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <div class="product-body">
-                                            <h3>Domba</h3>
+                                            <h3>{{$bar->name}}</h3>
                                             <div class="product-labels">
                                                
-                                                <span class="label label-danger">Sale</span>
+                                              
                                             </div>
                                             <div class="product-rating">
                                                 <i class="fa fa-star"></i>
@@ -151,9 +125,9 @@
                                             </div>
                                             <span class="price">
                                               
-                                                <span class="amount">Rp 4.200.000</span>
+                                                <span class="amount">{{$bar->price}}</span>
                                             </span>
-                                            <p>Domba sehat. </p>
+                                            <p>{{$bar->description}}</p>
                                             <div class="buttons">
                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
                                                 <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -164,287 +138,19 @@
                                 </div>
                             </article>
                         </div>
-                        <!-- PRODUCT - END -->
+                   
+             
+
+                        @endforeach
                         
-                        <!-- PRODUCT - START -->
-                        <div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/dombagarut.jpg" class="img-responsive" alt="">
-                                            
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="product-body">
-                                            <h3>Domba Garut</h3>
-                                            <div class="product-labels">
-                                               
-                                    
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <span class="amount">Rp 5.200.000</span>
-                                            </span>
-                                            <p>Sapi FH </p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                        <div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/dombaa.jpg" class="img-responsive" alt="">
-                                            
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="product-body">
-                                            <h3>Domba Siap Potong</h3>
-                                            <div class="product-labels">
-                
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <span class="amount">Rp 5.000.000</span>
-                                                
-                                            </span>
-                                            <p>Domba bagus</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                        <div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/domba super.jpg" class="img-responsive" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="product-body">
-                                            <h3>Domba Super</h3>
-                                            <div class="product-labels">
-                                                
-                                                
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <span class="amount">Rp 6.300.000<br></span>
-                                            </span>
-                                            <p>Domba super </p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                        <div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/dombaaa.jpg" class="img-responsive" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="product-body">
-                                            <h3>SDomba Sehat</h3>
-                                            <div class="product-labels">
-                                                
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                               
-                                                <span class="amount">Rp 5.300.000</span>
-                                            </span>
-                                            <p>Sapi Limosin murni umur 1 tahun bobot 300 Kg</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                        <div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/domba ikal.jpg" class="img-responsive" alt="">
-                                            
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="product-body">
-                                            <h3>Domba</h3>
-                                            <div class="product-labels">
-                                               
-                                                
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <span class="amount">Rp 4.800.000</span></del>
-                                               
-                                            </span>
-                                            <p>Domba ikal</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                    </div>
-                                        
+                         
+    <!-- PRODUCT - END -->
+                    </div>  
+                     <center>{!! $barang->links() !!}</center>                         
                 </div>
             </div>
         </div>
     </section>
-    <!-- ==========================
-        PRODUCTS - END 
-    =========================== -->
-    
-    <!-- ==========================
-        SERVICES - START 
-    =========================== -->
-    <section class="content services services-3x border-top border-bottom">
-        <div class="container">
-            <div class="row row-no-padding">
-            
-                <!-- SERVICE - START -->
-                <div class="col-xs-12 col-sm-4">
-                    <div class="service">
-                        <i class="fa fa-star"></i>
-                        <h3>GRATIS ONGKOS KIRIM UNTUK PEMBELIAN HEWAN TERNAK</h3>
-                        <p>Bagi konsumen yang berada di wilayah Bandung, Cimahi, dan Kabupaten Bandung Barat dapat menikmati fasilitas gratis ongkos kirim untuk pembelian hewan ternak</p>
-                    </div>
-                </div>
-                <!-- SERVICE - END -->
-                
-                <!-- SERVICE - START -->
-                <div class="col-xs-6 col-sm-4">
-                    <div class="service">
-                        <i class="fa fa-heart"></i>
-                        <h3>JAMINAN TIDAK BARANG SAMPAI ATAU UANG KEMBALI 100%</h3>
-                        <p>Anda tidak perlu merasa khawatir untuk bertransaki di C-Bodas.com karena kami bertindak sebagai escrow (rekening bersama) sehingga uang yang anda bayarkan tidak langsung diberikan kepada penjual dan uang dapat dengan mudah dikembalikan apabila barang tidak sampai</p>
-                    </div>
-                </div>
-                <!-- SERVICE - END -->
-                
-                <!-- SERVICE - START -->
-                <div class="col-xs-6 col-sm-4">
-                    <div class="service">
-                        <i class="fa fa-rocket"></i>
-                        <h3>TRANSAKSI LEBIH CEPAT DAN GA PAKE RIBET</h3>
-                        <p>Dengan menggunakan C-Bodas anda tidak perlu datang ke Desa Cibodas untuk melakukan transaksi dengan penjual. Cukup akses C-Bodas.com dan anda pun dapat menyelesaikan transaksi dalam waktu yang relatif singkat</p>
-                    </div>
-                </div>
-                <!-- SERVICE - END -->
-                
-            </div>
-            
-        </div>
-    </section>
-    <!-- ==========================
-        SERVICES - END 
-    =========================== -->
-    
     
     
     <!-- ==========================

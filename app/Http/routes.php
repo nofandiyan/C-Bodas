@@ -71,13 +71,17 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/lost-password', 'LostpasswordController@showLostpassword');
 
+    Route::get('/katalogpertanian', 'KatalogController@showKatalogpertanian');
+
+    Route::get('/katalogpeternakan', 'KatalogController@showKatalogpeternakan');
+
     Route::get('/katalogpariwisata', 'KatalogController@showKatalogpariwisata');
 
-    Route::get('/katalogdomba', 'KatalogController@showKatalogdomba');
+    //Route::get('/katalogdomba', 'KatalogController@showKatalogdomba');
 
-    Route::get('/katalogsapi', 'KatalogController@showKatalogsapi');
+    //Route::get('/katalogsapi', 'KatalogController@showKatalogsapi');
 
-    Route::get('/katalogvilla', 'KatalogController@showKatalogvilla');
+    //Route::get('/katalogvilla', 'KatalogController@showKatalogvilla');
 
     Route::get('/cart', 'CartController@showCart');
 

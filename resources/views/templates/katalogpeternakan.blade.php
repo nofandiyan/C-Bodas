@@ -44,12 +44,12 @@
                                            
                                         </li>
 
-                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpeternakan">Peternakan<span></span></a>
+                                        <li class="panel"><a role="button" data-parent="#categories" href="katalogpeternakan">Peternakan<span></span></a>
                                            
                                         </li>
 
                                         
-                                        <li class="panel"><a role="button" data-parent="#categories" href="katalogpariwisata">Pariwisata</a>
+                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpariwisata">Pariwisata</a>
                                             
                                         </li>
                                     </ul>

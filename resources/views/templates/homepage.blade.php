@@ -40,30 +40,17 @@
                             <div class="collapse in" id="widget-categories-collapse" aria-expanded="true" role="tabpanel">
                                 <div class="widget-body">
                                     <ul class="list-unstyled" id="categories" role="tablist" aria-multiselectable="true">
-                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="katalogpertanian" aria-expanded="false" aria-controls="parent-1">Pertanian<span></span></a>
+                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpertanian">Pertanian<span></span></a>
                                            
                                         </li>
-                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="#parent-2" aria-expanded="false" aria-controls="parent-2">Peternakan<span>[2]</span></a>
-                                            <ul id="parent-2" class="list-unstyled panel-collapse collapse" role="menu">
-                                                <li><a href="katalogdomba">Domba</a></li>
-                                                <li><a href="katalogsapi">Sapi</a></li>
-                                                
-                                            </ul>
+
+                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpeternakan">Peternakan<span></span></a>
+                                           
                                         </li>
-                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="katalogpariwisata" aria-expanded="false" aria-controls="parent-3">Pariwisata</a>
-                                            <ul id="parent-4" class="list-unstyled panel-collapse collapse" role="menu">
-                                                
-                                            </ul>
-                                        </li>
-                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="katalogvilla" aria-expanded="false" aria-controls="parent-4">Vila</a>
-                                            <ul id="parent-5" class="list-unstyled panel-collapse collapse" role="menu">
-                                                
-                                            </ul>
-                                        </li>
-                                        <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="#parent-6" aria-expanded="false" aria-controls="parent-6">Edukasi Tani</a>
-                                            <ul id="parent-6" class="list-unstyled panel-collapse collapse" role="menu">
-                                                
-                                            </ul>
+
+                                        
+                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpariwisata">Pariwisata</a>
+                                            
                                         </li>
                                     </ul>
                                 </div>

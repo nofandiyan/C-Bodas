@@ -32,12 +32,7 @@ class HomeController extends Controller
         if(Auth::user()->role == "admin"){
             $profiles = User::where('id', Auth::user()->id)->get();
             $category = DB::table('category_products')->get();
-            // $tanis      = TaniModel::where('idMerchant',Auth::user()->id)->get();
-            // $ternaks    = TernakModel::where('idMerchant',Auth::user()->id)->get();
-            // $wisatas    = WisataModel::where('idMerchant',Auth::user()->id)->get();
-            // $villas     = VillaModel::where('idMerchant',Auth::user()->id)->get();
-            // $edukasis   = EdukasiModel::where('idMerchant',Auth::user()->id)->get();
-            // return view ('seller/sellerHome', compact('tanis','ternaks','wisatas','villas','edukasis'));
+           compact('tanis','ternaks','wisatas','villas','edukasis'));
             return view ('admin.adminHome', compact('profiles', 'category'));
         }elseif(Auth::user()->role == "seller"){
             $profiles   = DB::table('users')
@@ -61,7 +56,7 @@ class HomeController extends Controller
                      ->where('customers.user_id', '=', Auth::user()->id);
             })
             ->get();
-            return view ('customer.customerHome', compact('profiles'));
+            return view ('templates\homepage');
         }
     }
 }
