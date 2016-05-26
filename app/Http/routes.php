@@ -30,7 +30,7 @@
     Route::get('register', 'Auth\AuthController@getRegister');
     Route::post('register', 'RegistrationController@postRegister');
     Route::get('register/verify/{confirmationCode}', 'RegistrationController@confirm');
-    
+
 Route::group(['middleware' => 'web'], function () {
 
 	Route::get('/', 'HomeController@index');
@@ -58,10 +58,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/createCategory', 'LapakController@createCategory');
 
     Route::get('/createTani', 'LapakController@createTani');
-
-    // Route::post('/insertTani', 'LapakController@insertTani');
-
-    Route::post('/lapakDetail', 'LapakController@lapakDetail');
+    Route::get('/createTernak', 'LapakController@createTernak');
+    Route::get('/createWisata', 'LapakController@createWisata');
 
     Route::resource('/Lapak', 'LapakController');
 

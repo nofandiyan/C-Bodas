@@ -85,73 +85,210 @@
                         
                         <h4 align="center"><label>Category</label></h4>
                             
-                        <div id="accordion1">
-                            <div class="panel">
-                                <div align="center">
-                                    <button class="btn btn-info clickable" style="width:100%" data-toggle="collapse" data-parent="#accordion1" data-target="#listCategory">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              List Category
-                                            </a>
-                                        </h4>
-                                    </button>
-                                </div>
-                                <div align="center">
-                                    <button class="btn btn-info clickable" style="width:100%" data-toggle="collapse" data-parent="#accordion1" data-target="#createCategory">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              Create Category
-                                            </a>
-                                        </h4>
-                                    </button>
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listCategory">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          List Category
+                                        </a>
+                                    </h4>
                                 </div>
                             </div>
-                        </div> 
-                        
-                    </div>
-                    <div class="col-md-9">
-                        <!-- <h3 align="center"><label>Lapak Terdaftar</label></h3> -->
-                        <div id="accordion1">
-                            <div class="panel">
-                                <div align="center">
-                                    
-                                    <div id="listCategory" class="panel-collapse collapse showHide" align="center">
-                                        <h4><label>List Category</label></h4>
-                                          <table class="table table-hover" style="table-layout: fixed;">
-                                            <thead>
-                                              <tr>
-                                                <th class="col-md-3">ID</th>
-                                                <th class="col-md-10">Name Category</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($category as $category)
-                                              <tr>
-                                                <td class="short">{{$category->id}}</td>
-                                                <td class="short">{{$category->category_name}}</td>
-                                              </tr>
-                                            @endforeach
-                                            </tbody>
-                                          </table>
-                                          <hr>
-                                    </div>
+                        <!-- </div>
 
-                                    <div id="createCategory" class="panel-collapse collapse showHide" align="center">
-                                        <h4><label>Create Category</label></h4>
-                                          <table class="table table-hover" style="table-layout: fixed;">
-                                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/createCategory') }}">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <input type="text" name="category_name">
-                                                <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" value="Register">Submit</button>
-                                            </form>
-                                            </tbody>
-                                          </table>
-                                          <hr>
-                                    </div>
-
+                        <div class="panel-group" id="accordion"> -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listLapak">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          List Lapak
+                                        </a>
+                                    </h4>
                                 </div>
                             </div>
                         </div>
+                        
+                        
+                    </div>
+                    <div class="col-md-9">
+                        
+                            <div align="center">
+                                <div id="listCategory" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Category</label></h4>
+                                      <table class="table table-hover" style="table-layout: fixed;">
+                                        <thead>
+                                          <tr>
+                                            <th class="col-md-3">ID</th>
+                                            <th class="col-md-10">Name Category</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($category as $category)
+                                          <tr>
+                                            <td class="short">{{$category->id}}</td>
+                                            <td class="short">{{$category->category_name}}</td>
+                                          </tr>
+                                        @endforeach
+                                        </tbody>
+                                      </table>
+                                      <hr>
+                                </div>
+
+                                <!-- <div id="createCategory" class="panel-collapse collapse showHide" align="center">
+                                    <h4><label>Create Category</label></h4>
+                                      <table class="table table-hover" style="table-layout: fixed;">
+                                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/createCategory') }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="text" name="category_name">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" value="Register">Submit</button>
+                                        </form>
+                                        </tbody>
+                                      </table>
+                                      <hr>
+                                </div> -->
+                                <div id="listLapak" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Lapak</label></h4>
+                                        <div id="accordion1">
+                                            <div class="panel">
+                                                <div align="center">
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTani">
+                                                        <h4 class="panel-title">
+                                                            <a class="accordion-toggle">
+                                                              Pertanian
+                                                            </a>
+                                                        </h4>
+                                                    </button>
+                                                    
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTernak">
+                                                        <h4 class="panel-title">
+                                                            <a class="accordion-toggle">
+                                                              Hewan Ternak
+                                                            </a>
+                                                        </h4>
+                                                    </button>
+
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakWisata">
+                                                        <h4 class="panel-title">
+                                                            <a class="accordion-toggle">
+                                                              Pariwisata
+                                                            </a>
+                                                        </h4>
+                                                    </button>
+
+                                                    <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordion1">
+                                                        <h4 class="panel-title">
+                                                            <a class="accordion-toggle">
+                                                              Semua Lapak
+                                                            </a>
+                                                        </h4>
+                                                    </button>
+                                                </div>
+
+                                                
+                                                <br>
+                                                    <div id="lapakTani" class="panel-collapse collapse showHideLapak" align="center">
+                                                    <h4><label>Lapak Pertanian</label></h4>
+                                                      <table class="table table-hover" style="table-layout: fixed;">
+                                                        <thead>
+                                                          <tr>
+                                                            <th class="col-md-1">ID</th>
+                                                            <th class="col-md-3">Judul Lapak</th>
+                                                            <th class="col-md-10">Deskripsi Lapak</th>
+                                                            <!-- <th class="col-md-3">Kategori</th> -->
+                                                            <th class="col-md-2">Opsi</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        <?php $i=1; ?>
+                                                            @foreach($lapaks as $lapak)
+                                                                @if(($lapak->category_id)==1)
+                                                                  <tr>
+                                                                    <td class="short">{{$lapak->id}}</td>
+                                                                    <td class="short">{{$lapak->name}}</td>
+                                                                    <td class="short">{{$lapak->description}}</td>
+                                                                    <!-- <td class="short">{{$lapak->category_name}}</td> -->
+                                                                    <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                  </tr>
+                                                              <?php $i++; ?>
+                                                              @endif
+                                                            @endforeach
+                                                        </tbody>
+                                                      </table>
+                                                      <hr>
+                                                    </div>
+
+                                                    <div id="lapakTernak" class="panel-collapse collapse showHideLapak" align="center">
+                                                    <h4><label>Lapak Hewan Ternak</label></h4>
+                                                      <table class="table table-hover" style="table-layout: fixed;">
+                                                        <thead>
+                                                          <tr>
+                                                            <th class="col-md-1">ID</th>
+                                                            <th class="col-md-3">Judul Lapak</th>
+                                                            <th class="col-md-10">Deskripsi Lapak</th>
+                                                            <!-- <th class="col-md-3">Kategori</th> -->
+                                                            <th class="col-md-2">Opsi</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        <?php $i=1; ?>
+                                                            @foreach($lapaks as $lapak)
+                                                                @if(($lapak->category_id)==2)
+                                                                  <tr>
+                                                                    <td class="short">{{$lapak->id}}</td>
+                                                                    <td class="short">{{$lapak->name}}</td>
+                                                                    <td class="short">{{$lapak->description}}</td>
+                                                                    <!-- <td class="short">{{$lapak->category_name}}</td> -->
+                                                                    <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                  </tr>
+                                                              <?php $i++; ?>
+                                                              @endif
+                                                            @endforeach
+                                                        </tbody>
+                                                      </table>
+                                                      <hr>
+                                                    </div>
+
+                                                    <div id="lapakWisata" class="panel-collapse collapse showHideLapak" align="center">
+                                                    <h4><label>Lapak Pariwisata</label></h4>
+                                                      <table class="table table-hover" style="table-layout: fixed;">
+                                                        <thead>
+                                                          <tr>
+                                                            <th class="col-md-1">ID</th>
+                                                            <th class="col-md-3">Judul Lapak</th>
+                                                            <th class="col-md-10">Deskripsi Lapak</th>
+                                                            <!-- <th class="col-md-3">Kategori</th> -->
+                                                            <th class="col-md-2">Opsi</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        <?php $i=1; ?>
+                                                            @foreach($lapaks as $lapak)
+                                                                @if(($lapak->category_id)==3)
+                                                                  <tr>
+                                                                    <td class="short">{{$lapak->id}}</td>
+                                                                    <td class="short">{{$lapak->name}}</td>
+                                                                    <td class="short">{{$lapak->description}}</td>
+                                                                    <!-- <td class="short">{{$lapak->category_name}}</td> -->
+                                                                    <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                  </tr>
+                                                              <?php $i++; ?>
+                                                              @endif
+                                                            @endforeach
+                                                        </tbody>
+                                                      </table>
+                                                      <hr>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                </div>
+                            </div>
+                        
+
                     </div>
             </div>
         </div>

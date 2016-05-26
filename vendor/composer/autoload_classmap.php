@@ -17,7 +17,6 @@ return array(
     'CreateReservationsTable' => $baseDir . '/database/migrations/2016_05_20_145641_create_reservations_table.php',
     'CreateReviewsTable' => $baseDir . '/database/migrations/2016_05_20_145714_create_reviews_table.php',
     'CreateSellersTable' => $baseDir . '/database/migrations/2016_05_20_124655_create_sellers_table.php',
-    'CreateUserActivationsTable' => $baseDir . '/database/migrations/2016_05_22_065609_create_user_activations_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
@@ -525,4 +524,5 @@ return array(
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
+    'category_productsSeeder' => $baseDir . '/database/seeds/category_productsSeeder.php',
 );

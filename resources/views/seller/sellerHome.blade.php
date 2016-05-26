@@ -118,7 +118,7 @@
                                         <div class="panel-body">Lapak Hewan Ternak merupakan lapak hewan ternak dari kawasan Cibodas
                                         </div>
                                         <div class="panel-body">
-                                            <a href="{{ url('produkTernak/create') }}" class="btn btn-warning btn-sm">Buat Lapak</a>
+                                            <a href="{{ url('createTernak') }}" class="btn btn-warning btn-sm">Buat Lapak</a>
                                         </div>
                                     </div>
                                 </div>
@@ -135,41 +135,7 @@
                                             Lapak Pariwisata merupakan lapak penjualan tiket pariwisata yang ada di kawasan Cibodas
                                         </div>
                                         <div class="panel-body">
-                                            <a href="{{ url('produkWisata/create') }}" class="btn btn-warning btn-sm">Buat Lapak</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                   <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#collapse4">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              Lapak Persewaan Villa
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse4" class="panel-collapse collapse" align="center">
-                                        <div class="panel-body">
-                                            Lapak Villa merupakan lapak persewaan Villa yang ada di kawasan Cibodas
-                                        </div>
-                                        <div class="panel-body">
-                                            <a href="{{ url('produkVilla/create') }}" class="btn btn-warning btn-sm">Buat Lapak</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#collapse5">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              Lapak Edukasi Tani
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse5" class="panel-collapse collapse" align="center">
-                                        <div class="panel-body">
-                                            Lapak Edukasi Tani merupakan lapak penjualan jasa edukasi Pertanian yang ada di kawasan Cibodas
-                                        </div>
-                                        <div class="panel-body">
-                                            <a href="{{ url('produkEdukasi/create') }}" class="btn btn-warning btn-sm">Buat Lapak</a>
+                                            <a href="{{ url('createWisata') }}" class="btn btn-warning btn-sm">Buat Lapak</a>
                                         </div>
                                     </div>
                                 </div>
@@ -179,119 +145,141 @@
                         <div class="col-md-9">
                             <h3 align="center"><label>Lapak Terdaftar</label></h3>
                             <div id="accordion1">
-                            <div class="panel">
-                                <div align="center">
-                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTani">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              Pertanian
-                                            </a>
-                                        </h4>
-                                    </button>
-                                    
-                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTernak">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              Hewan Ternak
-                                            </a>
-                                        </h4>
-                                    </button>
-
-                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakWisata">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              Pariwisata
-                                            </a>
-                                        </h4>
-                                    </button>
-
-                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakVilla">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              Persewaan Villa
-                                            </a>
-                                        </h4>
-                                    </button>
-
-                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakEdukasi">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              Edukasi Tani
-                                            </a>
-                                        </h4>
-                                    </button>
-                                </div>
-
-                                <script type="text/javascript">
-                                    $(function () {
-
-                                        var active = true;
-
-                                        $('#collapse-init').click(function () {
-                                            if (active) {
-                                                active = false;
-                                                $('.showHide').collapse('show');
-                                                // $('.panel-title').attr('data-toggle', '');
-                                                $(this).text('(-) Semua Lapak');
-                                            } else {
-                                                active = true;
-                                                $('.showHide').collapse('hide');
-                                                // $('.panel-title').attr('data-toggle', 'collapse');
-                                                $(this).text('(+) Semua Lapak');
-                                            }
-                                        });
+                                <div class="panel">
+                                    <div align="center">
+                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTani">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle">
+                                                  Pertanian
+                                                </a>
+                                            </h4>
+                                        </button>
                                         
-                                        $('#accordion1').on('show.bs.collapse', function () {
-                                            if (active) $('#accordion1 .in').collapse('hide');
-                                        });
+                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTernak">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle">
+                                                  Hewan Ternak
+                                                </a>
+                                            </h4>
+                                        </button>
 
-                                    });
-                                </script>
-                                <br>
-                                <div align="center">
-                                    <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordion1">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              (+) Semua Lapak
-                                            </a>
-                                        </h4>
-                                    </button>
+                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakWisata">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle">
+                                                  Pariwisata
+                                                </a>
+                                            </h4>
+                                        </button>
+
+                                        <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordion1">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle">
+                                                  (+) Semua Lapak
+                                                </a>
+                                            </h4>
+                                        </button>
+                                    </div>
+
+                                    
+                                    <br>
+                                    
+                                        <div id="lapakTani" class="panel-collapse collapse showHideLapak" align="center">
+                                        <h4><label>Lapak Pertanian</label></h4>
+                                          <table class="table table-hover" style="table-layout: fixed;">
+                                            <thead>
+                                              <tr>
+                                                <th class="col-md-1">ID</th>
+                                                <th class="col-md-3">Judul Lapak</th>
+                                                <th class="col-md-10">Deskripsi Lapak</th>
+                                                <!-- <th class="col-md-3">Kategori</th> -->
+                                                <th class="col-md-2">Opsi</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            <?php $i=1; ?>
+                                                @foreach($lapaks as $lapak)
+                                                    @if(($lapak->category_id)==1)
+                                                      <tr>
+                                                        <td class="short">{{$lapak->id}}</td>
+                                                        <td class="short">{{$lapak->name}}</td>
+                                                        <td class="short">{{$lapak->description}}</td>
+                                                        <!-- <td class="short">{{$lapak->category_name}}</td> -->
+                                                        <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                      </tr>
+                                                  <?php $i++; ?>
+                                                  @endif
+                                                @endforeach
+                                            </tbody>
+                                          </table>
+                                          <hr>
+                                        </div>
+
+                                        <div id="lapakTernak" class="panel-collapse collapse showHideLapak" align="center">
+                                        <h4><label>Lapak Hewan Ternak</label></h4>
+                                          <table class="table table-hover" style="table-layout: fixed;">
+                                            <thead>
+                                              <tr>
+                                                <th class="col-md-1">ID</th>
+                                                <th class="col-md-3">Judul Lapak</th>
+                                                <th class="col-md-10">Deskripsi Lapak</th>
+                                                <!-- <th class="col-md-3">Kategori</th> -->
+                                                <th class="col-md-2">Opsi</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            <?php $i=1; ?>
+                                                @foreach($lapaks as $lapak)
+                                                    @if(($lapak->category_id)==2)
+                                                      <tr>
+                                                        <td class="short">{{$lapak->id}}</td>
+                                                        <td class="short">{{$lapak->name}}</td>
+                                                        <td class="short">{{$lapak->description}}</td>
+                                                        <!-- <td class="short">{{$lapak->category_name}}</td> -->
+                                                        <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                      </tr>
+                                                  <?php $i++; ?>
+                                                  @endif
+                                                @endforeach
+                                            </tbody>
+                                          </table>
+                                          <hr>
+                                        </div>
+
+                                        <div id="lapakWisata" class="panel-collapse collapse showHideLapak" align="center">
+                                        <h4><label>Lapak Pariwisata</label></h4>
+                                          <table class="table table-hover" style="table-layout: fixed;">
+                                            <thead>
+                                              <tr>
+                                                <th class="col-md-1">ID</th>
+                                                <th class="col-md-3">Judul Lapak</th>
+                                                <th class="col-md-10">Deskripsi Lapak</th>
+                                                <!-- <th class="col-md-3">Kategori</th> -->
+                                                <th class="col-md-2">Opsi</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            <?php $i=1; ?>
+                                                @foreach($lapaks as $lapak)
+                                                    @if(($lapak->category_id)==3)
+                                                      <tr>
+                                                        <td class="short">{{$lapak->id}}</td>
+                                                        <td class="short">{{$lapak->name}}</td>
+                                                        <td class="short">{{$lapak->description}}</td>
+                                                        <!-- <td class="short">{{$lapak->category_name}}</td> -->
+                                                        <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                      </tr>
+                                                  <?php $i++; ?>
+                                                  @endif
+                                                @endforeach
+                                            </tbody>
+                                          </table>
+                                          <hr>
+                                        </div>
                                 </div>
-
-                                <div id="lapakTani" class="panel-collapse collapse showHide" align="center">
-                                    <h4><label>Lapak Pertanian</label></h4>
-                                      <table class="table table-hover" style="table-layout: fixed;">
-                                        <thead>
-                                          <tr>
-                                            <th class="col-md-1">No</th>
-                                            <th class="col-md-3">Judul Lapak</th>
-                                            <th class="col-md-10">Deskripsi Lapak</th>
-                                            <!-- <th class="col-md-3">Kategori</th> -->
-                                            <th class="col-md-2">Opsi</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        <?php $i=1; ?>
-                                            @foreach($lapaks as $lapak)
-                                                @if(($lapak->category_id)==1)
-                                                  <tr>
-                                                    <td class="short"><?php echo "$i"; ?></td>
-                                                    <td class="short">{{$lapak->name}}</td>
-                                                    <td class="short">{{$lapak->description}}</td>
-                                                    <!-- <td class="short">{{$lapak->category_name}}</td> -->
-                                                    <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
-                                                  </tr>
-                                              <?php $i++; ?>
-                                              @endif
-                                            @endforeach
-                                        </tbody>
-                                      </table>
-                                      <hr>
-                                </div>
-
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>

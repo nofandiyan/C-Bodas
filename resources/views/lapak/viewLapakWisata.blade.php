@@ -18,16 +18,16 @@
 							<div class="wrapper">
                                 <div class="full-image"></div>
                                 <div class="thumbnails">
-                                	@foreach($gambars as $gambar)
-	                                    <label>
-	                                        <input type="radio" name="full-image" checked>
-	                                        <div class="full-image">
-	                                            <img src="{{ url($gambar->link) }}" class="img-thumbnail" height="300" width="300">
-	                                        </div>
-	                                        <img src="{{ url($gambar->link) }}" class="img-thumbnail" height="100" width="100">
-	                                    </label>
+                                	@foreach($images as $image)
+                                        <label>
+                                            <input type="radio" name="full-image" checked>
+                                            <div class="full-image">
+                                                <img src="{{ url($image->link) }}" class="img-thumbnail" height="300" width="300">
+                                            </div>
+                                            <img src="{{ url($image->link) }}" class="img-thumbnail" height="100" width="100">
+                                        </label>
 
-	                                @endforeach
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -50,22 +50,27 @@
 		                        </div>
 		                       
 		                        <div class="col-md-12">
-		                            <label class="col-md-3" align="right">Kuota</label>
+		                            <label class="col-md-3" align="right">Tiket Tersedia</label>
 		                            <div class="col-md-9">
 		                                {{$lapak->stock}}
 		                            </div>
 		                        </div>
 		                        
 		                        <div class="col-md-12">
-		                            <label class="col-md-3" align="right">Biaya</label>
+		                            <label class="col-md-3" align="right">Harga Tiket</label>
 		                            <div class="col-md-9">
 		                              	{{$lapak->price}}
 		                            </div>
+		                            
 		                        </div>
 
                         		@if(Auth::user()->role == 'seller')
                                 <div class="col-md-7">
-                                    <div class="col-md-3" align="right">
+                                	<div class="col-md-3">
+                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                    </div>
+                                    
+                                    <div class="col-md-3">
                                         <a href="/Lapak/{{$lapak->id}}/edit" class="btn btn-primary" role="button">Edit Lapak</a>
                                     </div>
                                 </div>

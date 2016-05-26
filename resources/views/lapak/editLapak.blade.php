@@ -17,7 +17,7 @@
                             <label class="col-md-4 control-label">Judul</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" value="{{ $lapak->name }}">
+                                <input type="text" class="form-control" name="name" value="{{ $lapak->name }}" readonly>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -43,22 +43,13 @@
 <!-- Tani -->           
                         <label class="col-md-4 control-label">Foto Produk</label>
                             <?php $i=1 ?>
-                            @foreach($gambars as $gambar)
-                            <div class="form-group{{ $errors->has('foto.$i') ? ' has-error' : '' }}">
+                            @foreach($images as $image)
                                  <div class="col-md-6 col-md-offset-4">
-                                    <img src="{{ url($gambar->link) }}" class="img-thumbnail" height="300" width="300">
-                                    <input type="file" name="foto{{$i}}" id="foto">
-
+                                    <img src="{{ url($image->link) }}" class="img-thumbnail" height="300" width="300">
+                                    <input type="file" name="foto{{$i}}" id="foto{{$i}}">
                                     *maksimum 1MB
-
-                                    @if ($errors->has('foto.$i'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('foto.$i') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
-                            </div>
-                            <? php $i++ ?>
+                            <?php $i++ ?>
                             @endforeach
                            
 
@@ -67,7 +58,13 @@
                                 <label class="col-md-4 control-label">Stok Tersedia</label>
 
                                 <div class="col-md-4">
-                                    <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $lapak->stock }}">
+                                    @if($lapak->category_id == 1)
+                                        <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $lapak->stock }}">
+                                    @elseif($lapak->category_id == 2)
+                                        <input type="number" class="form-control" name="stock" step="1" value="{{ $lapak->stock }}" readonly>
+                                    @elseif($lapak->category_id == 3)
+                                        <input type="number" class="form-control" name="stock" step="1" value="{{ $lapak->stock }}">
+                                    @endif
 
                                     @if ($errors->has('stock'))
                                         <span class="help-block">
@@ -81,7 +78,7 @@
                                 <label class="col-md-4 control-label">Harga</label>
 
                                 <div class="col-md-4">
-                                    <input type="number" class="form-control" name="price" step="50" placeholder="Per Kilogram" value="{{ $lapak->price}}">
+                                    <input type="number" class="form-control" name="price" step="50" placeholder="Per Kilogram" value="{{ $prices->price}}">
 
                                     @if ($errors->has('price'))
                                         <span class="help-block">
@@ -95,7 +92,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
-                                    <i class="fa fa-btn fa-user"></i>Buat Lapak
+                                    <i class="fa fa-btn fa-user"></i>Simpan
                                 </button>
                             </div>
                         </div>

@@ -68,6 +68,43 @@
             margin-right: 6px;
         }
     </style>
+
+    <style>
+        td.short{
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+        }
+        .clickable {
+        cursor: pointer;
+    }
+    </style>
+
+    <script type="text/javascript">
+    $(function () {
+
+        var active = true;
+
+        $('#collapse-init').click(function () {
+            if (active) {
+                active = false;
+                $('.showHideLapak').collapse('show');
+                // $('.panel-title').attr('data-toggle', '');
+                $(this).text('Semua Lapak');
+            } else {
+                active = true;
+                $('.showHideLapak').collapse('hide');
+                // $('.panel-title').attr('data-toggle', 'collapse');
+                $(this).text('Semua Lapak');
+            }
+        });
+        
+        $('#accordion1').on('show.bs.collapse', function () {
+            if (active) $('#accordion1 .in').collapse('hide');
+        });
+
+    });
+</script>
     
     <style type="text/css">
         .wrapper {

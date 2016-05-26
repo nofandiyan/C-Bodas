@@ -32,13 +32,19 @@ class HomeController extends Controller
         if(Auth::user()->role == "admin"){
             $profiles = User::where('id', Auth::user()->id)->get();
             $category = DB::table('category_products')->get();
-            // $tanis      = TaniModel::where('idMerchant',Auth::user()->id)->get();
-            // $ternaks    = TernakModel::where('idMerchant',Auth::user()->id)->get();
-            // $wisatas    = WisataModel::where('idMerchant',Auth::user()->id)->get();
-            // $villas     = VillaModel::where('idMerchant',Auth::user()->id)->get();
-            // $edukasis   = EdukasiModel::where('idMerchant',Auth::user()->id)->get();
-            // return view ('seller/sellerHome', compact('tanis','ternaks','wisatas','villas','edukasis'));
-            return view ('admin.adminHome', compact('profiles', 'category'));
+            
+            $lapaks = DB::table('products')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('detail_products', 'products.id', '=', 'detail_products.product_id')
+            ->join('sellers', 'detail_products.seller_id', '=', 'sellers.id')
+            ->select('products.*', 'category_products.*', 'detail_products.*')
+            ->get();
+
+            $seller = DB::table('sellers')
+                ->get();
+
+            return view ('admin.adminHome', compact('profiles', 'category','lapaks','sellers'));
+
         }elseif(Auth::user()->role == "seller"){
             $profiles   = DB::table('users')
             ->join('sellers', function ($join) {
@@ -50,6 +56,7 @@ class HomeController extends Controller
             $lapaks = DB::table('products')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('detail_products', 'products.id', '=', 'detail_products.product_id')
+            ->join('sellers', 'detail_products.seller_id', '=', 'sellers.id')
             ->select('products.*', 'category_products.*', 'detail_products.*')
             ->get();
 
@@ -61,7 +68,8 @@ class HomeController extends Controller
                      ->where('customers.user_id', '=', Auth::user()->id);
             })
             ->get();
-            return view ('customer.customerHome', compact('profiles'));
+            // return view ('customer.customerHome', compact('profiles'));
+            return view ('templates\homepage');
         }
     }
 }
