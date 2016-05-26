@@ -5,6 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+        
         @foreach($profiles as $profile)
             <div class="panel panel-default">
                 <div class="panel-heading">Profil {{$profile->name}}</div>

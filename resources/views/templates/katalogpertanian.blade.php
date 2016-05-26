@@ -40,18 +40,21 @@
                             <div class="collapse in" id="widget-categories-collapse" aria-expanded="true" role="tabpanel">
                                 <div class="widget-body">
                                     <ul class="list-unstyled" id="categories" role="tablist" aria-multiselectable="true">
-                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpertanian">Pertanian<span></span></a>
+                                        <li class="panel"><a role="button" data-parent="#categories" href="katalogpertanian">Pertanian<span></span></a>
                                            
                                         </li>
 
-                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpeternakan">Peternakan<span></span></a>
+                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpeternakan">Peternakan<span>[2]</span></a>
                                            
                                         </li>
 
                                         
-                                        <li class="panel"><a role="button" data-parent="#categories" href="katalogpariwisata">Pariwisata</a>
-                                            
+                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpariwisata">Pariwisata</a>
+                                            <ul id="parent-4" class="list-unstyled panel-collapse collapse" role="menu">
+                                                
+                                            </ul>
                                         </li>
+                                        
                                     </ul>
                                 </div>
                             </div>
