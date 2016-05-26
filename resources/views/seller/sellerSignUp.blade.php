@@ -142,35 +142,8 @@
                                     </span>
                                 @endif
                             </div>
-
-                            <!-- <div class="{{ $errors->has('city') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="city" placeholder="Kota..." value="{{ old('street') }}">
-                                @if ($errors->has('city'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('city') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-                            <div class="{{ $errors->has('province') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="province" placeholder="Propinsi..." value="{{ old('province') }}">
-                                @if ($errors->has('province'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('province') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-
-                            <div class="{{ $errors->has('zip_code') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="zip_code" placeholder="Kode Pos..." value="{{ old('zip_code') }}">
-                                @if ($errors->has('zip_code'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('zip_code') }}</strong>
-                                    </span>
-                                @endif
-                            </div> -->
                             <!-- <div class="form-group"> -->
-                                <input type="text" class="form-control" name="city" value="Kab. Bandung" readonly="Kab. Bandung">
+                                <input type="text" class="form-control" name="city" value="Kab. Bandung" readonly="Kab. Bandung Barat">
                             <!-- </div> -->
 
                             <!-- <div class="form-group"> -->

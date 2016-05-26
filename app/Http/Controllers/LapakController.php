@@ -189,8 +189,6 @@ class LapakController extends Controller
         if ($request->file('foto3')) $files[] = $request->file('foto3');
         if ($request->file('foto4')) $files[] = $request->file('foto4');
 
-        $i=1;
-
         $category = DB::table('detail_products')
             ->where('detail_products.id','=',$detail->id)
             ->join('products', 'detail_products.product_id', '=', 'products.id')
@@ -200,17 +198,47 @@ class LapakController extends Controller
 
         foreach ($files as $file)
         {
-            if ($request->hasFile('foto'.$i)) {
+            if ($request->hasFile('foto1')) {
                 $filename=$detail->id.'-'.$category[0]->category_id.'-'.$file->getClientOriginalName();
                     
                 $file->move(base_path().'/public/images/lapak/', $filename);
 
-                $images = DB::table('images_products');
-                $images->detail_product_id   = $detail->id;
-                $images->link                = 'images/lapak/'.$filename;
-                $images->save();
+                $images = DB::table('images_products')
+                    ->where('images_products.id','=', $request->idImage1)
+                    ->update([
+                        'link' => 'images/lapak/'.$filename
+                        ]);
+            }elseif ($request->hasFile('foto2')) {
+                $filename=$detail->id.'-'.$category[0]->category_id.'-'.$file->getClientOriginalName();
+                    
+                $file->move(base_path().'/public/images/lapak/', $filename);
+
+                $images = DB::table('images_products')
+                    ->where('images_products.id','=', $request->idImage2)
+                    ->update([
+                        'link' => 'images/lapak/'.$filename
+                        ]);
+            }elseif ($request->hasFile('foto3')) {
+                $filename=$detail->id.'-'.$category[0]->category_id.'-'.$file->getClientOriginalName();
+                    
+                $file->move(base_path().'/public/images/lapak/', $filename);
+
+                $images = DB::table('images_products')
+                    ->where('images_products.id','=', $request->idImage3)
+                    ->update([
+                        'link' => 'images/lapak/'.$filename
+                        ]);
+            }elseif ($request->hasFile('foto4')) {
+                $filename=$detail->id.'-'.$category[0]->category_id.'-'.$file->getClientOriginalName();
+                    
+                $file->move(base_path().'/public/images/lapak/', $filename);
+
+                $images = DB::table('images_products')
+                    ->where('images_products.id','=', $request->idImage4)
+                    ->update([
+                        'link' => 'images/lapak/'.$filename
+                        ]);
             }
-        $i++;
         }
 
         return redirect('/');

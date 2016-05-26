@@ -83,7 +83,7 @@
                 <div class="panel-body">
                     <div class="col-md-3">
                         
-                        <h4 align="center"><label>Category</label></h4>
+                        <!-- <h4 align="center"><label>Category</label></h4> -->
                             
                         <div class="panel-group" id="accordion">
                             <div class="panel panel-default">
@@ -102,7 +102,7 @@
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listLapak">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
-                                          List Lapak
+                                          List Product
                                         </a>
                                     </h4>
                                 </div>
@@ -148,7 +148,7 @@
                                       <hr>
                                 </div> -->
                                 <div id="listLapak" class="panel-collapse collapse" align="center">
-                                    <h4><label>List Lapak</label></h4>
+                                    <h4><label>List Product</label></h4>
                                         <div id="accordion1">
                                             <div class="panel">
                                                 <div align="center">

@@ -57,7 +57,9 @@ class HomeController extends Controller
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('detail_products', 'products.id', '=', 'detail_products.product_id')
             ->join('sellers', 'detail_products.seller_id', '=', 'sellers.id')
+            ->where('sellers.user_id', '=', Auth::user()->id)
             ->select('products.*', 'category_products.*', 'detail_products.*')
+
             ->get();
 
             return view ('seller.sellerHome', compact('profiles','lapaks'));
