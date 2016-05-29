@@ -48,7 +48,14 @@
 		                                {{ $product->description }}
 		                            </div>
 		                        </div>
-		                       
+		                          
+                                <div class="col-md-12">
+                                    <label class="col-md-3" align="right">Jenis Produk</label>
+                                    <div class="col-md-9">
+                                        {{$product->type_product}}
+                                    </div>
+                                </div>
+
 		                        <div class="col-md-12">
 		                            <label class="col-md-3" align="right">Stok</label>
 		                            <div class="col-md-9">

@@ -19,8 +19,17 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="put">
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Judul</label>
+                        @if($product->category_id == 1)
+                        <div align="center"><label><h2>Form Edit Produk Pertanian</h2></label></div>
+                        @elseif($product->category_id == 2)
+                        <div align="center"><label><h2>Form Edit Produk Hewan Ternak</h2></label></div>
+                        @elseif($product->category_id == 3)
+                        <div align="center"><label><h2>Form Edit Produk Tiket Pariwisata</h2></label></div>
+                        @endif
+
+                        <br>
+                        <div class="{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Nama Produk</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" value="{{ $product->name }}" readonly>
@@ -33,8 +42,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Deskripsi</label>
+                        <div class="{{ $errors->has('description') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Keterangan Produk</label>
 
                             <div class="col-md-6">
                                 <textarea class="form-control" name="description" >{{ $product->description }}</textarea> 
@@ -46,10 +55,29 @@
                                 @endif
                             </div>
                         </div>
-<!-- Tani -->           
+
+                        @if($product->category_id == 1)
+                        <div class="col-md-12 {{ $errors->has('type_product') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Jenis Produk</label>
+                            <div class="col-md-3">
+                                <select class="form-control" name="type_product" id="type_product" disabled>
+                                    <option>--Jenis Produk--</option>
+                                    <option value="Organik" <?php if($product->type_product=='Organik') echo 'selected'; ?>>Organik</option>
+                                    <option value="Anorganik" <?php if($product->type_product=='Anorganik') echo 'selected'; ?>>Anorganik</option>
+                                </select>
+
+                                @if ($errors->has('type_product'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('type_product') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        @endif
+
                         <label class="col-md-4 control-label">Foto Produk</label>
                             
-                                 <div class="col-md-6 col-md-offset-4">
+                                <div class="col-md-6 col-md-offset-4">
                                     <input type="hidden" name="idImage1" id="idImage1" value="{{$images[0]->id}}">
                                     <img src="{{ url($images[0]->link) }}" class="img-thumbnail" height="300" width="300">
                                     <input type="file" name="foto1" id="foto1">
@@ -79,11 +107,11 @@
                             
                            
 
-                        <div class="col-md-9 col-md-offset-1">
-                            <div class="form-group{{ $errors->has('stock') ? ' has-error' : '' }}">
+                        
+                            <div class="col-md-12 {{ $errors->has('stock') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">Stok Tersedia</label>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @if($product->category_id == 1)
                                         <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $product->stock }}">
                                     @elseif($product->category_id == 2)
@@ -99,11 +127,11 @@
                                     @endif
                                 </div>
                             </div>
-
-                            <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+                            
+                            <div class="col-md-12 {{ $errors->has('price') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">Harga</label>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input type="number" class="form-control" name="price" step="50" placeholder="Per Kilogram" value="{{ $prices->price}}">
 
                                     @if ($errors->has('price'))
@@ -115,13 +143,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
                                     <i class="fa fa-btn fa-user"></i>Simpan
                                 </button>
                             </div>
-                        </div>
+                        
 
                     </form>
                 </div>

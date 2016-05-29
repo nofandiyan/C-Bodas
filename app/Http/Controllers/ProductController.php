@@ -120,7 +120,7 @@ class ProductController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price')
+            ->select('detail_products.id','products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
             ->where('detail_products.id', '=', $id)
             ->first();
 
@@ -156,7 +156,7 @@ class ProductController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name', 'products.category_id','detail_products.description','detail_products.stock','prices_products.price')
+            ->select('detail_products.id','products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
             ->where('detail_products.id', '=', $id)
             ->first();
 
@@ -188,6 +188,7 @@ class ProductController extends Controller
         $detail = Detail_ProductsModel::find($id);
         $detail->description    = $request->description;
         $detail->stock          = $request->stock;
+        // $detail->type_product   = $request->type_product;
 
         $detail->save();
 
