@@ -9,13 +9,18 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Lapak Baru</div>
+                <div class="panel-heading">Form Pendaftaran Produk Hewan Ternak</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/Lapak') }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/Product') }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
 
+                        <div align="center">
+                            <label><h2><b>Form Pendaftaran Hewan Ternak</b></h2></label>
+                        </div>
+                        <br/>
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="category_id" value="3">
+                        <input type="hidden" name="category_id" value="2">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Judul</label>
@@ -32,7 +37,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Deskripsi</label>
+                            <label class="col-md-4 control-label">Keterangan Produk</label>
 
                             <div class="col-md-6">
                                 <textarea class="form-control" name="description" value="{{ old('description') }}"></textarea> 
@@ -45,7 +50,7 @@
                             </div>
                         </div>
 <!-- Tani -->           
-                        <label class="col-md-4 control-label">Foto Produk</label>
+                        <label class="col-md-4 control-label">Foto Hewan Ternak</label>
                             
                             <div class="form-group{{ $errors->has('foto1') ? ' has-error' : '' }}">
                                  <div class="col-md-6 col-md-offset-4">
@@ -102,24 +107,11 @@
                                     @endif
                                 </div>
                             </div>
-
-                        <div class="col-md-9 col-md-offset-1">
-                            <div class="form-group{{ $errors->has('stock') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Jumlah Tiket Tersedia</label>
-
-                                <div class="col-md-4">
-                                    <input type="number" class="form-control" name="stock" step="1">
-
-                                    @if ($errors->has('stock'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('stock') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
+                                  
+                            <input type="hidden" class="form-control" name="stock" step="1" value="1">
 
                             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Harga Tiket</label>
+                                <label class="col-md-4 control-label">Harga</label>
 
                                 <div class="col-md-4">
                                     <input type="number" class="form-control" name="price" step="50">
@@ -136,7 +128,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
-                                    <i class="fa fa-btn fa-user"></i>Buat Lapak
+                                    <i class="fa fa-btn fa-user"></i>Daftar
                                 </button>
                             </div>
                         </div>

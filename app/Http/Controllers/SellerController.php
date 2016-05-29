@@ -73,8 +73,25 @@ class sellerController extends Controller
      */
     public function show($id)
     {
-        //
+         $profiles   = DB::table('users')
+            ->join('sellers', 'users.id','=','sellers.user_id')
+            ->where('sellers.id','=', $id)
+            ->get();
+            return view ('seller.sellerProfile', compact('profiles'));
+        
     }
+
+    // public function bannedSeller($id)
+    // {
+    //      $profiles   = DB::table('users')
+    //         ->join('sellers', 'users.id','=','sellers.user_id')
+    //         ->where('sellers.id','=', $id)
+    //         ->update([
+    //             'status'       => 0
+    //             ]);
+    //         return redirect ('/');
+        
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -85,11 +102,6 @@ class sellerController extends Controller
     // public function edit($id)
     public function edit()
     {
-        // $profile = User::find($id);
-        // if(!$profile){
-        //     abort(404);
-        // }
-        // return view('seller.sellerProfileEdit')->with('profile', $profile);
         $profiles   = DB::table('users')
             ->join('sellers', function ($join) {
                 $join->on('users.id', '=', 'sellers.user_id')

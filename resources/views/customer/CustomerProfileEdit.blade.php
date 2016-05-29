@@ -8,9 +8,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Edit Profil</div>
                 <div class="panel-body">
-                @foreach($profiles as $profile)
+                    @foreach($profiles as $profile)
                     <form class="form-horizontal" role="form" method="POST" action="/customer/{{$profile->id}}" enctype="multipart/form-data">
-                        
+
                         {!! csrf_field() !!}
                         <input type="hidden" name="_method" value="put">
                         <input type="hidden" name='id' value="{{$profile->id}}">
@@ -65,8 +65,8 @@
 
                                 <div class="col-md-6 col-md-offset-3">
                                     <select class="form-control" name="gender">
-                                    <option value="L" <?php if("{{$profile->gender}}=='L'") echo 'selected'; ?>>Laki-Laki</option>
-                                    <option value="P" <?php if("{{$profile->gender}}=='P'"  ) echo 'selected'; ?>>Perempuan</option>
+                                    <option value="L" <?php if("{{$profile->gender}}"=='L') echo 'selected'; ?>>Laki-Laki</option>
+                                    <option value="P" <?php if("{{$profile->gender}}"=='P') echo 'selected'; ?>>Perempuan</option>
                                 </select>
 
                                     @if ($errors->has('gender'))
@@ -141,8 +141,9 @@
                                 </button>
                             </div>
                         </div>
-                @endforeach
+                
                     </form>
+                    @endforeach
                 </div>
             </div>
         </div>

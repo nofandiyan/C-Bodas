@@ -46,7 +46,7 @@
                             <h4><label>Informasi Akun</label></h4>
 
                             <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}">
+                                <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}" maxlength="30">
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -77,7 +77,7 @@
                             <h4><label>Informasi Data Diri</label></h4>
 
                             <div class="{ $errors->has('name') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="name" placeholder="Nama Lengkap..." value="{{ old('name') }}">
+                                <input type="text" class="form-control" name="name" placeholder="Nama Lengkap..." value="{{ old('name') }}" maxlength="50">
                                  @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -87,7 +87,7 @@
                             
                             
                             <div>
-                                <input type="text" class="form-control" name="phone" maxlength="12" placeholder="Nomor Telepon..." value="{{ old('phone') }}">
+                                <input type="text" class="form-control" name="phone" placeholder="Nomor Telepon..." value="{{ old('phone') }}" maxlength="15">
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -98,7 +98,6 @@
 
                             <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
                                 <select class="form-control" name="gender">
-                                    <option>--Jenis Kelamin--</option>
                                     <option value="L">Laki-Laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>
@@ -114,7 +113,7 @@
                             <h4><label>Informasi Alamat</label></h4>
 
                             <div class="{{ $errors->has('street') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="street" placeholder="Nama Jalan dan Nomor..." value="{{ old('street') }}">
+                                <input type="text" class="form-control" name="street" placeholder="Nama Jalan dan Nomor..." value="{{ old('street') }}" maxlength="50">
                                 @if ($errors->has('street'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('street') }}</strong>
@@ -123,7 +122,7 @@
                             </div>
 
                             <div class="{{ $errors->has('city') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="city" placeholder="Kota..." value="{{ old('street') }}">
+                                <input type="text" class="form-control" name="city" placeholder="Kota..." value="{{ old('street') }}" maxlength="30">
                                 @if ($errors->has('city'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('city') }}</strong>
@@ -132,7 +131,7 @@
                             </div>
 
                             <div class="{{ $errors->has('province') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="province" placeholder="Propinsi..." value="{{ old('province') }}">
+                                <input type="text" class="form-control" name="province" placeholder="Propinsi..." value="{{ old('province') }}" maxlength="30">
                                 @if ($errors->has('province'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('province') }}</strong>
@@ -141,7 +140,7 @@
                             </div>
 
                             <div class="{{ $errors->has('zip_code') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="zip_code" placeholder="Kode Pos..." value="{{ old('zip_code') }}">
+                                <input type="text" class="form-control" name="zip_code" placeholder="Kode Pos..." value="{{ old('zip_code') }}" maxlength="5">
                                 @if ($errors->has('zip_code'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('zip_code') }}</strong>
@@ -157,7 +156,7 @@
                                 <input type="checkbox" id="myCheck" name="test" required>
                             </div>
                             <div class="col-md-offset-1" align="justify">
-                                Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada saat pengisian formulir adalah murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
+                                Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada isi formulir merupakan murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
                             </div>
                         </div>
                          <br>
@@ -179,5 +178,4 @@
     <!-- ==========================
         ACCOUNT - END 
     =========================== -->
-
 @stop

@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <h2>C-Bodas</h2>
-                    <p>Home</p>
+                    <p>Admin Home</p>
                 </div>
                 <div class="col-xs-6">
                     <ol class="breadcrumb">
@@ -79,7 +79,7 @@
         <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Lapak</div>
+                <div class="panel-heading">Overview</div>
                 <div class="panel-body">
                     <div class="col-md-3">
                         
@@ -99,10 +99,20 @@
 
                         <div class="panel-group" id="accordion"> -->
                             <div class="panel panel-default">
-                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listLapak">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listProduct">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
                                           List Product
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listUser">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          List User
                                         </a>
                                     </h4>
                                 </div>
@@ -134,25 +144,12 @@
                                       </table>
                                       <hr>
                                 </div>
-
-                                <!-- <div id="createCategory" class="panel-collapse collapse showHide" align="center">
-                                    <h4><label>Create Category</label></h4>
-                                      <table class="table table-hover" style="table-layout: fixed;">
-                                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/createCategory') }}">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="text" name="category_name">
-                                            <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" value="Register">Submit</button>
-                                        </form>
-                                        </tbody>
-                                      </table>
-                                      <hr>
-                                </div> -->
-                                <div id="listLapak" class="panel-collapse collapse" align="center">
+                                <div id="listProduct" class="panel-collapse collapse" align="center">
                                     <h4><label>List Product</label></h4>
                                         <div id="accordion1">
                                             <div class="panel">
                                                 <div align="center">
-                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTani">
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#productTani">
                                                         <h4 class="panel-title">
                                                             <a class="accordion-toggle">
                                                               Pertanian
@@ -160,7 +157,7 @@
                                                         </h4>
                                                     </button>
                                                     
-                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakTernak">
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#productTernak">
                                                         <h4 class="panel-title">
                                                             <a class="accordion-toggle">
                                                               Hewan Ternak
@@ -168,7 +165,7 @@
                                                         </h4>
                                                     </button>
 
-                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#lapakWisata">
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#productWisata">
                                                         <h4 class="panel-title">
                                                             <a class="accordion-toggle">
                                                               Pariwisata
@@ -176,40 +173,40 @@
                                                         </h4>
                                                     </button>
 
-                                                    <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordion1">
+                                                    <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordionProduct">
                                                         <h4 class="panel-title">
                                                             <a class="accordion-toggle">
-                                                              Semua Lapak
+                                                              Semua Produk
                                                             </a>
                                                         </h4>
                                                     </button>
                                                 </div>
 
-                                                
+
                                                 <br>
-                                                    <div id="lapakTani" class="panel-collapse collapse showHideLapak" align="center">
-                                                    <h4><label>Lapak Pertanian</label></h4>
+                                                    <div id="productTani" class="panel-collapse collapse showHideProduct" align="center">
+                                                    <h4><label>Produk Pertanian</label></h4>
                                                       <table class="table table-hover" style="table-layout: fixed;">
                                                         <thead>
                                                           <tr>
                                                             <th class="col-md-1">ID</th>
-                                                            <th class="col-md-3">Judul Lapak</th>
-                                                            <th class="col-md-10">Deskripsi Lapak</th>
-                                                            <!-- <th class="col-md-3">Kategori</th> -->
+                                                            <th class="col-md-3">Judul Produk</th>
+                                                            <th class="col-md-4">Deskripsi Produk</th>
+                                                            <th class="col-md-2">Seller ID</th>
                                                             <th class="col-md-2">Opsi</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
 
                                                         <?php $i=1; ?>
-                                                            @foreach($lapaks as $lapak)
-                                                                @if(($lapak->category_id)==1)
+                                                            @foreach($products as $product)
+                                                                @if(($product->category_id)==1)
                                                                   <tr>
-                                                                    <td class="short">{{$lapak->id}}</td>
-                                                                    <td class="short">{{$lapak->name}}</td>
-                                                                    <td class="short">{{$lapak->description}}</td>
-                                                                    <!-- <td class="short">{{$lapak->category_name}}</td> -->
-                                                                    <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                    <td class="short">{{$product->id}}</td>
+                                                                    <td class="short">{{$product->name}}</td>
+                                                                    <td class="short">{{$product->description}}</td>
+                                                                    <td class="short">{{$product->seller_id}}</td>
+                                                                    <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
                                                                   </tr>
                                                               <?php $i++; ?>
                                                               @endif
@@ -219,29 +216,29 @@
                                                       <hr>
                                                     </div>
 
-                                                    <div id="lapakTernak" class="panel-collapse collapse showHideLapak" align="center">
-                                                    <h4><label>Lapak Hewan Ternak</label></h4>
+                                                    <div id="productTernak" class="panel-collapse collapse showHideProduct" align="center">
+                                                    <h4><label>Produk Hewan Ternak</label></h4>
                                                       <table class="table table-hover" style="table-layout: fixed;">
                                                         <thead>
                                                           <tr>
                                                             <th class="col-md-1">ID</th>
-                                                            <th class="col-md-3">Judul Lapak</th>
-                                                            <th class="col-md-10">Deskripsi Lapak</th>
-                                                            <!-- <th class="col-md-3">Kategori</th> -->
+                                                            <th class="col-md-3">Judul Produk</th>
+                                                            <th class="col-md-4">Deskripsi Produk</th>
+                                                            <th class="col-md-2">Seller ID</th>
                                                             <th class="col-md-2">Opsi</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
 
                                                         <?php $i=1; ?>
-                                                            @foreach($lapaks as $lapak)
-                                                                @if(($lapak->category_id)==2)
+                                                            @foreach($products as $product)
+                                                                @if(($product->category_id)==2)
                                                                   <tr>
-                                                                    <td class="short">{{$lapak->id}}</td>
-                                                                    <td class="short">{{$lapak->name}}</td>
-                                                                    <td class="short">{{$lapak->description}}</td>
-                                                                    <!-- <td class="short">{{$lapak->category_name}}</td> -->
-                                                                    <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                    <td class="short">{{$product->id}}</td>
+                                                                    <td class="short">{{$product->name}}</td>
+                                                                    <td class="short">{{$product->description}}</td>
+                                                                    <td class="short">{{$product->seller_id}}</td>
+                                                                    <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
                                                                   </tr>
                                                               <?php $i++; ?>
                                                               @endif
@@ -251,29 +248,29 @@
                                                       <hr>
                                                     </div>
 
-                                                    <div id="lapakWisata" class="panel-collapse collapse showHideLapak" align="center">
-                                                    <h4><label>Lapak Pariwisata</label></h4>
+                                                    <div id="productWisata" class="panel-collapse collapse showHideProduct" align="center">
+                                                    <h4><label>Produk Pariwisata</label></h4>
                                                       <table class="table table-hover" style="table-layout: fixed;">
                                                         <thead>
                                                           <tr>
                                                             <th class="col-md-1">ID</th>
-                                                            <th class="col-md-3">Judul Lapak</th>
-                                                            <th class="col-md-10">Deskripsi Lapak</th>
-                                                            <!-- <th class="col-md-3">Kategori</th> -->
+                                                            <th class="col-md-3">Judul Produk</th>
+                                                            <th class="col-md-4">Deskripsi Produk</th>
+                                                            <th class="col-md-2">Seller ID</th>
                                                             <th class="col-md-2">Opsi</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
 
                                                         <?php $i=1; ?>
-                                                            @foreach($lapaks as $lapak)
-                                                                @if(($lapak->category_id)==3)
+                                                            @foreach($products as $product)
+                                                                @if(($product->category_id)==3)
                                                                   <tr>
-                                                                    <td class="short">{{$lapak->id}}</td>
-                                                                    <td class="short">{{$lapak->name}}</td>
-                                                                    <td class="short">{{$lapak->description}}</td>
-                                                                    <!-- <td class="short">{{$lapak->category_name}}</td> -->
-                                                                    <td><a href="/Lapak/{{$lapak->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                    <td class="short">{{$product->id}}</td>
+                                                                    <td class="short">{{$product->name}}</td>
+                                                                    <td class="short">{{$product->description}}</td>
+                                                                    <td class="short">{{$product->seller_id}}</td>
+                                                                    <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
                                                                   </tr>
                                                               <?php $i++; ?>
                                                               @endif
@@ -282,6 +279,96 @@
                                                       </table>
                                                       <hr>
                                                     </div>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                </div>
+<!-- ------------------------------------------------------------------------- -->
+                                <div id="listUser" class="panel-collapse collapse" align="center">
+                                    <h4><label>List User</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <div align="center">
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionUser" data-target="#listSeller">
+                                                        <h4 class="panel-title">
+                                                            <a class="accordion-toggle">
+                                                              Seller
+                                                            </a>
+                                                        </h4>
+                                                    </button>
+                                                    
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionUser" data-target="#listCustomer">
+                                                        <h4 class="panel-title">
+                                                            <a class="accordion-toggle">
+                                                              Customer
+                                                            </a>
+                                                        </h4>
+                                                    </button>
+                                                </div>
+
+
+                                                <br>
+                                                    <div id="listSeller" class="panel-collapse collapse showHideLapak" align="center">
+                                                    <h4><label>List Seller</label></h4>
+                                                      <table class="table table-hover" style="table-layout: fixed;">
+                                                        <thead>
+                                                          <tr>
+                                                            <th class="col-md-1">ID User</th>
+                                                            <th class="col-md-3">ID Seller</th>
+                                                            <th class="col-md-4">Name</th>
+                                                            <th class="col-md-2">Opsi</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        <?php $i=1; ?>
+                                                            @foreach($sellers as $seller)
+                                                                @if(($seller->role)=='seller')
+                                                                  <tr>
+                                                                    <td class="short">{{$seller->user_id}}</td>
+                                                                    <td class="short">{{$seller->id}}</td>
+                                                                    <td class="short">{{$seller->name}}</td>
+                                                                    <td><a href="viewSellerProfile/{{$seller->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                  </tr>
+                                                              <?php $i++; ?>
+                                                              @endif
+                                                            @endforeach
+                                                        </tbody>
+                                                      </table>
+                                                      <hr>
+                                                    </div>
+
+                                                    <div id="listCustomer" class="panel-collapse collapse showHideLapak" align="center">
+                                                    <h4><label>List Customer</label></h4>
+                                                      <table class="table table-hover" style="table-layout: fixed;">
+                                                        <thead>
+                                                          <tr>
+                                                             <th class="col-md-1">ID User</th>
+                                                            <th class="col-md-3">ID Customer</th>
+                                                            <th class="col-md-4">Name</th>
+                                                            <th class="col-md-2">Opsi</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        <?php $i=1; ?>
+                                                            @foreach($customers as $customer)
+                                                                @if(($customer->role)=='customer')
+                                                                  <tr>
+                                                                    <td class="short">{{$customer->user_id}}</td>
+                                                                    <td class="short">{{$customer->id}}</td>
+                                                                    <td class="short">{{$customer->name}}</td>
+                                                                    <td><a href="viewCustomerProfile/{{$customer->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                  </tr>
+                                                              <?php $i++; ?>
+                                                              @endif
+                                                            @endforeach
+                                                        </tbody>
+                                                      </table>
+                                                      <hr>
+                                                    </div>
+
+                                                    
                                             </div>
                                         </div>
                                       <hr>

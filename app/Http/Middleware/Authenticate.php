@@ -22,7 +22,7 @@ class Authenticate
                 return response('Unauthorized.', 401);
             } else {
                 // return redirect()->guest('login');
-                return view('templates\homepage');
+                return view('templates.homepage');
             }
         }
 

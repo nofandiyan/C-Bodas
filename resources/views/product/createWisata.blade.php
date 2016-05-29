@@ -9,13 +9,18 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Lapak Baru</div>
+                <div class="panel-heading">Form Pendaftaran Tiket Pariwisata</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/Lapak') }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/Product') }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
 
+                        <div align="center">
+                            <label><h2><b>Form Pendaftaran Tiket Pariwisata</b></h2></label>
+                        </div>
+                        <br/>
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="category_id" value="1">
+                        <input type="hidden" name="category_id" value="3">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Judul</label>
@@ -32,7 +37,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Deskripsi</label>
+                            <label class="col-md-4 control-label">Keterangan Produk</label>
 
                             <div class="col-md-6">
                                 <textarea class="form-control" name="description" value="{{ old('description') }}"></textarea> 
@@ -105,11 +110,10 @@
 
                         <div class="col-md-9 col-md-offset-1">
                             <div class="form-group{{ $errors->has('stock') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Stok Tersedia</label>
+                                <label class="col-md-4 control-label">Jumlah Tiket Tersedia</label>
 
                                 <div class="col-md-4">
-                                    <!-- <textarea class="form-control" name="desc" value="{{ old('desc') }}"> -->
-                                    <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram">
+                                    <input type="number" class="form-control" name="stock" step="1">
 
                                     @if ($errors->has('stock'))
                                         <span class="help-block">
@@ -120,11 +124,10 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Harga</label>
+                                <label class="col-md-4 control-label">Harga Tiket</label>
 
                                 <div class="col-md-4">
-                                    <!-- <textarea class="form-control" name="desc" value="{{ old('desc') }}"> -->
-                                    <input type="number" class="form-control" name="price" step="50" placeholder="Per Kilogram">
+                                    <input type="number" class="form-control" name="price" step="50">
 
                                     @if ($errors->has('price'))
                                         <span class="help-block">
@@ -138,7 +141,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
-                                    <i class="fa fa-btn fa-user"></i>Buat Lapak
+                                    <i class="fa fa-btn fa-user"></i>Daftar
                                 </button>
                             </div>
                         </div>

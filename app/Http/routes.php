@@ -43,25 +43,27 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('admin', 'AdminController');
 
-    Route::get('/SellerSignUp', 'SellerController@showSignUp');
-
-    Route::resource('SellerProfile', 'SellerController@index');
-
     Route::resource('seller', 'SellerController');
+    Route::get('/SellerSignUp', 'SellerController@showSignUp');
+    Route::resource('SellerProfile', 'SellerController@index');
+    Route::resource('viewSellerProfile', 'SellerController');
 
-    Route::get('/CustomerSignUp', 'CustomerController@showSignUp');
-
-    Route::resource('CustomerProfile', 'CustomerController@index');
+    // Route::resource('bannedSeller', 'SellerController@bannedSeller');
+    // Route::get('unBannedSeller', 'SellerController@unBannedSeller');
 
     Route::resource('customer', 'CustomerController');
+    Route::get('/CustomerSignUp', 'CustomerController@showSignUp');
+    Route::resource('CustomerProfile', 'CustomerController@index');
+    Route::resource('viewCustomerProfile', 'CustomerController');
 
-    Route::post('/createCategory', 'LapakController@createCategory');
+    Route::post('/createCategory', 'ProductController@createCategory');
+    Route::get('/createTani', 'ProductController@createTani');
+    Route::get('/createTernak', 'ProductController@createTernak');
+    Route::get('/createWisata', 'ProductController@createWisata');
 
-    Route::get('/createTani', 'LapakController@createTani');
-    Route::get('/createTernak', 'LapakController@createTernak');
-    Route::get('/createWisata', 'LapakController@createWisata');
+    Route::resource('Product', 'ProductController');
 
-    Route::resource('/Lapak', 'LapakController');
+    Route::resource('Order', 'OrderController');
 
     // --------------------------------------------------------------------------
 

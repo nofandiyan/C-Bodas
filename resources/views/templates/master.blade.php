@@ -51,13 +51,10 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     
-    <!-- bootsrap datepicker-->
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">   -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">  
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>   -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-    
+
+
 
     <style>
         body {
@@ -67,9 +64,7 @@
         .fa-btn {
             margin-right: 6px;
         }
-    </style>
 
-    <style>
         td.short{
               white-space: nowrap;
               overflow: hidden;
@@ -80,31 +75,33 @@
     }
     </style>
 
+    
+
     <script type="text/javascript">
-    $(function () {
+        $(function () {
 
-        var active = true;
+            var active = true;
 
-        $('#collapse-init').click(function () {
-            if (active) {
-                active = false;
-                $('.showHideLapak').collapse('show');
-                // $('.panel-title').attr('data-toggle', '');
-                $(this).text('Semua Lapak');
-            } else {
-                active = true;
-                $('.showHideLapak').collapse('hide');
-                // $('.panel-title').attr('data-toggle', 'collapse');
-                $(this).text('Semua Lapak');
-            }
+            $('#collapse-init').click(function () {
+                if (active) {
+                    active = false;
+                    $('.showHideProduct').collapse('show');
+                    // $('.panel-title').attr('data-toggle', '');
+                    $(this).text('Semua Produk');
+                } else {
+                    active = true;
+                    $('.showHideProduct').collapse('hide');
+                    // $('.panel-title').attr('data-toggle', 'collapse');
+                    $(this).text('Semua Produk');
+                }
+            });
+            
+            $('#accordionProduct').on('show.bs.collapse', function () {
+                if (active) $('#accordionProduct .in').collapse('hide');
+            });
+
         });
-        
-        $('#accordion1').on('show.bs.collapse', function () {
-            if (active) $('#accordion1 .in').collapse('hide');
-        });
-
-    });
-</script>
+    </script>
     
     <style type="text/css">
         .wrapper {
@@ -179,13 +176,12 @@
                 @if (Auth::user())
                 <div class="col-sm-7 text-right">
                     <ul class="list-inline links">
-                        @if (Auth::user()->userAs==0)
-                        <!-- <li><a href="my-account.html">Akun Saya</a></li> -->
-                        <li><a href="/adminProfile/{{Auth::user()->id}}">Akun Saya</a></li>
-                        @elseif (Auth::user()->userAs==1)
-                        <li><a href="/sellerProfile/{{Auth::user()->id}}">Akun Saya</a></li>
-                        @elseif (Auth::user()->userAs==2)
-                        <li><a href="/buyerProfile/{{Auth::user()->id}}">Akun Saya</a></li>
+                        @if (Auth::user()->role=='admin')
+                        <li><a href="/AdminProfile">Hai, {{Auth::user()->name}}</a></li>
+                        @elseif (Auth::user()->role=='seller')
+                        <li><a href="/SellerProfile">Hai, {{Auth::user()->name}}</a></li>
+                        @elseif (Auth::user()->role=='customer')
+                        <li><a href="/CustomerProfile">Hai, {{Auth::user()->name}}</a></li>
                         @endif
                         <li><a href="{{ url('/logout') }}">Keluar</a></li>
                     </ul>
@@ -203,11 +199,10 @@
             <div class="navbar-collapse collapse">
                 <p class="navbar-text hidden-xs hidden-sm">Karena Waktu Sangat Berharga</p>
                 
-                @if (Auth::guest())
+                
                 <ul class="nav navbar-nav navbar-right">
-                   
+                @if (Auth::guest())   
                     <li class="dropdown megamenu">
-                        <!-- <a href="signin">Masuk</a> -->
                         <a href="{{ url('/login') }}">Masuk</a>
                     </li>
 
@@ -215,9 +210,9 @@
                         <a href="signup">Daftar</a>
                     </li>
 
-                @else  
+                @elseif(Auth::user())
                      <li class="dropdown megamenu">
-                        <a href="signin">Home</a>
+                        <a href="/">Home</a>
                     </li>
                 @endif    
                     <li class="dropdown navbar-cart hidden-xs">
@@ -332,11 +327,11 @@
         FOOTER - END 
     =========================== -->
     
-   
-    
     </div> <!-- PAGE - END -->
-    
-    <!-- ==========================
+
+</body>
+
+ <!-- ==========================
         JS 
     =========================== -->        
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -374,9 +369,6 @@
     <script src="{{ URL::asset('assets/js/color-switcher.js') }}"></script>
 
     <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
-    
-
-</body>
 
 <!-- Mirrored from demos.pixelized.cz/C-Bodas/v1.1/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Apr 2016 15:38:50 GMT -->
 </html>

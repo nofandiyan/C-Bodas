@@ -70,13 +70,19 @@
 
                                 <div class="col-md-12">
                                 <br>
+                                    @if(Auth::user()->role == 'customer')
                                     <div class="col-md-3" align="right">
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
-
                                     <div class="col-md-3" align="right">
                                         <a href="/customer/{{$profile->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
                                     </div>
+                                    @else
+                                    <div class="col-md-3" align="right">
+                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                    </div>
+                                    @endif
+                            
                                 </div>
                             
                             </div>

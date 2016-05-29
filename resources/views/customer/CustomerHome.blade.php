@@ -10,12 +10,12 @@
             <div class="row">
                 <div class="col-xs-6">
                     <h2>C-Bodas</h2>
-                    <p>Home</p>
+                    <p>Customer Home</p>
                 </div>
                 <div class="col-xs-6">
                     <ol class="breadcrumb">
-                        <li><a href="homepage.html">Halaman Seller</a></li>
-                        <li class="active">Seller Home</li>
+                        <li><a href="homepage.html">Halaman Customer</a></li>
+                        <li class="active">Customer Home</li>
                     </ol>
                 </div>
             </div>

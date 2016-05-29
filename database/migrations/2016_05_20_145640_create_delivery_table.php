@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReservationsTable extends Migration
+class CreateDeliveryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,16 @@ class CreateReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reservations', function (Blueprint $table) {
+        Schema::create('delivery', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('customers');
-            $table->integer('delivery_id')->unsigned();
-            $table->foreign('delivery_id')->references('id')->on('delivery');
-            $table->smallInteger('status');
-            $table->string('bank_name',30);
-            $table->string('bank_account',50);
-            $table->string('payment_proof');
-            $table->rememberToken();
+            $table->string('name',50);
+            $table->string('phone',15);
+            $table->string('street',50);
+            $table->string('city',30);
+            $table->string('province',30);
+            $table->string('zip_code',5);
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('reservations');
+        Schema::drop('delivery_address');
     }
 }

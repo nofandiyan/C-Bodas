@@ -46,9 +46,10 @@
                             <br>
                             <h4><label>Informasi Akun</label></h4>
 
-                            <div class="form-group{{ $errors->has('prof_pic') ? ' has-error' : '' }}" align="center">
+                            <div class="{{ $errors->has('prof_pic') ? ' has-error' : '' }}" align="center">
                                 <label>Foto Profil</label>
-                                <input type="file" name="prof_pic" id="prof_pic">
+                                <input type="file" name="prof_pic" id="prof_pic" required>
+                                *maksimal 1Mb
                                  @if ($errors->has('prof_pic'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('prof_pic') }}</strong>
@@ -57,7 +58,7 @@
                             </div>
 
                             <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}">
+                                <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}" required maxlength="30">
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -66,7 +67,7 @@
                             </div>
 
                             <div class="{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <input type="password" class="form-control" name="password" placeholder="Kata Sandi...">
+                                <input type="password" class="form-control" name="password" placeholder="Kata Sandi..." required>
                                  @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -75,7 +76,7 @@
                             </div>
 
                             <div class="{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                <input type="password" class="form-control" name="password_confirmation" placeholder="Ulangi Kata Sandi...">
+                                <input type="password" class="form-control" name="password_confirmation" placeholder="Ulangi Kata Sandi..." required>
 
                                 @if ($errors->has('password_confirmation'))
                                     <span class="help-block">
@@ -101,7 +102,7 @@
                             </div>
 
                             <div class="{{ $errors->has('no_id') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="no_id" placeholder="Nomor Identitas..." value="{{ old('no_id') }}">
+                                <input type="text" class="form-control" name="no_id" placeholder="Nomor Identitas..." value="{{ old('no_id') }}" required maxlength="20">
 
                                 @if ($errors->has('no_id'))
                                     <span class="help-block">
@@ -111,7 +112,7 @@
                             </div>
 
                             <div class="{ $errors->has('name') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="name" placeholder="Nama Lengkap..." value="{{ old('name') }}">
+                                <input type="text" class="form-control" name="name" placeholder="Nama Lengkap..." value="{{ old('name') }}" required maxlength="50">
                                  @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -122,7 +123,7 @@
                             
                             <div>
 
-                                <input type="text" class="form-control" name="phone" maxlength="12" placeholder="Nomor Telepon..." value="{{ old('phone') }}">
+                                <input type="text" class="form-control" name="phone" maxlength="15" placeholder="Nomor Telepon..." value="{{ old('phone') }}" required>
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -135,7 +136,7 @@
                             <h4><label>Informasi Alamat</label></h4>
 
                             <div class="{{ $errors->has('street') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="street" placeholder="Nama Jalan dan Nomor..." value="{{ old('street') }}">
+                                <input type="text" class="form-control" name="street" placeholder="Nama Jalan dan Nomor..." value="{{ old('street') }}" required maxlength="50">
                                 @if ($errors->has('street'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('street') }}</strong>
@@ -143,7 +144,7 @@
                                 @endif
                             </div>
                             <!-- <div class="form-group"> -->
-                                <input type="text" class="form-control" name="city" value="Kab. Bandung" readonly="Kab. Bandung Barat">
+                                <input type="text" class="form-control" name="city" value="Kab. Bandung Barat" readonly="Kab. Bandung Barat">
                             <!-- </div> -->
 
                             <!-- <div class="form-group"> -->
@@ -160,7 +161,7 @@
 
                         <div class="{{ $errors->has('bank_name') ? ' has-error' : '' }}">
                             
-                                <input type="text" class="form-control" name="bank_name" placeholder="Nama Bank..." value="{{ old('bank_name') }}">
+                                <input type="text" class="form-control" name="bank_name" placeholder="Nama Bank..." value="{{ old('bank_name') }}" required maxlength="30">
 
                                 @if ($errors->has('bank_name'))
                                     <span class="help-block">
@@ -172,7 +173,7 @@
 
                         <div class="{{ $errors->has('bank_account') ? ' has-error' : '' }}">
                                 
-                                <input type="text" class="form-control" name="bank_account" placeholder="Nama Dalam Buku Rekening..." value="{{ old('bank_account') }}">
+                                <input type="text" class="form-control" name="bank_account" placeholder="Nama Dalam Buku Rekening..." value="{{ old('bank_account') }}" required maxlength="50">
 
                                 @if ($errors->has('bank_account'))
                                     <span class="help-block">
@@ -182,7 +183,7 @@
                         </div>
 
                         <div class="{{ $errors->has('account_number') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="account_number" placeholder="Nomor Rekening..." value="{{ old('account_number') }}">
+                                <input type="text" class="form-control" name="account_number" placeholder="Nomor Rekening..." value="{{ old('account_number') }}" required maxlength="20">
 
                                 @if ($errors->has('account_number'))
                                     <span class="help-block">
@@ -193,12 +194,12 @@
 
                         <br>
                         <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
-                            <div class="col-md-1">
-                                <input type="checkbox" id="myCheck" name="test" required>
-                            </div>
-                            <div class="col-md-offset-1" align="justify">
-                                Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada saat pengisian formulir adalah murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
-                            </div>
+                                <div class="col-md-1">
+                                    <input type="checkbox" id="myCheck" name="test" required>
+                                </div>
+                                <div class="col-md-offset-1" align="justify">
+                                    Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada isi formulir merupakan murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
+                                </div>
                         </div>
                          <br>
                         <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" value="Register">Submit</button>

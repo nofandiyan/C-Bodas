@@ -18,6 +18,7 @@ class CreateDetailProductsTable extends Migration
             $table->foreign('product_id')->references('id')->on('products');
             $table->integer('seller_id')->unsigned();
             $table->foreign('seller_id')->references('id')->on('sellers');
+            $table->string('type_product',10)->nullable();
             $table->decimal('rating',5,1);
             $table->string('stock',10);
             $table->string('description');

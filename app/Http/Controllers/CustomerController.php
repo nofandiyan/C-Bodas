@@ -73,7 +73,11 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+        $profiles   = DB::table('users')
+            ->join('customers', 'users.id','=','customers.user_id')
+            ->where('customers.id','=', $id)
+            ->get();
+            return view ('customer.customerProfile', compact('profiles'));
     }
 
     /**
@@ -85,18 +89,13 @@ class CustomerController extends Controller
     // public function edit($id)
     public function edit()
     {
-        // $profile = User::find($id);
-        // if(!$profile){
-        //     abort(404);
-        // }
-        // return view('seller.sellerProfileEdit')->with('profile', $profile);
         $profiles   = DB::table('users')
             ->join('customers', function ($join) {
                 $join->on('users.id', '=', 'customers.user_id')
                      ->where('customers.user_id', '=', Auth::user()->id);
             })
             ->get();
-            return view ('customer.customerProfileEdit', compact('profiles'));
+            return view ('customer.CustomerProfileEdit', compact('profiles'));
     }
 
     /**

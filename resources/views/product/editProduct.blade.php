@@ -5,9 +5,15 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Lapak Baru</div>
+                @if($product->category_id == 1)
+                <div class="panel-heading">Form Edit Produk Pertanian</div>
+                @elseif($product->category_id == 2)
+                <div class="panel-heading">Form Edit Produk Hewan Ternak</div>
+                @elseif($product->category_id == 3)
+                <div class="panel-heading">Form Edit Produk Tiket Pariwisata</div>
+                @endif
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/Lapak/{{ $lapak->id }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" action="/Product/{{ $product->id }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
 
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -17,7 +23,7 @@
                             <label class="col-md-4 control-label">Judul</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" value="{{ $lapak->name }}" readonly>
+                                <input type="text" class="form-control" name="name" value="{{ $product->name }}" readonly>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -31,7 +37,7 @@
                             <label class="col-md-4 control-label">Deskripsi</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control" name="description" >{{ $lapak->description }}</textarea> 
+                                <textarea class="form-control" name="description" >{{ $product->description }}</textarea> 
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
@@ -78,12 +84,12 @@
                                 <label class="col-md-4 control-label">Stok Tersedia</label>
 
                                 <div class="col-md-4">
-                                    @if($lapak->category_id == 1)
-                                        <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $lapak->stock }}">
-                                    @elseif($lapak->category_id == 2)
-                                        <input type="number" class="form-control" name="stock" step="1" value="{{ $lapak->stock }}" readonly>
-                                    @elseif($lapak->category_id == 3)
-                                        <input type="number" class="form-control" name="stock" step="1" value="{{ $lapak->stock }}">
+                                    @if($product->category_id == 1)
+                                        <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $product->stock }}">
+                                    @elseif($product->category_id == 2)
+                                        <input type="number" class="form-control" name="stock" step="1" value="{{ $product->stock }}" readonly>
+                                    @elseif($product->category_id == 3)
+                                        <input type="number" class="form-control" name="stock" step="1" value="{{ $product->stock }}">
                                     @endif
 
                                     @if ($errors->has('stock'))

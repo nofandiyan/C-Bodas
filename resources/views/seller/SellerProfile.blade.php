@@ -110,12 +110,28 @@
                                 </div>
 
                                 <div class="col-md-12">
+                                    @if(Auth::user()->role == 'seller')
                                     <div class="col-md-3" align="right">
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                     <div class="col-md-3" align="right">
                                         <a href="/seller/{{$profile->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
                                     </div>
+                                    @else
+                                    <div class="col-md-3" align="right">
+                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                    </div>
+                                    @endif
+
+                                    <!-- @if($profile->status == 1)
+                                    <div class="col-md-3" align="right">
+                                        <a href="/bannedSeller/{{$profile->id}}" class="btn btn-primary" role="button">Banned Seller</a>
+                                    </div>
+                                    @else
+                                    <div class="col-md-3" align="right">
+                                        <a href="unBannedSeller" class="btn btn-primary" role="button">Un-Banned Seller</a>
+                                    @endif
+                                    </div> -->
                                 </div>
                             
                             </div>

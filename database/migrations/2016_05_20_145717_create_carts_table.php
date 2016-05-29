@@ -20,7 +20,8 @@ class CreateCartsTable extends Migration
             $table->integer('price_id')->unsigned();
             $table->foreign('price_id')->references('id')->on('prices_products');
             $table->integer('amount',10);
-            $table->date('schedule');
+            $table->date('schedule')->nullable();
+            $table->string('status','10');
             $table->rememberToken();
             $table->timestamps();
         });
