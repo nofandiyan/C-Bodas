@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+<<<<<<< HEAD
+=======
+use Carbon\Carbon;
+
+>>>>>>> ReworkAPI
 class ApiCustomerController extends Controller{
     public function store(Request $request)
     {        
@@ -45,9 +50,13 @@ class ApiCustomerController extends Controller{
             //     'gender' => $request->input('GENDER'),
             // ]);
             // $customer->save();
-            DB::table('customers')->insert([
+            $id= DB::table('customers')->insertGetId([
                 'user_id' => $user->id, 'gender' => $request->input('GENDER'),
                 'created_at' => $user->created_at, 'updated_at' => $user->updated_at
+                ]);
+            DB::table('delivery_address')->insert([
+                'customer_id' => $id, 'street' => $user->street, 'name' => $user->name, 'phone' => $user->phone,
+                'city_id' => $request->input('city_id'), 'zip_code' => $user->zip_code
                 ]);
             $response['Response']= true;
             Mail::send('customer.verify', ['Customer' => $user], function($message) use ($user)
@@ -99,9 +108,26 @@ class ApiCustomerController extends Controller{
             ->where('email', $email)
             // ->where('password', $password)
             ->get();
+            foreach ($customer as $model) {
+                $model->DELIVERY_ADDRESS= DB::table('delivery_address')
+                ->join('cities', 'delivery_address.city_id', '=', 'cities.id')
+                ->join('provinces', 'cities.province_id', '=', 'provinces.id')
+                ->select('delivery_address.id as delivery_id', 'delivery_address.street', 'delivery_address.city_id', 
+                    'delivery_address.zip_code', 'delivery_address.name', 'delivery_address.phone',
+                    'cities.type', 'cities.city', 'cities.province_id', 'provinces.province')
+                ->where('customer_id', $model->ID_CUSTOMER)
+                ->get();
+
+                $model->BOUGHT = DB::table('reservations')
+                ->join('carts', 'carts.reservation_id', '=', 'reservations.id')
+                ->select(DB::raw('DISTINCT(carts.detail_product_id) as id_detail_product'))
+                ->where('reservations.customer_id', $model->ID_CUSTOMER)
+                ->get();
+            }
             return $customer;
         }else{
-            echo 'failed';
+           $model['Response']= false;
+           return $model;
         }
     }
     public function maintainLogin(Request $request){
@@ -113,6 +139,22 @@ class ApiCustomerController extends Controller{
             'customers.id as ID_CUSTOMER', 'GENDER')
         ->where('customers.id', $request->input('id_customer'))
         ->get();
+        foreach ($customer as $model) {
+            $model->DELIVERY_ADDRESS= DB::table('delivery_address')
+            ->join('cities', 'delivery_address.city_id', '=', 'cities.id')
+            ->join('provinces', 'cities.province_id', '=', 'provinces.id')
+            ->select('delivery_address.id as delivery_id', 'delivery_address.street', 'delivery_address.city_id', 
+               'delivery_address.zip_code', 'delivery_address.name', 'delivery_address.phone',
+               'cities.type', 'cities.city', 'cities.province_id', 'provinces.province')
+            ->where('customer_id', $model->ID_CUSTOMER)
+            ->get();
+
+            $model->BOUGHT = DB::table('reservations')
+            ->join('carts', 'carts.reservation_id', '=', 'reservations.id')
+            ->select(DB::raw('DISTINCT(carts.detail_product_id) as id_detail_product'))
+            ->where('reservations.customer_id', $model->ID_CUSTOMER)
+            ->get();
+        }
         return $customer;
     }
     
@@ -175,6 +217,40 @@ class ApiCustomerController extends Controller{
             }        
             return $response;
         }
+<<<<<<< HEAD
+=======
+    }
+
+    public function insertDelivAddress(Request $request){
+        $auth = auth()->guard('api'); 
+        if (!$auth->check()) {
+            return response('Unauthorized.', 401);
+        }else{
+            $model = DB::table('delivery_address')
+            ->insertGetId([
+                'customer_id' => $request->input('id_customer'), 'name' => $request->input('name'),
+                'street' => $request->input('street'), 'zip_code' => $request->input('zip_code'), 
+                'city_id' => $request->input('city_id'), 'phone' => $request->input('phone')
+                ]);
+            $response['delivery_id']=$model;
+            return $response;
+        }
+    }
+
+    public function getProvinces(){
+        $model = DB::table('provinces')
+        ->select('id as province_id', 'province')
+        ->get();
+        return $model;
+    }
+
+    public function getCities(Request $request){
+        $model = DB::table('cities')
+        ->select('id', 'province_id', 'type', 'city', 'zip_code')
+        ->where('province_id', $request->input('province_id'))
+        ->get();
+        return $model;
+>>>>>>> ReworkAPI
     }
   
 }
