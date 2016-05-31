@@ -20,10 +20,13 @@ class ApiProductsController extends Controller
         }else{
             $name=$request->input('catalog');
             if($name=='pertanian'){
-                return $this->getAgribisnisCatalog();
-            }
-            if($name=='pariwisata') {
-                return $this->getPariwisataCatalog();    
+                return $this->getAgribisnisCatalog($request->input('offset'));
+            } elseif ($name=='pariwisata') {
+                # code...
+                return $this->getPariwisataCatalog($request->input('offset'));    
+            }elseif ($name=='all') {
+                # code...
+                return $this->getAllCatalog($request->input('offset'));    
             }
         }
 
@@ -31,7 +34,7 @@ class ApiProductsController extends Controller
                     
     }
 
-    public function getAgribisnisCatalog(){
+    public function getAllCatalog($skip){
         // $custom=Product::where('id_category', '!=', 3)
         // ->get();
         $first = DB::table('detail_products')
@@ -40,12 +43,14 @@ class ApiProductsController extends Controller
         ->join('category_products', 'products.category_id', '=', 'category_products.id')
         ->join('prices_products', 'prices_products.detail_product_id', '=', 'detail_products.id')
         ->join('users', 'sellers.user_id', '=', 'users.id')
-        ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.rating', 
+        ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.rating', 'detail_products.type_product',
             'detail_products.description', 'detail_products.stock', 'products.category_id as id_category', 'category_products.category_name', 
             'sellers.id as id_seller', 'users.name as seller_name', 'prices_products.id as id_price', 'prices_products.price')
-        ->where('products.category_id', '=', 1)
-        ->where('prices_products.created_at', DB::raw("(select max(t2.created_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
+        ->where('prices_products.updated_at', DB::raw("(select max(t2.updated_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
         ->groupBy('detail_products.id')
+        ->orderBy('detail_products.rating','ascending')
+        ->skip($skip)
+        ->take(4)
         ->get();
         // return $first;    
         foreach ($first as $user) {
@@ -57,19 +62,49 @@ class ApiProductsController extends Controller
         return $first;
     }
 
-    public function getPariwisataCatalog(){
+    public function getAgribisnisCatalog($skip){
+        // $custom=Product::where('id_category', '!=', 3)
+        // ->get();
         $first = DB::table('detail_products')
         ->join('sellers', 'detail_products.seller_id', '=', 'sellers.id')
         ->join('products', 'detail_products.product_id', '=', 'products.id')
         ->join('category_products', 'products.category_id', '=', 'category_products.id')
         ->join('prices_products', 'prices_products.detail_product_id', '=', 'detail_products.id')
         ->join('users', 'sellers.user_id', '=', 'users.id')
-        ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.rating', 
+        ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.rating', 'detail_products.type_product',
+            'detail_products.description', 'detail_products.stock', 'products.category_id as id_category', 'category_products.category_name', 
+            'sellers.id as id_seller', 'users.name as seller_name', 'prices_products.id as id_price', 'prices_products.price')
+        ->where('products.category_id', '=', 1)
+        ->where('prices_products.updated_at', DB::raw("(select max(t2.updated_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
+        ->groupBy('detail_products.id')
+        ->skip($skip)
+        ->take(10)
+        ->get();
+        // return $first;    
+        foreach ($first as $user) {
+            $user->links=DB::table('images_products')
+            ->select('images_products.link')
+            ->where('images_products.detail_product_id', "=", $user->id_detail_product)
+            ->get();
+        }
+        return $first;
+    }
+
+    public function getPariwisataCatalog($skip){
+        $first = DB::table('detail_products')
+        ->join('sellers', 'detail_products.seller_id', '=', 'sellers.id')
+        ->join('products', 'detail_products.product_id', '=', 'products.id')
+        ->join('category_products', 'products.category_id', '=', 'category_products.id')
+        ->join('prices_products', 'prices_products.detail_product_id', '=', 'detail_products.id')
+        ->join('users', 'sellers.user_id', '=', 'users.id')
+        ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.rating', 'detail_products.type_product',
             'detail_products.description', 'detail_products.stock', 'products.category_id as id_category', 'category_products.category_name', 
             'sellers.id as id_seller', 'users.name as seller_name', 'prices_products.id as id_price', 'prices_products.price')
         ->where('products.category_id', '=', 2)
-        ->where('prices_products.created_at', DB::raw("(select max(t2.created_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
+        ->where('prices_products.updated_at', DB::raw("(select max(t2.updated_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
         ->groupBy('detail_products.id')
+        ->skip($skip)
+        ->take(10)
         ->get();
         // return $first;    
         foreach ($first as $user) {
@@ -94,12 +129,12 @@ class ApiProductsController extends Controller
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'prices_products.detail_product_id', '=', 'detail_products.id')
             ->join('users', 'sellers.user_id', '=', 'users.id')
-            ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.rating', 
+            ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.rating', 'detail_products.type_product',
                 'detail_products.description', 'detail_products.stock', 'products.category_id as id_category', 'category_products.category_name', 
                 'sellers.id as id_seller', 'users.name as seller_name', 'prices_products.id as id_price', 'prices_products.price')
             ->where('products.name', 'like', '%'.$name.'%')
             ->orWhere('category_products.category_name', 'like', '%'.$name.'%')
-            ->where('prices_products.created_at', DB::raw("(select max(t2.created_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
+            ->where('prices_products.updated_at', DB::raw("(select max(t2.updated_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
             ->groupBy('detail_products.id')
             ->get();
             foreach ($first as $user) {

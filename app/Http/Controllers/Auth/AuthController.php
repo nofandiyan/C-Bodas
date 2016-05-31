@@ -90,6 +90,7 @@ class AuthController extends Controller
             'status'    => $data['status'],
             'confirmation_code' => $data['confirmation_code'],
             'role'      => $data['role'],
+            'api_token' => str_random(60),
         ]);
         $user->save();
 
