@@ -10,11 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-<<<<<<< HEAD
-=======
 use Carbon\Carbon;
 
->>>>>>> ReworkAPI
 class ApiCustomerController extends Controller{
     public function store(Request $request)
     {        
@@ -217,8 +214,7 @@ class ApiCustomerController extends Controller{
             }        
             return $response;
         }
-<<<<<<< HEAD
-=======
+
     }
 
     public function insertDelivAddress(Request $request){
@@ -250,7 +246,7 @@ class ApiCustomerController extends Controller{
         ->where('province_id', $request->input('province_id'))
         ->get();
         return $model;
->>>>>>> ReworkAPI
+
     }
   
 }
