@@ -5,6 +5,7 @@
 <!-- ==========================
         BREADCRUMB - START 
     =========================== -->
+   
     <section class="breadcrumb-wrapper">
         <div class="container">
             <div class="row">
@@ -87,12 +88,24 @@
                             
                             
                             <div>
-
                                 <input type="text" class="form-control" name="phone" placeholder="Nomor Telepon..." value="{{ old('phone') }}" required maxlength="15">
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
+                                <select class="form-control" name="gender">
+                                    <option value="L">Laki-Laki</option>
+                                    <option value="P">Perempuan</option>
+                                </select>
+
+                                @if ($errors->has('gender'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('gender') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -109,20 +122,34 @@
                                 @endif
                             </div>
 
-                            <div class="{{ $errors->has('city') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="city" placeholder="Kota..." value="{{ old('street') }}" required maxlength="30">
-                                @if ($errors->has('city'))
+                            <div class="{{ $errors->has('province') ? ' has-error' : '' }}">
+                                <select class="form-control" name="province" id="province" onchange="getIdProvince()">
+                                    <option>--Pilih Propinsi--</option>
+                                @foreach($province as $prov)
+                                    <option value="{{$prov->id}}">{{$prov->province}}</option>
+                                @endforeach
+                                </select>
+                                @if ($errors->has('province'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('city') }}</strong>
+                                        <strong>{{ $errors->first('province') }}</strong>
                                     </span>
                                 @endif
                             </div>
 
-                            <div class="{{ $errors->has('province') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="province" placeholder="Propinsi..." value="{{ old('province') }}" required maxlength="30">
-                                @if ($errors->has('province'))
+                            <div class="{{ $errors->has('city_id') ? ' has-error' : '' }}">
+                                <select class="form-control" name="city_id">
+                                    <option id="kota-default" selected="true">--Pilih Kota/Kabupaten--</option>
+                                
+                                @foreach($cities as $city)
+                                        <option class="kota {{$city->province_id}}" value="{{$city->id}}" disabled="true">
+                                            {{$city->type}} {{$city->city}}
+                                        </option>
+                                @endforeach
+                                
+                                </select>
+                                @if ($errors->has('city_id'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('province') }}</strong>
+                                        <strong>{{ $errors->first('city_id') }}</strong>
                                     </span>
                                 @endif
                             </div>

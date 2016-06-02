@@ -34,43 +34,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Halaman Admin</div>
+                    <!-- <div class="panel-heading">Halaman Admin</div> -->
                     <div class="panel-body">
-                        <div>
-                        @foreach($profiles as $profile)
-
-                                <div class="col-md-4" align="center">
-                                    
-                                    <a href="/AdminProfile/{{$profile->id}}" class="btn btn-info" role="button">Lihat Profil</a>
-                                </div>
-
-                                <div class="col-md-7">
-                                    <div class="form-group">
-                                        {{$profile->name}}
-                                    </div>
-
-                                    <div class="form-group">
-                                        {{$profile->phone}}
-                                    </div>
-
-                                    <div class="form-group">
-                                        {{$profile->street}}
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        {{$profile->city}}
-                                    </div>
-
-                                    <div class="form-group">
-                                        {{$profile->province}}
-                                    </div>
-
-                                    <div class="form-group">
-                                        {{$profile->zip_code}}
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                        <label><h3>Selamat Bertugas <font color="E87169">{{$profiles->name}}</font></h3></label>
+                        <br>
+                        <a href="/AdminProfile/{{$profiles->id}}" class="btn btn-info" role="button">Lihat Profil</a>
                     </div>
                 </div>
             </div>

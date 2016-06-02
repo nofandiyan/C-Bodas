@@ -23,6 +23,8 @@ use App\CustomerModel;
 
 use Mail;
 
+use DB;
+
 class RegistrationController extends Controller
 {
     public function postRegister()
@@ -51,11 +53,11 @@ class RegistrationController extends Controller
 
         $user=User::create([
             'name'      => Input::get('name'),
+            'gender'    => Input::get('gender'),
             'email'     => Input::get('email'),
             'password'  => bcrypt(Input::get('password')),
             'street'    => Input::get('street'),
-            'city'      => Input::get('city'),
-            'province'  => Input::get('province'),
+            'city_id'   => Input::get('city_id'),
             'zip_code'  => Input::get('zip_code'),
             'phone'     => Input::get('phone'),
             'status'    => Input::get('status'),
@@ -78,17 +80,18 @@ class RegistrationController extends Controller
                 'user_id'       => $user->id,
                 'type_id'       => Input::get('type_id'),
                 'no_id'         => Input::get('no_id'),
-                'rating'        => 0.0,
                 'prof_pic'      => $prof_pic,
                 'bank_account'  => Input::get('bank_account'),
                 'account_number'=> Input::get('account_number'),
                 'bank_name'     => Input::get('bank_name'),
             ]);
+            
             $seller->save();
+
         }elseif (Input::get('role')=="customer") {
+            
             $customer = CustomerModel::create([
                 'user_id'      => $user->id,
-                'gender'       => Input::get('gender'),
             ]);
             $customer->save();
         }
@@ -99,7 +102,7 @@ class RegistrationController extends Controller
                 ->subject('Konfirmasi alamat email anda');
         });
  
-        Session::flash('message', 'Terima kasih telah mendaftar! Silahkan cek email anda untuk konfirmasi.');
+        Session::flash('message', 'Terima kasih telah mendaftar, silahkan cek email anda untuk konfirmasi.');
  
         return Redirect::to('login');
     }

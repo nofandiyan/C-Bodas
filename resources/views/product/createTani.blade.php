@@ -48,8 +48,10 @@
                             <div class="col-md-3">
                                 <select class="form-control" name="type_product" id="type_product">
                                     <option>--Jenis Produk--</option>
-                                    <option value="Organik">Organik</option>
-                                    <option value="Anorganik">Anorganik</option>
+                                    <option value="Sayur Organik">Sayur Organik</option>
+                                    <option value="Sayur Anorganik">Sayur Anorganik</option>
+                                    <option value="Buah Organik">Buah Organik</option>
+                                    <option value="Buah Anorganik">Buah Anorganik</option>
                                 </select>
 
                                 @if ($errors->has('type_product'))

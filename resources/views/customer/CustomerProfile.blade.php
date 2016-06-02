@@ -5,9 +5,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-        @foreach($profiles as $profile)
             <div class="panel panel-default">
-                <div class="panel-heading">Profil {{$profile->name}}</div>
+                <div class="panel-heading">Profil {{$profiles->name}}</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/">
                         {!! csrf_field() !!}
@@ -25,7 +24,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nama</label>
                                     <div class="col-md-9">
-                                        {{$profile->name}}
+                                        {{$profiles->name}}
                                     </div>
                                     <br>
                                 </div>
@@ -33,19 +32,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nomor Telepon</label>
                                     <div class="col-md-9">
-                                        {{$profile->phone}}
-                                    </div>
-                                    <br>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <label class="col-md-3" align="right">Jenis Kelamin</label>
-                                    <div class="col-md-9">
-                                        @if ($profile->gender == 'L')
-                                            Laki-Laki
-                                        @elseif ($profile->gender == 'P')
-                                            Perempuan
-                                        @endif
+                                        {{$profiles->phone}}
                                     </div>
                                     <br>
                                 </div>
@@ -53,19 +40,9 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Email</label>
                                     <div class="col-md-9">
-                                        {{$profile->email}}
+                                        {{$profiles->email}}
                                     </div>
                                     <br>
-                                </div>
-                                
-                                <div class="col-md-12">
-                                    <label class="col-md-3" align="right">Alamat</label>
-                                    <div class="col-md-9">
-                                        {{$profile->street}}    <br>
-                                        {{$profile->city}}      <br>
-                                        {{$profile->province}}      <br>
-                                        {{$profile->zip_code}}   
-                                    </div>
                                 </div>
 
                                 <div class="col-md-12">
@@ -75,7 +52,7 @@
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                     <div class="col-md-3" align="right">
-                                        <a href="/customer/{{$profile->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
+                                        <a href="/customer/{{$profiles->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
                                     </div>
                                     @else
                                     <div class="col-md-3" align="right">
@@ -90,7 +67,6 @@
                     </form>
                 </div>
             </div>
-        @endforeach
         </div>
     </div>
 </div>

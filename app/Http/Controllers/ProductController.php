@@ -29,18 +29,6 @@ use Illuminate\Support\Facades\Input as Input;
 class ProductController extends Controller
 {
 
-    public function createCategory(Request $request)
-    {
-        $this->validate($request, [
-            'category_name'     => 'required'
-        ]);
-
-        $category = new Category_ProductsModel;
-        $category->category_name = $request->category_name;
-        $category->save();
-        return redirect('/');
-    }
-
     public function createTani()
     {
         return view('product.createTani');
@@ -80,7 +68,6 @@ class ProductController extends Controller
         $detail = new Detail_ProductsModel;
         $detail->product_id   = $product->id;
         $detail->seller_id    = $seller;
-        $detail->rating       = 0.0;
         $detail->stock        = $request->stock;
         $detail->description  = $request->description;
         $detail->type_product  = $request->type_product;
@@ -133,11 +120,11 @@ class ProductController extends Controller
             ->where('detail_product_id', '=', $id)
             ->first();
 
-        $sold = DB::table('detail_products')        
-            ->join('carts', 'detail_products.id', '=', 'carts.detail_product_id')
-            ->where('detail_product_id', '=', $id)
-            ->select('carts.amount')
-            ->first();
+        // $sold = DB::table('detail_products')        
+        //     ->join('carts', 'detail_products.id', '=', 'carts.detail_product_id')
+        //     ->where('detail_product_id', '=', $id)
+        //     ->select('carts.amount')
+        //     ->first();
 
         if ($product->category_id == 1) {
             return view('product.viewProductTani', compact('product', 'images', 'price', 'sold'));

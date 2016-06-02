@@ -17,7 +17,6 @@ class CreatePricesProductsTable extends Migration
             $table->integer('detail_product_id')->unsigned();
             $table->foreign('detail_product_id')->references('id')->on('detail_products');
             $table->decimal('price',19,0);
-            $table->rememberToken();
             $table->timestamps();
         });
     }

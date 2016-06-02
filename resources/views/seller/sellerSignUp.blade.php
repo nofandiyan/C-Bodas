@@ -45,7 +45,6 @@
 
                             <br>
                             <h4><label>Informasi Akun</label></h4>
-
                             <div class="{{ $errors->has('prof_pic') ? ' has-error' : '' }}" align="center">
                                 <label>Foto Profil</label>
                                 <input type="file" name="prof_pic" id="prof_pic" required>
@@ -56,9 +55,8 @@
                                     </span>
                                 @endif
                             </div>
-
                             <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}" required maxlength="30">
+                                <input type="text" class="form-control" name="email" placeholder="Email..." value="{{ old('email') }}" maxlength="30">
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -67,7 +65,7 @@
                             </div>
 
                             <div class="{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <input type="password" class="form-control" name="password" placeholder="Kata Sandi..." required>
+                                <input type="password" class="form-control" name="password" placeholder="Kata Sandi..." >
                                  @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -76,7 +74,7 @@
                             </div>
 
                             <div class="{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                <input type="password" class="form-control" name="password_confirmation" placeholder="Ulangi Kata Sandi..." required>
+                                <input type="password" class="form-control" name="password_confirmation" placeholder="Ulangi Kata Sandi..." >
 
                                 @if ($errors->has('password_confirmation'))
                                     <span class="help-block">
@@ -84,7 +82,7 @@
                                     </span>
                                 @endif
                             </div>
-
+                            
                             <br>
                             <h4><label>Informasi Data Diri</label></h4>
                             <div class="{{ $errors->has('type_id') ? ' has-error' : '' }}">
@@ -102,7 +100,7 @@
                             </div>
 
                             <div class="{{ $errors->has('no_id') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="no_id" placeholder="Nomor Identitas..." value="{{ old('no_id') }}" required maxlength="20">
+                                <input type="text" class="form-control" name="no_id" placeholder="Nomor Identitas..." value="{{ old('no_id') }}"  maxlength="20">
 
                                 @if ($errors->has('no_id'))
                                     <span class="help-block">
@@ -112,7 +110,7 @@
                             </div>
 
                             <div class="{ $errors->has('name') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="name" placeholder="Nama Lengkap..." value="{{ old('name') }}" required maxlength="50">
+                                <input type="text" class="form-control" name="name" placeholder="Nama Lengkap..." value="{{ old('name') }}"  maxlength="50">
                                  @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -120,10 +118,8 @@
                                 @endif
                             </div>
                             
-                            
                             <div>
-
-                                <input type="text" class="form-control" name="phone" maxlength="15" placeholder="Nomor Telepon..." value="{{ old('phone') }}" required>
+                                <input type="text" class="form-control" name="phone" maxlength="15" placeholder="Nomor Telepon..." value="{{ old('phone') }}" min="9">
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -132,19 +128,34 @@
                                 @endif
                             </div>
 
+                            <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
+                                <select class="form-control" name="gender">
+                                    <option value="L">Laki-Laki</option>
+                                    <option value="P">Perempuan</option>
+                                </select>
+
+                                @if ($errors->has('gender'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('gender') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
                             <br>
                             <h4><label>Informasi Alamat</label></h4>
 
                             <div class="{{ $errors->has('street') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="street" placeholder="Nama Jalan dan Nomor..." value="{{ old('street') }}" required maxlength="50">
+                                <input type="text" class="form-control" name="street" placeholder="Nama Jalan dan Nomor..." value="{{ old('street') }}"  maxlength="50">
                                 @if ($errors->has('street'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('street') }}</strong>
                                     </span>
                                 @endif
                             </div>
+
                             <!-- <div class="form-group"> -->
-                                <input type="text" class="form-control" name="city" value="Kab. Bandung Barat" readonly="Kab. Bandung Barat">
+                                <input type="hidden" name="city_id" value="{{$city->id}}">
+                                <input type="text" class="form-control" name="city" value="{{$city->type}} {{$city->city}}" readonly>
                             <!-- </div> -->
 
                             <!-- <div class="form-group"> -->
@@ -160,8 +171,12 @@
                         <h4><label>Informasi Rekening</label></h4>
 
                         <div class="{{ $errors->has('bank_name') ? ' has-error' : '' }}">
-                            
-                                <input type="text" class="form-control" name="bank_name" placeholder="Nama Bank..." value="{{ old('bank_name') }}" required maxlength="30">
+                                <select class="form-control" name="bank_name">
+                                    <option value="BRI">BRI</option>
+                                    <option value="Mandiri">Mandiri</option>
+                                    <option value="BNI">BNI</option>
+                                    <option value="BCA">BCA</option>
+                                </select>
 
                                 @if ($errors->has('bank_name'))
                                     <span class="help-block">
@@ -173,7 +188,7 @@
 
                         <div class="{{ $errors->has('bank_account') ? ' has-error' : '' }}">
                                 
-                                <input type="text" class="form-control" name="bank_account" placeholder="Nama Dalam Buku Rekening..." value="{{ old('bank_account') }}" required maxlength="50">
+                                <input type="text" class="form-control" name="bank_account" placeholder="Nama Dalam Buku Rekening..." value="{{ old('bank_account') }}"  maxlength="50">
 
                                 @if ($errors->has('bank_account'))
                                     <span class="help-block">
@@ -183,7 +198,7 @@
                         </div>
 
                         <div class="{{ $errors->has('account_number') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="account_number" placeholder="Nomor Rekening..." value="{{ old('account_number') }}" required maxlength="20">
+                                <input type="text" class="form-control" name="account_number" placeholder="Nomor Rekening..." value="{{ old('account_number') }}"  maxlength="20">
 
                                 @if ($errors->has('account_number'))
                                     <span class="help-block">

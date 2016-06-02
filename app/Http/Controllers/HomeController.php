@@ -30,7 +30,7 @@ class HomeController extends Controller
     public function index()
     {
         if(Auth::user()->role == "admin"){
-            $profiles = User::where('id', Auth::user()->id)->get();
+            $profiles = User::where('id', Auth::user()->id)->first();
             $category = DB::table('category_products')->get();
             
             $products = DB::table('products')
@@ -56,7 +56,7 @@ class HomeController extends Controller
             $profile = DB::table('users')
                 ->join('sellers', 'users.id', '=', 'sellers.user_id')
                 ->where('users.id','=', Auth::user()->id)
-                ->select('users.id', 'sellers.prof_pic', 'users.name', 'users.phone', 'users.street', 'users.city', 'users.province', 'users.zip_code')
+                ->select('users.id', 'sellers.prof_pic', 'users.name', 'users.phone', 'users.email')
             ->first();
 
             $products = DB::table('products')

@@ -18,11 +18,10 @@ class CreateSellersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('type_id',3);
             $table->string('no_id',20);
-            $table->decimal('rating', 5, 1);
-            $table->string('prof_pic');
             $table->string('bank_account',50);
             $table->string('account_number',20);
             $table->string('bank_name',30);
+            $table->string('prof_pic');
             $table->rememberToken();
             $table->timestamps();
         });

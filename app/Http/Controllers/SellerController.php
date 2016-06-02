@@ -27,21 +27,25 @@ class sellerController extends Controller
     // public function index($id)
     public function index()
     {
-        // $profiles = User::find($id);
-        // return view ('seller.sellerProfile', ['profiles'=>$profiles]);
-
         $profiles   = DB::table('users')
+            ->join('cities','cities.id','=','users.city_id')
+            ->join('provinces','provinces.id','=','cities.province_id')
             ->join('sellers', function ($join) {
                 $join->on('users.id', '=', 'sellers.user_id')
                      ->where('sellers.user_id', '=', Auth::user()->id);
             })
-            ->get();
-            return view ('seller.sellerProfile', compact('profiles'));
+            ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
+            ->first();
+            return view ('seller.SellerProfile', compact('profiles'));
     }
 
     public function showSignUp()
     {
-        return view('seller.SellerSignUp');
+        $city = DB::table('cities')
+            ->where('cities.city','=','Bandung Barat')
+            ->select('*')
+            ->first();
+        return view('seller.SellerSignUp', compact('city'));
     }
 
     /**
@@ -73,25 +77,8 @@ class sellerController extends Controller
      */
     public function show($id)
     {
-         $profiles   = DB::table('users')
-            ->join('sellers', 'users.id','=','sellers.user_id')
-            ->where('sellers.id','=', $id)
-            ->get();
-            return view ('seller.sellerProfile', compact('profiles'));
-        
+        //
     }
-
-    // public function bannedSeller($id)
-    // {
-    //      $profiles   = DB::table('users')
-    //         ->join('sellers', 'users.id','=','sellers.user_id')
-    //         ->where('sellers.id','=', $id)
-    //         ->update([
-    //             'status'       => 0
-    //             ]);
-    //         return redirect ('/');
-        
-    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -102,13 +89,25 @@ class sellerController extends Controller
     // public function edit($id)
     public function edit()
     {
+        $province = DB::table('provinces')
+            ->select('provinces.id', 'provinces.province')
+            ->get();
+
+        $cities = DB::table('cities')
+            ->join('provinces','cities.province_id','=','provinces.id')
+            ->select('cities.id','cities.city','cities.province_id', 'cities.type','provinces.province')
+            ->get();
+
         $profiles   = DB::table('users')
+            ->join('cities','cities.id','=','users.city_id')
+            ->join('provinces','provinces.id','=','cities.province_id')
             ->join('sellers', function ($join) {
                 $join->on('users.id', '=', 'sellers.user_id')
                      ->where('sellers.user_id', '=', Auth::user()->id);
             })
-            ->get();
-            return view ('seller.sellerProfileEdit', compact('profiles'));
+            ->select('users.id','users.email','users.name','users.gender','users.phone','users.street', 'users.city_id','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
+            ->first();
+            return view ('seller.sellerProfileEdit', compact('profiles','province','cities'));
     }
 
     /**
@@ -125,9 +124,8 @@ class sellerController extends Controller
             'no_id'         => 'required',
             'name'          => 'required',
             'phone'         => 'required',
+            'gender'        => 'required',
             'street'        => 'required',
-            'city'          => 'required',
-            'province'      => 'required',
             'zip_code'      => 'required',
             'bank_name'     => 'required',
             'account_number'=> 'required',
@@ -139,9 +137,8 @@ class sellerController extends Controller
             ->update([
                 'name'      => Input::get('name'),
                 'phone'     => Input::get('phone'),
+                'gender'    => Input::get('gender'),
                 'street'    => Input::get('street'),
-                'city'      => Input::get('city'),
-                'province'  => Input::get('province'),
                 'zip_code'  => Input::get('zip_code'),
                 ]);
 

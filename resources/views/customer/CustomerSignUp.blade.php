@@ -15,7 +15,7 @@
                 <div class="col-xs-6">
                     <ol class="breadcrumb">
                         <li><a href="/">Halaman Utama</a></li>
-                        <li class="active">Daftar Sebagai Penjual</li>
+                        <li class="active">Daftar Sebagai Pembeli</li>
                     </ol>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                         <input type="hidden" name="role" value="customer">
 
 
-                        <h3>Form Pendaftaran Penjual</h3>
+                        <h3>Form Pendaftaran Pembeli</h3>
 
                             <br>
                             <h4><label>Informasi Akun</label></h4>
@@ -121,20 +121,34 @@
                                 @endif
                             </div>
 
-                            <div class="{{ $errors->has('city') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="city" placeholder="Kota..." value="{{ old('street') }}" maxlength="30">
-                                @if ($errors->has('city'))
+                            <div class="{{ $errors->has('province') ? ' has-error' : '' }}">
+                                <select class="form-control" name="province" id="province" onchange="getIdProvince()">
+                                    <option>--Pilih Propinsi--</option>
+                                @foreach($province as $prov)
+                                    <option value="{{$prov->id}}">{{$prov->province}}</option>
+                                @endforeach
+                                </select>
+                                @if ($errors->has('province'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('city') }}</strong>
+                                        <strong>{{ $errors->first('province') }}</strong>
                                     </span>
                                 @endif
                             </div>
 
-                            <div class="{{ $errors->has('province') ? ' has-error' : '' }}">
-                                <input type="text" class="form-control" name="province" placeholder="Propinsi..." value="{{ old('province') }}" maxlength="30">
-                                @if ($errors->has('province'))
+                            <div class="{{ $errors->has('city_id') ? ' has-error' : '' }}">
+                                <select class="form-control" name="city_id">
+                                    <option id="kota-default" selected="true">--Pilih Kota/Kabupaten--</option>
+                                
+                                @foreach($cities as $city)
+                                        <option class="kota {{$city->province_id}}" value="{{$city->id}}" disabled="true">
+                                            {{$city->type}} {{$city->city}}
+                                        </option>
+                                @endforeach
+                                
+                                </select>
+                                @if ($errors->has('city_id'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('province') }}</strong>
+                                        <strong>{{ $errors->first('city_id') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -161,13 +175,6 @@
                         </div>
                          <br>
                         <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" value="Register">Submit</button>
-                        <!-- <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i>Register
-                                </button>
-                            </div>
-                        </div> -->
                     </form>
                 </div>
                     <p class="form-text">Sudah memiliki akun? <a href="{{ url('/login') }}">Masuk</a></p>

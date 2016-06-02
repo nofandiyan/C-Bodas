@@ -17,7 +17,6 @@ class CreateProductsTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('category_products');
             $table->string('name',50);
-            $table->rememberToken();
             $table->timestamps();
         });
     }

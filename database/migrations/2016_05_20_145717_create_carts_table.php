@@ -22,7 +22,6 @@ class CreateCartsTable extends Migration
             $table->integer('amount',10);
             $table->date('schedule')->nullable();
             $table->string('status','10');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

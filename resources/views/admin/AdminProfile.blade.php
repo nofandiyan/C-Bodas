@@ -5,9 +5,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-        @foreach($profiles as $profile)
+        
             <div class="panel panel-default">
-                <div class="panel-heading">Profil {{$profile->name}}</div>
+                <div class="panel-heading">Profil {{$profiles->name}}</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/">
                         {!! csrf_field() !!}
@@ -23,7 +23,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nama</label>
                                     <div class="col-md-9">
-                                        {{$profile->name}}
+                                        {{$profiles->name}}
                                     </div>
                                     <br>
                                 </div>
@@ -31,7 +31,19 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nomor Telepon</label>
                                     <div class="col-md-9">
-                                        {{$profile->phone}}
+                                        {{$profiles->phone}}
+                                    </div>
+                                    <br>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="col-md-3" align="right">Jenis Kelamin</label>
+                                    <div class="col-md-9">
+                                        @if ($profiles->gender == 'L')
+                                            Laki-Laki
+                                        @elseif ($profiles->gender == 'P')
+                                            Perempuan
+                                        @endif
                                     </div>
                                     <br>
                                 </div>
@@ -39,7 +51,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Email</label>
                                     <div class="col-md-9">
-                                        {{$profile->email}}
+                                        {{$profiles->email}}
                                     </div>
                                     <br>
                                 </div>
@@ -47,10 +59,10 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Alamat</label>
                                     <div class="col-md-9">
-                                        {{$profile->street}}    <br>
-                                        {{$profile->city}}      <br>
-                                        {{$profile->province}}      <br>
-                                        {{$profile->zip_code}}   
+                                        {{$profiles->street}}                       <br>
+                                        {{$profiles->type}} {{$profiles->city}}     <br>
+                                        {{$profiles->province}}                     <br>
+                                        {{$profiles->zip_code}}   
                                     </div>
                                 </div>
 
@@ -60,7 +72,7 @@
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                     <div class="col-md-3" align="right">
-                                        <a href="/admin/{{$profile->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
+                                        <a href="/admin/{{$profiles->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
                                     </div>
                                 </div>
                             
@@ -69,7 +81,7 @@
                     </form>
                 </div>
             </div>
-        @endforeach
+        
         </div>
     </div>
 </div>

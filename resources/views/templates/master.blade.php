@@ -101,8 +101,18 @@
             });
 
         });
-    </script>
     
+        function getIdProvince() {
+            $(".kota:selected").removeAttr("selected");
+            $("#kota-default").attr("selected", true);
+            var provid =  document.getElementById("province").value;
+            $(".kota").css("display", "none");
+            $(".kota").attr("disabled", true);
+            $("."+provid).css("display", "block");
+            $("."+provid).attr("disabled", false);
+        }
+    </script>
+
     <style type="text/css">
         .wrapper {
             width: 700px;

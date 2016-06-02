@@ -56,19 +56,7 @@
                             </div>
 
                             <div class="form-group">
-                                {{$profile->street}}
-                            </div>
-                            
-                            <div class="form-group">
-                                {{$profile->city}}
-                            </div>
-
-                            <div class="form-group">
-                                {{$profile->province}}
-                            </div>
-
-                            <div class="form-group">
-                                {{$profile->zip_code}}
+                                {{$profile->email}}
                             </div>
                         </div>
                     </div>

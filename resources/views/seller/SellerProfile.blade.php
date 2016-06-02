@@ -5,17 +5,15 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-        
-        @foreach($profiles as $profile)
             <div class="panel panel-default">
-                <div class="panel-heading">Profil {{$profile->name}}</div>
+                <div class="panel-heading">Profil {{$profiles->name}}</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/">
                         {!! csrf_field() !!}
 
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="put">
-                        <input type="hidden" name='idMerchant' value="{{$profile->id}}">
+                        <input type="hidden" name='idMerchant' value="{{$profiles->id}}">
 
                         <div class="col-md-5" align="center">
                             <!-- <div class="wrapper"> -->
@@ -24,7 +22,7 @@
                                     <label>
                                         <!-- <input type="radio" name="full-image" checked> -->
                                         <div class="full-image">
-                                            <img src="{{ url($profile->prof_pic) }}" class="img-thumbnail" height="300" width="300">
+                                            <img src="{{ url($profiles->prof_pic) }}" class="img-thumbnail" height="300" width="300">
                                         </div>
                                     </label>
                                 </div>
@@ -37,7 +35,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nama</label>
                                     <div class="col-md-9">
-                                        {{$profile->name}}
+                                        {{$profiles->name}}
                                     </div>
                                     <br>
                                 </div>
@@ -45,7 +43,19 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nomor Telepon</label>
                                     <div class="col-md-9">
-                                        {{$profile->phone}}
+                                        {{$profiles->phone}}
+                                    </div>
+                                    <br>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="col-md-3" align="right">Jenis Kelamin</label>
+                                    <div class="col-md-9">
+                                        @if ($profiles->gender == 'L')
+                                            Laki-Laki
+                                        @elseif ($profiles->gender == 'P')
+                                            Perempuan
+                                        @endif
                                     </div>
                                     <br>
                                 </div>
@@ -53,7 +63,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Email</label>
                                     <div class="col-md-9">
-                                        {{$profile->email}}
+                                        {{$profiles->email}}
                                     </div>
                                     <br>
                                 </div>
@@ -61,7 +71,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Jenis Identitas</label>
                                     <div class="col-md-9">
-                                        {{$profile->type_id}}
+                                        {{$profiles->type_id}}
                                     </div>
                                     <br>
                                 </div>
@@ -69,7 +79,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nomor Identitas</label>
                                     <div class="col-md-9">
-                                        {{$profile->no_id}}
+                                        {{$profiles->no_id}}
                                     </div>
                                     <br>
                                 </div>
@@ -77,10 +87,10 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Alamat</label>
                                     <div class="col-md-9">
-                                        {{$profile->street}}    <br>
-                                        {{$profile->city}}      <br>
-                                        {{$profile->province}}      <br>
-                                        {{$profile->zip_code}}   
+                                        {{$profiles->street}}                       <br>
+                                        {{$profiles->type}} {{$profiles->city}}     <br>
+                                        {{$profiles->province}}                     <br>
+                                        {{$profiles->zip_code}}   
                                     </div>
                                 </div>
 
@@ -88,7 +98,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nama Bank</label>
                                     <div class="col-md-9">
-                                        {{$profile->bank_name}}
+                                        {{$profiles->bank_name}}
                                     </div>
                                     <br>
                                 </div>
@@ -96,7 +106,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nomor Rekening</label>
                                     <div class="col-md-9">
-                                        {{$profile->account_number}}
+                                        {{$profiles->account_number}}
                                     </div>
                                     <br>
                                 </div>
@@ -104,7 +114,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Nama Buku Rekening</label>
                                     <div class="col-md-9">
-                                        {{$profile->bank_account}}
+                                        {{$profiles->bank_account}}
                                     </div>
                                     <br>
                                 </div>
@@ -115,23 +125,14 @@
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                     <div class="col-md-3" align="right">
-                                        <a href="/seller/{{$profile->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
+                                        <a href="/seller/{{$profiles->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
                                     </div>
                                     @else
                                     <div class="col-md-3" align="right">
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                     @endif
-
-                                    <!-- @if($profile->status == 1)
-                                    <div class="col-md-3" align="right">
-                                        <a href="/bannedSeller/{{$profile->id}}" class="btn btn-primary" role="button">Banned Seller</a>
-                                    </div>
-                                    @else
-                                    <div class="col-md-3" align="right">
-                                        <a href="unBannedSeller" class="btn btn-primary" role="button">Un-Banned Seller</a>
-                                    @endif
-                                    </div> -->
+                                    
                                 </div>
                             
                             </div>
@@ -139,7 +140,6 @@
                     </form>
                 </div>
             </div>
-        @endforeach
         </div>
     </div>
 </div>

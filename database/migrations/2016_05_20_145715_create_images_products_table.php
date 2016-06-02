@@ -17,7 +17,6 @@ class CreateImagesProductsTable extends Migration
             $table->integer('detail_product_id')->unsigned();
             $table->foreign('detail_product_id')->references('id')->on('detail_products');
             $table->string('link');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

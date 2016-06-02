@@ -4,40 +4,40 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
             <div class="panel panel-default">
                 <div class="panel-heading">Edit Profil</div>
                 <div class="panel-body">
-                    @foreach($profiles as $profile)
-                    <form class="form-horizontal" role="form" method="POST" action="/customer/{{$profile->id}}" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" action="/customer/{{$profiles->id}}" enctype="multipart/form-data">
 
                         {!! csrf_field() !!}
                         <input type="hidden" name="_method" value="put">
-                        <input type="hidden" name='id' value="{{$profile->id}}">
+                        <input type="hidden" name='id' value="{{$profiles->id}}">
                         <input type="hidden" name='role' value="customer">
 
-                        <div class="form-group">    
+                        <div align="center">
+                            <label><h3>Perbaharui Akun {{$profiles->name}}</h3></label>
+                        </div>
 
-                            <label class="col-md-10 col-md-offset-2">Informasi Akun</label>
+                            <br>
+                            <h4><label>Informasi Akun</label></h4>
 
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
 
-                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="email" class="form-control" name="email" value="{{ $profile->email }}" placeholder="Alamat E-Mail" readonly>
+                                    <input type="email" class="form-control" name="email" value="{{ $profiles->email }}" placeholder="Alamat E-Mail" readonly>
 
                                     @if ($errors->has('email'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('email') }}</strong>
                                         </span>
                                     @endif
-                                </div>
                             </div>
 
-                            <label class="col-md-10 col-md-offset-2">Informasi Data Diri</label>
+                            <br>
+                            <h4><label>Informasi Data Diri</label></h4>
 
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('name') ? ' has-error' : '' }}">
 
-                                <div class="col-md-6 col-md-offset-3">
                                     <input type="text" class="form-control" name="name" value="{{ Auth::user()->name }}" placeholder="Nama Lengkap">
 
                                     @if ($errors->has('name'))
@@ -45,28 +45,24 @@
                                             <strong>{{ $errors->first('name') }}</strong>
                                         </span>
                                     @endif
-                                </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('phone') ? ' has-error' : '' }}">
 
-                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="phone" value="{{ $profile->phone }}" placeholder="Nomor Telepon">
+                                    <input type="text" class="form-control" name="phone" value="{{ $profiles->phone }}" placeholder="Nomor Telepon">
 
                                     @if ($errors->has('phone'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('phone') }}</strong>
                                         </span>
                                     @endif
-                                </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
 
-                                <div class="col-md-6 col-md-offset-3">
                                     <select class="form-control" name="gender">
-                                    <option value="L" <?php if("{{$profile->gender}}"=='L') echo 'selected'; ?>>Laki-Laki</option>
-                                    <option value="P" <?php if("{{$profile->gender}}"=='P') echo 'selected'; ?>>Perempuan</option>
+                                    <option value="L" <?php if("{{$profiles->gender}}"=='L') echo 'selected'; ?>>Laki-Laki</option>
+                                    <option value="P" <?php if("{{$profiles->gender}}"=='P') echo 'selected'; ?>>Perempuan</option>
                                 </select>
 
                                     @if ($errors->has('gender'))
@@ -74,76 +70,77 @@
                                             <strong>{{ $errors->first('gender') }}</strong>
                                         </span>
                                     @endif
-                                </div>
 
                             </div>
 
-                            <label class="col-md-9 col-md-offset-3">Alamat</label>
+                            <br>
+                            <h4><label>Informasi Alamat</label></h4>
 
-                            <div class="form-group{{ $errors->has('street') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('street') ? ' has-error' : '' }}">
 
-                                <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="street" placeholder="Jalan + Nomor" value="{{ $profile->street }}">
+                                    <input type="text" class="form-control" name="street" placeholder="Jalan + Nomor" value="{{ $profiles->street }}">
 
                                     @if ($errors->has('street'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('street') }}</strong>
                                         </span>
                                     @endif
-                                </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('province') ? ' has-error' : '' }}">
+                                <select class="form-control" name="province" id="province" onchange="getIdProvince()">
+                                    <option>--Pilih Propinsi--</option>
 
-                                <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="city" placeholder="Kota..." value="{{ $profile->city }}">
+                                @foreach($province as $prov)
+                                    <option value="{{$prov->id}}" <?php if("{{$profiles->idProvince}}"=="{{$prov->id}}") echo 'selected'; ?>>{{$prov->province}}</option>
+                                @endforeach
 
-                                    @if ($errors->has('city'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('city') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                                </select>
+                                @if ($errors->has('province'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('province') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('province') ? ' has-error' : '' }}">
-
-                                <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="province" placeholder="Propinsi..." value="{{ $profile->province }}">
-
-                                    @if ($errors->has('province'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('province') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                            <div class="{{ $errors->has('city_id') ? ' has-error' : '' }}">
+                                <select class="form-control" name="city_id">
+                                    <option id="kota-default" selected="true">--Pilih Kota/Kabupaten--</option>
+                                
+                                @foreach($cities as $city)
+                                        <option class="kota {{$city->province_id}}" value="{{$city->id}}" disabled="true" <?php if("{{$profiles->city_id}}"=="{{$city->id}}") echo 'selected'; ?>>
+                                            {{$city->type}} {{$city->city}}
+                                        </option>
+                                @endforeach
+                                
+                                </select>
+                                @if ($errors->has('city_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('city_id') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('zip_code') ? ' has-error' : '' }}">
+                            <div class="{{ $errors->has('zip_code') ? ' has-error' : '' }}">
 
-                                <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="zip_code" placeholder="Kode Pos..." value="{{ $profile->zip_code }}" maxlength="5">
+                                    <input type="text" class="form-control" name="zip_code" placeholder="Kode Pos..." value="{{ $profiles->zip_code }}" maxlength="5">
 
                                     @if ($errors->has('zip_code'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('zip_code') }}</strong>
                                         </span>
                                     @endif
-                                </div>
                             </div>
 
-                        </div>
+                        
 
-                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-3" align="center">
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
                                     <i class="fa fa-btn fa-user"></i>Simpan
                                 </button>
                             </div>
-                        </div>
                 
                     </form>
-                    @endforeach
                 </div>
             </div>
         </div>

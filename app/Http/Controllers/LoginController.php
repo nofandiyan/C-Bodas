@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\ Session as Session;
 use Illuminate\Support\Facades\Validator as Validator;
 use Illuminate\Support\Facades\Redirect as Redirect;
 
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+
 use Auth;
 
 class LoginController extends Controller

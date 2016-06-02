@@ -16,13 +16,12 @@ class CreateReservationsTable extends Migration
             $table->increments('id');
             $table->integer('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('customers');
-            $table->integer('delivery_id')->unsigned();
-            $table->foreign('delivery_id')->references('id')->on('delivery');
+            $table->integer('delivery_address_id')->unsigned();
+            $table->foreign('delivery_address_id')->references('id')->on('delivery_address');
             $table->smallInteger('status');
             $table->string('bank_name',30);
             $table->string('bank_account',50);
             $table->string('payment_proof');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

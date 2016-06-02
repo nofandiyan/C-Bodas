@@ -54,16 +54,19 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div>                        
 
                         @if($product->category_id == 1)
-                        <div class="col-md-12 {{ $errors->has('type_product') ? ' has-error' : '' }}">
+                        <div class="{{ $errors->has('type_product') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Jenis Produk</label>
                             <div class="col-md-3">
                                 <select class="form-control" name="type_product" id="type_product" disabled>
                                     <option>--Jenis Produk--</option>
-                                    <option value="Organik" <?php if($product->type_product=='Organik') echo 'selected'; ?>>Organik</option>
-                                    <option value="Anorganik" <?php if($product->type_product=='Anorganik') echo 'selected'; ?>>Anorganik</option>
+                                    <option value="Sayur Organik" 
+                                        <?php $so = "Sayur Organik"; if($product->type_product==$so) echo 'selected'; ?>>Sayur Organik</option>
+                                    <option value="Sayur Anorganik" <?php $sa = "Sayur Anorganik"; if($product->type_product==$sa) echo 'selected'; ?>>Sayur Anorganik</option>
+                                    <option value="Buah Organik" <?php $bo = "Buah Organik"; if($product->type_product==$bo) echo 'selected'; ?>>Buah Organik</option>
+                                    <option value="Buah Anorganik" <?php $ba = "Buah Anorganik"; if($product->type_product==$ba) echo 'selected'; ?>>Buah Anorganik</
                                 </select>
 
                                 @if ($errors->has('type_product'))

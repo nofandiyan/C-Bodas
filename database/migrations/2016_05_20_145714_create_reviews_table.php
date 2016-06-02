@@ -20,7 +20,6 @@ class CreateReviewsTable extends Migration
             $table->foreign('detail_product_id')->references('id')->on('detail_products');
             $table->decimal('rating',5,1);
             $table->string('review');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

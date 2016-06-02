@@ -8,23 +8,23 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Edit Profil</div>
                 <div class="panel-body">
-                @foreach($profiles as $profile)
-                    <form class="form-horizontal" role="form" method="POST" action="/seller/{{$profile->id}}" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" action="/seller/{{$profiles->id}}" enctype="multipart/form-data">
                         
+                        <div align="center">
+                            <label><h3>Perbaharui Akun {{$profiles->name}}</h3></label>
+                        </div>
+
                         {!! csrf_field() !!}
                         <input type="hidden" name="_method" value="put">
-                        <!-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> -->
-                        <input type="hidden" name='id' value="{{$profile->id}}">
+                        <input type="hidden" name='id' value="{{$profiles->id}}">
                         <input type="hidden" name='role' value="seller">
-
-                        <div class="form-group">    
 
                             <label class="col-md-10 col-md-offset-2">Informasi Akun</label>
 
                             <div class="form-group{{ $errors->has('prof_pic') ? ' has-error' : '' }}" align="center">
                                 <label>Foto Profil</label>
                                 <div class="full-image">
-                                    <img src="{{ url($profile->prof_pic) }}" class="img-thumbnail" height="300" width="300">
+                                    <img src="{{ url($profiles->prof_pic) }}" class="img-thumbnail" height="300" width="300">
                                 </div>
                                 <label>Ganti Foto Profil</label>
                                 <input type="file" name="prof_pic">
@@ -38,7 +38,7 @@
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 
                                  <div class="col-md-6 col-md-offset-3">
-                                    <input type="email" class="form-control" name="email" value="{{ $profile->email }}" placeholder="Alamat E-Mail" readonly>
+                                    <input type="email" class="form-control" name="email" value="{{ $profiles->email }}" placeholder="Alamat E-Mail" readonly>
 
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -54,8 +54,8 @@
 
                                 <div class="col-md-6 col-md-offset-3">
                                     <select class="form-control" name="type_id">
-                                    <option value="KTP" <?php if("{{$profile->type_id}}"=='KTP') echo 'selected'; ?>>KTP</option>
-                                    <option value="SIM" <?php if("{{$profile->type_id}}"=='SIM') echo 'selected'; ?>>SIM</option>
+                                    <option value="KTP" <?php if("{{$profiles->type_id}}"=='KTP') echo 'selected'; ?>>KTP</option>
+                                    <option value="SIM" <?php if("{{$profiles->type_id}}"=='SIM') echo 'selected'; ?>>SIM</option>
                                 </select>
 
                                     @if ($errors->has('type_id'))
@@ -70,7 +70,7 @@
                             <div class="form-group{{ $errors->has('no_id') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="no_id" value="{{ $profile->no_id }}" placeholder="Nomor Identitas">
+                                    <input type="text" class="form-control" name="no_id" value="{{ $profiles->no_id }}" placeholder="Nomor Identitas">
 
                                     @if ($errors->has('no_id'))
                                         <span class="help-block">
@@ -97,7 +97,7 @@
                             <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
 
                                  <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="phone" value="{{ $profile->phone }}" placeholder="Nomor Telepon">
+                                    <input type="text" class="form-control" name="phone" value="{{ $profiles->phone }}" placeholder="Nomor Telepon">
 
                                     @if ($errors->has('phone'))
                                         <span class="help-block">
@@ -107,9 +107,21 @@
                                 </div>
                             </div>
 
-                        <!-- </div>
+                            <div class="form-group{{$errors->has('gender') ? ' has-error' : '' }}">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <select class="form-control" name="gender">
+                                        <option value="L" <?php if("{{$profiles->gender}}"=='L') echo 'selected'; ?>>Laki-Laki</option>
+                                        <option value="L" <?php if("{{$profiles->gender}}"=='P') echo 'selected'; ?>>Perempuan</option>
+                                    </select>
 
-                        <div> -->
+                                @if ($errors->has('gender'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('gender') }}</strong>
+                                    </span>
+                                @endif
+                                </div>
+                            </div>
+
                             <label class="col-md-9 col-md-offset-3">Alamat</label>
 
                             <div class="form-group{{ $errors->has('street') ? ' has-error' : '' }}">
@@ -127,13 +139,14 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="city" value="Kab. Bandung" readonly="Kab. Bandung">
+                                    <input type="text" class="form-control" name="province" value="{{$profiles->province}}" readonly="{{$profiles->province}}">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="province" value="Jawa Barat" readonly="Jawa Barat">
+                                    <input type="hidden" name="city_id" value="{{$profiles->city_id}}">
+                                    <input type="text" class="form-control" name="city" value="{{$profiles->type}} {{$profiles->city}}" readonly="{{$profiles->city}}">
                                 </div>
                             </div>
 
@@ -149,9 +162,13 @@
                             <label class="col-md-10 col-md-offset-2">Informasi Rekening</label>
 
                             <div class="form-group{{ $errors->has('bank_name') ? ' has-error' : '' }}">
-
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="bank_name" placeholder="Nama Bank" value="{{ $profile->bank_name }}">
+                                    <select class="form-control" name="bank_name">
+                                        <option value="BRI" <?php if("{{$profiles->bank_name}}"=='BRI') echo 'selected'; ?>>BRI</option>
+                                        <option value="Mandiri" <?php if("{{$profiles->bank_name}}"=='Mandiri') echo 'selected'; ?>>Mandiri</option>
+                                        <option value="BNI" <?php if("{{$profiles->bank_name}}"=='BNI') echo 'selected'; ?>>BNI</option>
+                                        <option value="BCA" <?php if("{{$profiles->bank_name}}"=='BCA') echo 'selected'; ?>>BCA</option>
+                                    </select>
 
                                     @if ($errors->has('bank_name'))
                                         <span class="help-block">
@@ -159,12 +176,12 @@
                                         </span>
                                     @endif
                                 </div>
-                            </div>
+                        </div>
 
                             <div class="form-group{{ $errors->has('account_number') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="account_number" value="{{ $profile->account_number }}" placeholder="Nomor Rekening">
+                                    <input type="text" class="form-control" name="account_number" value="{{ $profiles->account_number }}" placeholder="Nomor Rekening">
 
                                     @if ($errors->has('account_number'))
                                         <span class="help-block">
@@ -177,7 +194,7 @@
                             <div class="form-group{{ $errors->has('bank_account') ? ' has-error' : '' }}">
 
                                 <div class="col-md-6 col-md-offset-3">
-                                    <input type="text" class="form-control" name="bank_account" value="{{ $profile->bank_account }}" placeholder="Nama Dalam Buku Rekening">
+                                    <input type="text" class="form-control" name="bank_account" value="{{ $profiles->bank_account }}" placeholder="Nama Dalam Buku Rekening">
 
                                     @if ($errors->has('bank_account'))
                                         <span class="help-block">
@@ -187,8 +204,6 @@
                                 </div>
                             </div>
 
-                        </div>
-
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3" align="center">
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
@@ -196,7 +211,6 @@
                                 </button>
                             </div>
                         </div>
-                @endforeach
                     </form>
                 </div>
             </div>
