@@ -90,7 +90,7 @@ Route::group(['middleware' => 'web'], function () {
 
 });
 
-// Route::get('/test', 'ApiTestController@test');
+Route::get('/test', 'ApiTestController@test');
 
 
 // Route Mobile App
@@ -99,6 +99,9 @@ Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function 
     Route::post('/login','ApiCustomerController@getLogin');    
     Route::post('/maintainLogin','ApiCustomerController@maintainLogin');
     Route::post('/updateAddress','ApiCustomerController@updateAddress');
+    Route::post('/insertAddress', 'ApiCustomerController@insertDelivAddress');
+    Route::get('/getProvinces', 'ApiCustomerController@getProvinces');
+    Route::get('/getCities', 'ApiCustomerController@getCities');
 });
 
 Route::group(['prefix' => '/api/v1/products', 'middleware' => 'api'], function () {
