@@ -91,7 +91,8 @@
                                         <div class="product-overlay">
                                             <div class="product-mask"></div>
                                             <a href="single-product.html" class="product-permalink"></a>
-                                            <img style="border:0px; width:300px; height:200px;" src="{{ url($bar->link) }}" class="img-responsive" alt="">
+                                            <img style="border:0px; width:300px; height:200px;" src="{{ url($bar->image[0]->link) }}" class="img-responsive" alt="">
+
                                             <div class="product-quickview">
                                                 <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
                                             </div>
@@ -134,7 +135,7 @@
                          
     <!-- PRODUCT - END -->
                     </div>  
-                     <center>{!! $barang->links() !!}</center>                         
+                                           
                 </div>
             </div>
         </div>
@@ -156,10 +157,19 @@
                             <div class="col-sm-4">
                                 <div class="product-carousel-wrapper hidden">
                                     <div id="product-carousel-modal">
-                                        <div class="item"><img src="assets/images/products/product-1.jpg" class="img-responsive" alt=""></div>
-                                        <div class="item"><img src="assets/images/products/product-2.jpg" class="img-responsive" alt=""></div>
-                                        <div class="item"><img src="assets/images/products/product-3.jpg" class="img-responsive" alt=""></div>
-                                        <div class="item"><img src="assets/images/products/product-4.jpg" class="img-responsive" alt=""></div>
+                                    @foreach($barang as $bara)
+                                        
+                                            <?php $count = 4; ?>
+                                            <?php $counts = count($barang); ?>
+                                        
+                                            @for($i=0; $i<$counts; $i++)
+                                                    @if($bara->image[$i]->idDetProdIm == $bara->id)
+                                                    <div class="item"><img src="{{url($bara->image[$i]->link)}}" class="img-responsive" alt=""></div>
+                                                    @endif
+                                            @endfor
+
+                                        
+                                    @endforeach
                                     </div>
                                 </div>
                             </div>

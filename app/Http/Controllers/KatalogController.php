@@ -31,18 +31,29 @@ class KatalogController extends Controller
      */
 
     //Pertanian
-     public function showKatalogpertanian()
+    public function showKatalogpertanian()
     {
-         $barang = DB::table('detail_products')
+        $barang = DB::table('detail_products')
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->join('images_products','detail_products.id', '=', 'images_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','images_products.link')
+            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
             ->where('category_id', '=' , 1 )
-            ->paginate(9);
-    
-        return view('templates.katalogpertanian', compact('barang')); 
+            ->get();
+
+        foreach ($barang as $bar) {
+            $bar->image = DB::table('images_products')
+            ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
+            ->where('images_products.detail_product_id','=', $bar->id)
+            ->get();
+        }
+
+        
+        // echo "<pre>";
+        // var_dump($barang);
+        // die();
+
+    return view('templates.katalogpertanian', compact('barang')); 
     }
 
     //Peternakan
