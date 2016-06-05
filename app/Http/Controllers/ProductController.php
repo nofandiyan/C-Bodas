@@ -48,12 +48,13 @@ class ProductController extends Controller
         $this->validate($request, [
             'name'          => 'required',
             'description'   => 'required',
+            
             'foto1'         => 'required|mimes:jpeg,png',
             'foto2'         => 'required|mimes:jpeg,png',
             'foto3'         => 'required|mimes:jpeg,png',
             'foto4'         => 'required|mimes:jpeg,png',
             'stock'         => 'required',
-            'price'         => 'required',
+            'price'         => 'required'
 
         ]);
 
@@ -61,16 +62,17 @@ class ProductController extends Controller
         $product->category_id   = $request->category_id;
         $product->name          = $request->name;
 
+
         $product->save();
 
         $seller = DB::table('sellers')->where('user_id', Auth::user()->id)->value('id');
 
         $detail = new Detail_ProductsModel;
-        $detail->product_id   = $product->id;
-        $detail->seller_id    = $seller;
-        $detail->stock        = $request->stock;
-        $detail->description  = $request->description;
-        $detail->type_product  = $request->type_product;
+        $detail->product_id     = $product->id;
+        $detail->seller_id      = $seller;
+        $detail->stock          = $request->stock;
+        $detail->description    = $request->description;
+        $detail->type_product   = $request->type_product;
         $detail->save();
 
         $price = new Prices_ProductsModel;
@@ -126,13 +128,7 @@ class ProductController extends Controller
         //     ->select('carts.amount')
         //     ->first();
 
-        if ($product->category_id == 1) {
-            return view('product.viewProductTani', compact('product', 'images', 'price', 'sold'));
-        }elseif ($product->category_id == 2) {
-            return view('product.viewProductTernak', compact('product', 'images', 'price'));
-        }elseif ($product->category_id == 3) {
-            return view('product.viewProductWisata', compact('product', 'images', 'price'));
-        }
+        return view('product.viewProduct', compact('product','images','price'));
         
     }
 
@@ -258,7 +254,6 @@ class ProductController extends Controller
                     ]);
             }
         }
-
         return redirect('/');
     }
 

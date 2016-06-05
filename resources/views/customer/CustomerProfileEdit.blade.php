@@ -61,8 +61,8 @@
                             <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
 
                                     <select class="form-control" name="gender">
-                                    <option value="L" <?php if("{{$profiles->gender}}"=='L') echo 'selected'; ?>>Laki-Laki</option>
-                                    <option value="P" <?php if("{{$profiles->gender}}"=='P') echo 'selected'; ?>>Perempuan</option>
+                                    <option value="Laki-laki" <?php if("{{$profiles->gender}}"=='Laki-laki') echo 'selected'; ?>>Laki-Laki</option>
+                                    <option value="Perempuan" <?php if("{{$profiles->gender}}"=='Perempuan') echo 'selected'; ?>>Perempuan</option>
                                 </select>
 
                                     @if ($errors->has('gender'))
@@ -108,7 +108,7 @@
                                     <option id="kota-default" selected="true">--Pilih Kota/Kabupaten--</option>
                                 
                                 @foreach($cities as $city)
-                                        <option class="kota {{$city->province_id}}" value="{{$city->id}}" disabled="true" <?php if("{{$profiles->city_id}}"=="{{$city->id}}") echo 'selected'; ?>>
+                                        <option class="kota {{$city->province_id}}" value="{{$city->id}}" readonly="true" <?php if("{{$profiles->city_id}}"=="{{$city->id}}") echo 'selected'; ?>>
                                             {{$city->type}} {{$city->city}}
                                         </option>
                                 @endforeach

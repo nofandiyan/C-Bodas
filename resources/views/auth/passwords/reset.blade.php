@@ -3,11 +3,13 @@
 @section('konten')
 <div class="container">
     <div class="row">
+        <br>
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+                
 
                 <div class="panel-body">
+                    <div align="center"><label><h2>Penggantian Kata Sandi</h2></label></div>
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
                         {{ csrf_field() }}
 

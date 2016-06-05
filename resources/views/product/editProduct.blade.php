@@ -3,15 +3,9 @@
 @section('konten')
                 
     <div class="row">
+        <br>
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                @if($product->category_id == 1)
-                <div class="panel-heading">Form Edit Produk Pertanian</div>
-                @elseif($product->category_id == 2)
-                <div class="panel-heading">Form Edit Produk Hewan Ternak</div>
-                @elseif($product->category_id == 3)
-                <div class="panel-heading">Form Edit Produk Tiket Pariwisata</div>
-                @endif
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/Product/{{ $product->id }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
@@ -20,14 +14,19 @@
                         <input type="hidden" name="_method" value="put">
 
                         @if($product->category_id == 1)
-                        <div align="center"><label><h2>Form Edit Produk Pertanian</h2></label></div>
+                        <div align="center"><h2><label>Form Update Produk Pertanian <br> <font color="E87169">{{ $product->name }}</font></label></h2></div>
+                        <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
+                        <br>
                         @elseif($product->category_id == 2)
-                        <div align="center"><label><h2>Form Edit Produk Hewan Ternak</h2></label></div>
+                        <div align="center"><h2><label>Form Update Produk Peternakan <br> <font color="E87169">{{ $product->name }}</font></label></h2></div>
+                        <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
+                        <br>
                         @elseif($product->category_id == 3)
-                        <div align="center"><label><h2>Form Edit Produk Tiket Pariwisata</h2></label></div>
+                        <div align="center"><h2><label>Form Update Produk Pariwisata <br> <font color="E87169">{{ $product->name }}</font></label></h2></div>
+                        <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
+                        <br>
                         @endif
 
-                        <br>
                         <div class="{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Nama Produk</label>
 
@@ -112,15 +111,22 @@
 
                         
                             <div class="col-md-12 {{ $errors->has('stock') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Stok Tersedia</label>
 
-                                <div class="col-md-3">
-                                    @if($product->category_id == 1)
+                                @if($product->category_id == 1)
+                                    <label class="col-md-4 control-label">Stok Tersedia</label>
+                                    <div class="col-md-3">
                                         <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $product->stock }}">
+                                    </div>
                                     @elseif($product->category_id == 2)
-                                        <input type="number" class="form-control" name="stock" step="1" value="{{ $product->stock }}" readonly>
+                                    <!-- <label class="col-md-4 control-label">Stok Tersedia</label>
+                                    <div class="col-md-3"> -->
+                                        <input type="hidden" class="form-control" name="stock" step="1" value="{{ $product->stock }}" readonly>
+                                    <!-- </div> -->
                                     @elseif($product->category_id == 3)
-                                        <input type="number" class="form-control" name="stock" step="1" value="{{ $product->stock }}">
+                                    <!-- <label class="col-md-4 control-label">Stok Tersedia</label>
+                                    <div class="col-md-3"> -->
+                                        <input type="hidden" class="form-control" name="stock" step="1" value="{{ $product->stock }}">
+                                    <!-- </div> -->
                                     @endif
 
                                     @if ($errors->has('stock'))
@@ -128,14 +134,20 @@
                                             <strong>{{ $errors->first('stock') }}</strong>
                                         </span>
                                     @endif
-                                </div>
                             </div>
                             
                             <div class="col-md-12 {{ $errors->has('price') ? ' has-error' : '' }}">
+
                                 <label class="col-md-4 control-label">Harga</label>
 
                                 <div class="col-md-3">
-                                    <input type="number" class="form-control" name="price" step="50" placeholder="Per Kilogram" value="{{ $prices->price}}">
+                                    @if($product->category_id == 1)
+                                        <input type="number" class="form-control" name="price" step="50" placeholder="Per Kilogram" value="{{ $prices->price}}">
+                                    @elseif($product->category_id == 2)
+                                        <input type="number" class="form-control" name="price" step="50" placeholder="" value="{{ $prices->price}}">
+                                    @elseif($product->category_id == 3)
+                                        <input type="number" class="form-control" name="price" step="50" placeholder="" value="{{ $prices->price}}">
+                                    @endif
 
                                     @if ($errors->has('price'))
                                         <span class="help-block">
@@ -144,14 +156,31 @@
                                     @endif
                                 </div>
                             </div>
-                        </div>
 
-                        
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-10">
+                                <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
+                                <br>
+                                    <div class="col-md-1 col-md-offset-2" align="right">
+                                        <input type="checkbox" id="myCheck" name="myCheck" required>
+                                    </div>
+                                    <div class="col-md-offset-1" align="justify">
+                                        Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada isi formulir merupakan murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" align="center">
+                                <br>
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
                                     <i class="fa fa-btn fa-user"></i>Simpan
                                 </button>
                             </div>
+
+                        </div>
+
+                        
+                                
                         
 
                     </form>

@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
                     <div class="login-form-wrapper">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/registerCustomer') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <input type="hidden" name="status" value="0">
@@ -87,7 +87,7 @@
                             
                             
                             <div>
-                                <input type="text" class="form-control" name="phone" placeholder="Nomor Telepon..." value="{{ old('phone') }}" maxlength="15">
+                                <input type="text" class="form-control" name="phone" placeholder="Nomor Telepon..." value="{{ old('phone') }}" maxlength="15" onkeyup="numeric(this)">
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -98,8 +98,8 @@
 
                             <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
                                 <select class="form-control" name="gender">
-                                    <option value="L">Laki-Laki</option>
-                                    <option value="P">Perempuan</option>
+                                    <option value="Laki-laki">Laki-Laki</option>
+                                    <option value="Perempuan">Perempuan</option>
                                 </select>
 
                                 @if ($errors->has('gender'))
@@ -167,7 +167,7 @@
                         <br>
                         <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
                             <div class="col-md-1">
-                                <input type="checkbox" id="myCheck" name="test" required>
+                                <input type="checkbox" id="myCheck" name="myCheck" required>
                             </div>
                             <div class="col-md-offset-1" align="justify">
                                 Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada isi formulir merupakan murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.

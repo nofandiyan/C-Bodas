@@ -27,8 +27,10 @@
     $this->post('password/reset', 'Auth\PasswordController@reset');
      
     // Registration routes...
-    Route::get('register', 'Auth\AuthController@getRegister');
-    Route::post('register', 'RegistrationController@postRegister');
+    Route::get('register', 'Auth\AuthController@getRegister');    
+    Route::post('registerAdmin', 'RegistrationController@postRegisterAdmin');
+    Route::post('registerSeller', 'RegistrationController@postRegisterSeller');
+    Route::post('registerCustomer', 'RegistrationController@postRegisterCustomer');
     Route::get('register/verify/{confirmationCode}', 'RegistrationController@confirm');
 
 Route::group(['middleware' => 'web'], function () {

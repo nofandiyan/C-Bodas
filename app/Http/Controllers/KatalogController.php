@@ -42,7 +42,7 @@ class KatalogController extends Controller
             ->where('category_id', '=' , 1 )
             ->paginate(9);
     
-    return view('templates.katalogpertanian', compact('barang')); 
+        return view('templates.katalogpertanian', compact('barang')); 
     }
 
     //Peternakan
@@ -64,18 +64,11 @@ class KatalogController extends Controller
 
     //Pariwisata
 
+    
+
     public function showKatalogpariwisata()
     {
-        $barang = DB::table('detail_products')
-            ->join('products', 'detail_products.product_id', '=', 'products.id')
-            ->join('category_products', 'products.category_id', '=', 'category_products.id')
-            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->join('images_products','detail_products.id', '=', 'images_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','images_products.link')
-            ->where('category_id', '=' , 3 )
-            ->paginate(9);
-    
-    return view('templates.katalogpariwisata', compact('barang')); 
+        return view('templates.katalogpariwisata'); 
     }
 
     /*//Sapi

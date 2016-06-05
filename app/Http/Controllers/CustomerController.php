@@ -18,17 +18,8 @@ use Illuminate\Support\Facades\Input as Input;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    
-    // public function index($id)
     public function index()
     {
-        // $profiles = User::find($id);
-        // return view ('seller.sellerProfile', ['profiles'=>$profiles]);
 
         $profiles   = DB::table('users')
             ->join('customers', function ($join) {
@@ -53,45 +44,6 @@ class CustomerController extends Controller
         return view('customer.CustomerSignUp', compact('province','cities')); 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function edit($id)
     public function edit()
     {
         $province = DB::table('provinces')
@@ -115,13 +67,19 @@ class CustomerController extends Controller
             return view ('customer.CustomerProfileEdit', compact('profiles','province','cities'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function show($id)
+    {
+        $profiles   = DB::table('users')
+            ->join('cities','cities.id','=','users.city_id')
+            ->join('provinces','provinces.id','=','cities.province_id')
+            ->join('customers', 'users.id', '=', 'customers.user_id')
+            ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
+            ->where('sellers.id','=', $id)
+            ->first();
+
+            return view ('seller.sellerProfile', compact('profiles'));
+    }
+
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -154,12 +112,6 @@ class CustomerController extends Controller
         return redirect('/CustomerProfile');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $data = User::find($id);

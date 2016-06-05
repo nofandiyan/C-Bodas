@@ -4,13 +4,17 @@
 
 <div class="container">
     <div class="row">
+        <br>
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Produk Pertanian</div>
+                
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/Product/{{$product->id}}">
                         {!! csrf_field() !!}
 
+                        <div align="center"><h2><label>Produk Pertanian <br> <font color="E87169">{{ $product->name }}</font></label></h2></div>
+                        <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
+                        <br>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="put">
 
@@ -41,42 +45,68 @@
 		                            </div>
 		                            <br>
 		                        </div>
-		                        
-		                        <div class="col-md-12">
-		                            <label class="col-md-3" align="right">Keterangan Produk</label>
-		                            <div class="col-md-9">
-		                                {{ $product->description }}
-		                            </div>
-		                        </div>
-		                          
+		                        @if($product->category_id == 1)
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Jenis Produk</label>
                                     <div class="col-md-9">
                                         {{$product->type_product}}
                                     </div>
                                 </div>
+                                @endif
 
 		                        <div class="col-md-12">
-		                            <label class="col-md-3" align="right">Stok</label>
+		                            <label class="col-md-3" align="right">Keterangan Produk</label>
 		                            <div class="col-md-9">
-		                                {{$product->stock}} Kilogram
+		                                {{ $product->description }}
 		                            </div>
 		                        </div>
-		                        
+
+                                @if($product->category_id == 1)
+                                    <div class="col-md-12">
+                                        <label class="col-md-3" align="right">Stok</label>
+                                        <div class="col-md-9">
+                                            {{$product->stock}} Kilogram
+                                        </div>
+                                    </div>
+                                    @elseif($product->category_id == 2)
+                                    <div class="col-md-12">
+                                        <label class="col-md-3" align="right">Stok</label>
+                                        <div class="col-md-9">
+                                            {{$product->stock}} Ekor
+                                        </div>
+                                    </div>
+                                
+
+                                @endif
+
 		                        <div class="col-md-12">
+                                    @if($product->category_id == 1)
 		                            <label class="col-md-3" align="right">Harga</label>
 		                            <div class="col-md-9">
 		                              	{{$price->price}} Per Kilogram
 		                            </div>
+                                    @elseif($product->category_id == 2)
+                                    <label class="col-md-3" align="right">Harga</label>
+                                    <div class="col-md-9">
+                                        {{$price->price}}
+                                    </div>
+                                    @elseif($product->category_id == 3)
+                                    <label class="col-md-3" align="right">Harga Tiket</label>
+                                    <div class="col-md-9">
+                                        {{$price->price}}
+                                    </div>
+                                    @endif
 		                        </div>
 
                         		@if(Auth::user()->role == 'seller')
-                                <div class="col-md-7">
-                                	<div class="col-md-3">
+                                <div class="col-md-12">
+                                	<div class="col-md-3" align="right">
+                                        <br>
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                     
-                                    <div class="col-md-3">
+                                    <div class="col-md-9">
+                                        <br>
                                         <a href="/Product/{{$product->id}}/edit" class="btn btn-primary" role="button">Edit Produk</a>
                                     </div>
                                 </div>

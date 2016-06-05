@@ -4,10 +4,14 @@
 
 <div class="container">
     <div class="row">
+        <br>
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Profil {{$profiles->name}}</div>
+                
                 <div class="panel-body">
+                    <div align="center"><h2><label>Profil <font color="E87169">{{$profiles->name}}</font></label></h2></div>
+                    <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
+
                     <form class="form-horizontal" role="form" method="POST" action="/">
                         {!! csrf_field() !!}
 
@@ -23,6 +27,22 @@
                                         <!-- <input type="radio" name="full-image" checked> -->
                                         <div class="full-image">
                                             <img src="{{ url($profiles->prof_pic) }}" class="img-thumbnail" height="300" width="300">
+                                        </div>
+                                        <br>
+                                        <div class="col-md-12">
+                                            @if(Auth::user()->role == 'seller')
+                                            <div class="col-md-5" align="right">
+                                                <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <a href="/seller/{{$profiles->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
+                                            </div>
+                                            @else
+                                            <div class="col-md-12" align="center">
+                                                <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                            </div>
+                                            @endif
                                         </div>
                                     </label>
                                 </div>
@@ -51,11 +71,7 @@
                                 <div class="col-md-12">
                                     <label class="col-md-3" align="right">Jenis Kelamin</label>
                                     <div class="col-md-9">
-                                        @if ($profiles->gender == 'L')
-                                            Laki-Laki
-                                        @elseif ($profiles->gender == 'P')
-                                            Perempuan
-                                        @endif
+                                        {{$profiles->gender}}
                                     </div>
                                     <br>
                                 </div>
@@ -117,23 +133,7 @@
                                         {{$profiles->bank_account}}
                                     </div>
                                     <br>
-                                </div>
-
-                                <div class="col-md-12">
-                                    @if(Auth::user()->role == 'seller')
-                                    <div class="col-md-3" align="right">
-                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
-                                    </div>
-                                    <div class="col-md-3" align="right">
-                                        <a href="/seller/{{$profiles->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
-                                    </div>
-                                    @else
-                                    <div class="col-md-3" align="right">
-                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
-                                    </div>
-                                    @endif
-                                    
-                                </div>
+                                </div>                                
                             
                             </div>
                         </div>

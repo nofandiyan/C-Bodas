@@ -101,7 +101,8 @@
             });
 
         });
-    
+
+//address
         function getIdProvince() {
             $(".kota:selected").removeAttr("selected");
             $("#kota-default").attr("selected", true);
@@ -111,6 +112,14 @@
             $("."+provid).css("display", "block");
             $("."+provid).attr("disabled", false);
         }
+//input numeric
+            function numeric(ob) {
+              var invalidChars = /[^0-9]/gi
+              if(invalidChars.test(ob.value)) {
+                        ob.value = ob.value.replace(invalidChars,"");
+                  }
+            }
+        
     </script>
 
     <style type="text/css">

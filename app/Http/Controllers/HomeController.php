@@ -31,6 +31,7 @@ class HomeController extends Controller
     {
         if(Auth::user()->role == "admin"){
             $profiles = User::where('id', Auth::user()->id)->first();
+            
             $category = DB::table('category_products')->get();
             
             $products = DB::table('products')

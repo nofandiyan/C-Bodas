@@ -4,18 +4,19 @@
                 
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
+
+                <br>
             <div class="panel panel-default">
                 @if (Session::has('message'))
                     <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
                 @endif
-                <div class="panel-heading">Form Pendaftaran Produk Pertanian</div>
+
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/Product') }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
 
-                        <div align="center">
-                            <label><h2><b>Form Pendaftaran Produk Pertanian</b></h2></label>
-                        </div>
+                        <div align="center"><h2><label>Form Pendaftaran <br> <font color="E87169">Produk Pertanian</font></label></h2></div>
+                        <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
                         <br/>
 
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -47,7 +48,6 @@
                             <label class="col-md-4 control-label">Jenis Produk</label>
                             <div class="col-md-3">
                                 <select class="form-control" name="type_product" id="type_product">
-                                    <option>--Jenis Produk--</option>
                                     <option value="Sayur Organik">Sayur Organik</option>
                                     <option value="Sayur Anorganik">Sayur Anorganik</option>
                                     <option value="Buah Organik">Buah Organik</option>
@@ -109,7 +109,7 @@
                         <div class="col-md-12 {{ $errors->has('stock') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Stok Tersedia</label>
                             <div class="col-md-3">
-                                <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram"  maxlength="10" min="5"> *Stok minimal 5 Kilogram
+                                <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" maxlength="10" min="5"> *Stok minimal 5 Kilogram
                                 @if ($errors->has('stock'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('stock') }}</strong>
@@ -128,12 +128,30 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-12" >
-                            <div class="col-md-6 col-md-offset-4">
+
+                            
+                            
+                            <div class="col-md-10">
+                                <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
+                                <br>
+                                    <div class="col-md-1 col-md-offset-2" align="right">
+                                        <input type="checkbox" id="myCheck" name="myCheck" required>
+                                    </div>
+                                    <div class="col-md-offset-1" align="justify">
+                                        Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada isi formulir merupakan murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            
+
+
+                        <div class="col-md-12" align="center">
+                            
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
                                     <i class="fa fa-btn fa-user"></i>Daftar
                                 </button>
-                            </div>
+                            
                         </div>
 
                     </form>

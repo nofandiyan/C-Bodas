@@ -38,11 +38,29 @@
                                 </div>
 
                                 <div class="col-md-12">
+                                    <label class="col-md-3" align="right">Jenis Kelamin</label>
+                                    <div class="col-md-9">
+                                        {{$profiles->gender}}
+                                    </div>
+                                    <br>
+                                </div>
+
+                                <div class="col-md-12">
                                     <label class="col-md-3" align="right">Email</label>
                                     <div class="col-md-9">
                                         {{$profiles->email}}
                                     </div>
                                     <br>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <label class="col-md-3" align="right">Alamat</label>
+                                    <div class="col-md-9">
+                                        {{$profiles->street}}                       <br>
+                                        {{$profiles->type}} {{$profiles->city}}     <br>
+                                        {{$profiles->province}}                     <br>
+                                        {{$profiles->zip_code}}   
+                                    </div>
                                 </div>
 
                                 <div class="col-md-12">

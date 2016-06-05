@@ -4,9 +4,10 @@
 
 <div class="container">
     <div class="row">
+    <br>
         <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit Profil</div>
+                
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/admin/{{$profiles->id}}" enctype="multipart/form-data">
                         
@@ -15,11 +16,9 @@
                         <input type="hidden" name='id' value="{{$profiles->id}}">
                         <input type="hidden" name='role' value="admin">
 
-                        <div align="center">
-                            <label><h3>Perbaharui Akun {{$profiles->name}}</h3></label>
-                        </div>
+                        <div align="center"><h2><label>Perbaharui Profil <br> <font color="E87169">{{$profiles->name}}</font></label></h2></div>
+                        <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
                         
-                        <br>
                             <h4><label>Informasi Akun</label></h4>
 
                             <div class="{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -61,8 +60,8 @@
 
                             <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
                                 <select class="form-control" name="gender">
-                                    <option value="L" <?php if("{{$profiles->gender}}"=='L') echo 'selected'; ?>>Laki-Laki</option>
-                                    <option value="L" <?php if("{{$profiles->gender}}"=='P') echo 'selected'; ?>>Perempuan</option>
+                                    <option value="Laki-laki" <?php if("{{$profiles->gender}}"=='Laki-laki') echo 'selected'; ?>>Laki-Laki</option>
+                                    <option value="Perempuan" <?php if("{{$profiles->gender}}"=='Perempuan') echo 'selected'; ?>>Perempuan</option>
                                 </select>
 
                                 @if ($errors->has('gender'))
@@ -107,7 +106,7 @@
                                     <option id="kota-default" selected="true">--Pilih Kota/Kabupaten--</option>
                                 
                                 @foreach($cities as $city)
-                                        <option class="kota {{$city->province_id}}" value="{{$city->id}}" disabled="true" <?php if("{{$profiles->city_id}}"=="{{$city->id}}") echo 'selected'; ?>>
+                                        <option class="kota {{$city->province_id}}" value="{{$city->id}}" readonly="true" <?php if("{{$profiles->city_id}}"=="{{$city->id}}") echo 'selected'; ?>>
                                             {{$city->type}} {{$city->city}}
                                         </option>
                                 @endforeach
@@ -131,9 +130,16 @@
                                     @endif
                             </div>
 
-                        
-    
-    
+                            <br>
+                            <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
+                                    <div class="col-md-1">
+                                        <input type="checkbox" id="myCheck" name="myCheck" required>
+                                    </div>
+                                    <div class="col-md-offset-1" align="justify">
+                                        Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada isi formulir merupakan murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
+                                    </div>
+                            </div>    
+                            <br>
                             <div class="col-md-6 col-md-offset-3" align="center">
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
                                     <i class="fa fa-btn fa-user"></i>Simpan
