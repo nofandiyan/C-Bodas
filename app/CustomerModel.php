@@ -9,6 +9,6 @@ class CustomerModel extends Model
     protected $table = 'customers';
 
     protected $fillable = [
-        'user_id','gender'
+        'id'
     ];
 }

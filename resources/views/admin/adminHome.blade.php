@@ -284,7 +284,6 @@
                                                         <thead>
                                                           <tr>
                                                             <th class="col-md-1">ID User</th>
-                                                            <th class="col-md-3">ID Seller</th>
                                                             <th class="col-md-4">Name</th>
                                                             <th class="col-md-2">Opsi</th>
                                                           </tr>
@@ -295,7 +294,6 @@
                                                             @foreach($sellers as $seller)
                                                                 @if(($seller->role)=='seller')
                                                                   <tr>
-                                                                    <td class="short">{{$seller->user_id}}</td>
                                                                     <td class="short">{{$seller->id}}</td>
                                                                     <td class="short">{{$seller->name}}</td>
                                                                     <td><a href="viewSellerProfile/{{$seller->id}}" class="btn btn-info" role="button">Detail</a></td>
@@ -314,7 +312,6 @@
                                                         <thead>
                                                           <tr>
                                                              <th class="col-md-1">ID User</th>
-                                                            <th class="col-md-3">ID Customer</th>
                                                             <th class="col-md-4">Name</th>
                                                             <th class="col-md-2">Opsi</th>
                                                           </tr>
@@ -325,7 +322,6 @@
                                                             @foreach($customers as $customer)
                                                                 @if(($customer->role)=='customer')
                                                                   <tr>
-                                                                    <td class="short">{{$customer->user_id}}</td>
                                                                     <td class="short">{{$customer->id}}</td>
                                                                     <td class="short">{{$customer->name}}</td>
                                                                     <td><a href="viewCustomerProfile/{{$customer->id}}" class="btn btn-info" role="button">Detail</a></td>
@@ -336,9 +332,7 @@
                                                         </tbody>
                                                       </table>
                                                       <hr>
-                                                    </div>
-
-                                                    
+                                                    </div>  
                                             </div>
                                         </div>
                                       <hr>

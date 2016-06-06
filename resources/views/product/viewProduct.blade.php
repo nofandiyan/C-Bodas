@@ -38,6 +38,29 @@
 
                         <div class="col-md-7">
 	                        <div class="row">
+                                @if(Auth::user()->role=='admin')
+                                    <div class="col-md-12">
+                                        <label class="col-md-3" align="right">ID Seller</label>
+                                        <div class="col-md-9">
+                                            {{ $product->seller_id }}
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="col-md-3" align="right">Dibuat Tanggal</label>
+                                        <div class="col-md-9">
+                                            {{ $product->created_at }}
+                                        </div>
+                                        <br>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="col-md-3" align="right">Terakhir update</label>
+                                        <div class="col-md-9">
+                                            {{ $product->updated_at }}
+                                        </div>
+                                        <br>
+                                    </div>
+                                @endif
 		                        <div class="col-md-12">
 		                            <label class="col-md-3" align="right">Nama Produk</label>
 		                            <div class="col-md-9">

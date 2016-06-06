@@ -198,7 +198,7 @@
                         @if (Auth::user()->role=='admin')
                         <li><a href="/AdminProfile">Hai, {{Auth::user()->name}}</a></li>
                         @elseif (Auth::user()->role=='seller')
-                        <li><a href="/SellerProfile">Hai, {{Auth::user()->name}}</a></li>
+                        <li><a href="{{ url ('SellerProfile')}}">Hai, {{Auth::user()->name}}</a></li>
                         @elseif (Auth::user()->role=='customer')
                         <li><a href="/CustomerProfile">Hai, {{Auth::user()->name}}</a></li>
                         @endif

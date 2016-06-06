@@ -137,7 +137,7 @@ class RegistrationController extends Controller
         
         $confirmation_code = str_random(30);
 
-        $userSeller=User::create([
+        $user=User::create([
             'name'      => Input::get('name'),
             'gender'    => Input::get('gender'),
             'email'     => Input::get('email'),
@@ -150,27 +150,40 @@ class RegistrationController extends Controller
             'confirmation_code' => $confirmation_code,
             'role'      => Input::get('role'),
         ]);
-        $userSeller->save();
+        $user->save();
 
         $file = Input::file('prof_pic');
 
-            $filename=$userSeller->id.'-'.$file->getClientOriginalName();
+            $filename=$user->id.'-'.$file->getClientOriginalName();
             
             $file->move(base_path().'/public/images/profile/', $filename);
         
             $prof_pic = 'images/profile/'.$filename;
 
-            $seller = SellerModel::create([
-                'user_id'       => $userSeller->id,
+            // $seller = SellerModel::create([
+            //     'id'            => $userSeller->id,
+            //     'user_id'       => $userSeller->id,
+            //     'type_id'       => Input::get('type_id'),
+            //     'no_id'         => Input::get('no_id'),
+            //     'prof_pic'      => $prof_pic,
+            //     'bank_account'  => Input::get('bank_account'),
+            //     'account_number'=> Input::get('account_number'),
+            //     'bank_name'     => Input::get('bank_name'),
+            // ]);
+
+            // $seller->save();
+
+            $seller = DB::table('sellers')->insertGetId([
+                'id'            => $user->id,
                 'type_id'       => Input::get('type_id'),
                 'no_id'         => Input::get('no_id'),
                 'prof_pic'      => $prof_pic,
                 'bank_account'  => Input::get('bank_account'),
                 'account_number'=> Input::get('account_number'),
                 'bank_name'     => Input::get('bank_name'),
+                'created_at'    => $user->created_at,
+                'updated_at'    => $user->updated_at
             ]);
-            
-        $seller->save();        
 
         Mail::send('email.verify', ['confirmation_code' => $confirmation_code], function($m) {
             $m->from('noreply@c-bodas.com', 'C-Bodas');
@@ -232,11 +245,17 @@ class RegistrationController extends Controller
         ]);
         $user->save();
 
-            $customer = CustomerModel::create([
-                'user_id'       => $user->id
-            ]);
+        //     $customer = CustomerModel::create([
+        //         'user_id'       => $user->id
+        //     ]);
             
-        $customer->save();        
+        // $customer->save();        
+
+        $customer = DB::table('customers')->insertGetId([
+                'id'            => $user->id,
+                'created_at'    => $user->created_at,
+                'updated_at'    => $user->updated_at
+            ]);
 
         Mail::send('email.verify', ['confirmation_code' => $confirmation_code], function($m) {
             $m->from('noreply@c-bodas.com', 'C-Bodas');
