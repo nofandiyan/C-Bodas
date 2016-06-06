@@ -256,21 +256,32 @@
                             
                         </ul>
                     </li>
+
+                    <!-- Searching start -->
+
+
+
                     <li class="dropdown navbar-search hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <form>
+                                {{ Form::open(['method'=>'GET','url'=>$url,'class'=>'navbar-form navbar-left','role'=>'search'])  }}
+ 
                                     <div class="input-group input-group-lg">
+                                     {{ Form::text('name', '', array('placeholder'=>'name', 'class'=>'form-control') ) }}
                                         <input type="text" class="form-control" placeholder="Cari...">
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" type="button">Cari</button>
                                         </span>
                                     </div>
-                                </form>
+                                {{ Form::close() }}
                             </li>
                         </ul>
                     </li>
+
+
+
+                    <!-- Searching end -->
                 </ul>
             </div>
         </div>

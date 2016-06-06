@@ -79,19 +79,19 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/katalogpariwisata', 'KatalogController@showKatalogpariwisata');
 
-    Route::get('/sayurorganik', 'KatalogController@showSayurorganik');
+    Route::get('/katalogsayurorganik', 'KatalogController@showSayurorganik');
 
-    Route::get('/sayuranorganik', 'KatalogController@showSayuranorganik');
+    Route::get('/katalogsayuranorganik', 'KatalogController@showSayuranorganik');
 
-    Route::get('/buahorganik', 'KatalogController@showBuahorganik');
+    Route::get('/katalogbuahorganik', 'KatalogController@showBuahorganik');
 
-    Route::get('/buahanorganik', 'KatalogController@showBuahanorganik');
+    Route::get('/katalogbuahanorganik', 'KatalogController@showBuahanorganik');
 
-    //Route::get('/katalogdomba', 'KatalogController@showKatalogdomba');
+    //--------------------------------------------------------------------------
 
-    //Route::get('/katalogsapi', 'KatalogController@showKatalogsapi');
+    Route::get('/homepage', 'SearchController@search');
 
-    //Route::get('/katalogvilla', 'KatalogController@showKatalogvilla');
+    //-------------------------------------------------------------------------
 
     Route::get('/cart', 'CartController@showCart');
 
