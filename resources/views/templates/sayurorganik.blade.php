@@ -40,9 +40,9 @@
                             <div class="collapse in" id="widget-categories-collapse" aria-expanded="true" role="tabpanel">
                                 <div class="widget-body">
                                     <ul class="list-unstyled" id="categories" role="tablist" aria-multiselectable="true">
-                                       <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="#parent-1" aria-expanded="false" aria-controls="parent-1">Pertanian<span>[4]</span></a>
-                                            <ul id="parent-1" class="list-unstyled panel-collapse collapse" role="menu">
-                                                <li><a href="sayurorganik">Sayur Organik</a></li>
+                                       <li class="panel"><a role="button" data-toggle="collapse" data-parent="#categories" href="#parent-1" aria-expanded="true" aria-controls="parent-1">Pertanian<span>[4]</span></a>
+                                            <ul id="parent-1" class="list-unstyled panel-collapse collapse in" role="menu">
+                                                <li class="active"><a href="sayurorganik">Sayur Organik</a></li>
                                                 <li><a href="sayuranorganik">Sayur Anorganik</a></li>
                                                 <li><a href="buahorganik">Buah Organik</a></li>
                                                 <li><a href="buahanorganik">Buah Anorganik</a></li>
@@ -55,7 +55,7 @@
                                         </li>
 
                                         
-                                        <li class="panel"><a role="button" data-parent="#categories" href="/katalogpariwisata">Pariwisata</a>
+                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="/katalogpariwisata">Pariwisata</a>
                                
                                         </li>
                                     </ul>
