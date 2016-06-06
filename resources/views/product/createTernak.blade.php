@@ -24,7 +24,7 @@
                         <input type="hidden" name="type_product" value="Null">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Judul</label>
+                            <label class="col-md-4 control-label">Nama Produk</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}">

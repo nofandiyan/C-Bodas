@@ -23,8 +23,8 @@ class CustomerController extends Controller
 
         $profiles   = DB::table('users')
             ->join('customers', function ($join) {
-                $join->on('users.id', '=', 'customers.user_id')
-                     ->where('customers.user_id', '=', Auth::user()->id);
+                $join->on('users.id', '=', 'customers.id')
+                     ->where('customers.id', '=', Auth::user()->id);
             })
             ->first();
             return view ('customer.customerProfile', compact('profiles'));
@@ -59,8 +59,8 @@ class CustomerController extends Controller
             ->join('cities','cities.id','=','users.city_id')
             ->join('provinces','provinces.id','=','cities.province_id')
             ->join('customers', function ($join) {
-                $join->on('users.id', '=', 'customers.user_id')
-                     ->where('customers.user_id', '=', Auth::user()->id);
+                $join->on('users.id', '=', 'customers.id')
+                     ->where('customers.id', '=', Auth::user()->id);
             })
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street', 'users.city_id', 'cities.city','cities.type', 'provinces.id as idProvince','provinces.province','users.zip_code')
             ->first();
@@ -72,7 +72,7 @@ class CustomerController extends Controller
         $profiles   = DB::table('users')
             ->join('cities','cities.id','=','users.city_id')
             ->join('provinces','provinces.id','=','cities.province_id')
-            ->join('customers', 'users.id', '=', 'customers.user_id')
+            ->join('customers', 'users.id', '=', 'customers.id')
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
             ->where('sellers.id','=', $id)
             ->first();
@@ -104,7 +104,7 @@ class CustomerController extends Controller
                 ]);
 
         DB::table('customers')
-            ->where('user_id', Auth::user()->id)
+            ->where('id', Auth::user()->id)
             ->update([
                 'gender'     => Input::get('gender'),
                 ]);

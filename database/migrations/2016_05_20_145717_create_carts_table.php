@@ -21,7 +21,7 @@ class CreateCartsTable extends Migration
             $table->foreign('price_id')->references('id')->on('prices_products');
             $table->integer('amount',10);
             $table->date('schedule')->nullable();
-            $table->string('status','10');
+            $table->enum('status', ['0', '1', '2', '3', '4']);
             $table->timestamps();
         });
     }

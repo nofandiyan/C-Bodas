@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                                   
-                            <input type="hidden" class="form-control" name="stock" step="1" value="1">
+                            <input type="hidden" class="form-control" name="stock" step="1" value="1000">
 
                             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">Harga</label>

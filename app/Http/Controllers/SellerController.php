@@ -24,8 +24,8 @@ class sellerController extends Controller
             ->join('cities','cities.id','=','users.city_id')
             ->join('provinces','provinces.id','=','cities.province_id')
             ->join('sellers', function ($join) {
-                $join->on('users.id', '=', 'sellers.user_id')
-                     ->where('sellers.user_id', '=', Auth::user()->id);
+                $join->on('users.id', '=', 'sellers.id')
+                     ->where('sellers.id', '=', Auth::user()->id);
             })
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
             ->first();
@@ -46,7 +46,7 @@ class sellerController extends Controller
         $profiles   = DB::table('users')
             ->join('cities','cities.id','=','users.city_id')
             ->join('provinces','provinces.id','=','cities.province_id')
-            ->join('sellers', 'users.id', '=', 'sellers.user_id')
+            ->join('sellers', 'users.id', '=', 'sellers.id')
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
             ->where('sellers.id','=', $id)
             ->first();
@@ -69,8 +69,8 @@ class sellerController extends Controller
             ->join('cities','cities.id','=','users.city_id')
             ->join('provinces','provinces.id','=','cities.province_id')
             ->join('sellers', function ($join) {
-                $join->on('users.id', '=', 'sellers.user_id')
-                     ->where('sellers.user_id', '=', Auth::user()->id);
+                $join->on('users.id', '=', 'sellers.id')
+                     ->where('sellers.id', '=', Auth::user()->id);
             })
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street', 'users.city_id','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
             ->first();
@@ -104,7 +104,7 @@ class sellerController extends Controller
 
         $file = Input::file('prof_pic');
         
-        $prof_pic = DB::table('sellers')->where('user_id', Auth::user()->id)->value('prof_pic');
+        $prof_pic = DB::table('sellers')->where('id', Auth::user()->id)->value('prof_pic');
 
         if (!empty($file)) {
             
@@ -116,7 +116,7 @@ class sellerController extends Controller
         }
 
         DB::table('sellers')
-            ->where('user_id', Auth::user()->id)
+            ->where('id', Auth::user()->id)
             ->update([
                 'type_id'       => Input::get('type_id'),
                 'no_id'         => Input::get('no_id'),

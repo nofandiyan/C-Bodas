@@ -65,7 +65,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        $seller = DB::table('sellers')->where('user_id', Auth::user()->id)->value('id');
+        $seller = DB::table('sellers')->where('id', Auth::user()->id)->value('id');
 
         $detail = new Detail_ProductsModel;
         $detail->product_id     = $product->id;
@@ -109,7 +109,7 @@ class ProductController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
+            ->select('detail_products.id as id', 'detail_products.seller_id', 'detail_products.created_at', 'detail_products.updated_at', 'products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
             ->where('detail_products.id', '=', $id)
             ->first();
 
@@ -127,6 +127,10 @@ class ProductController extends Controller
         //     ->where('detail_product_id', '=', $id)
         //     ->select('carts.amount')
         //     ->first();
+
+            // echo("<pre>");
+            // var_dump($product);
+            // die();
 
         return view('product.viewProduct', compact('product','images','price'));
         

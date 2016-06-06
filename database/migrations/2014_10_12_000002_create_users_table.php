@@ -18,14 +18,14 @@ class CreateUsersTable extends Migration
             $table->string('email',30)->unique();
             $table->string('password',100);
             $table->string('name',50);
-            $table->string('gender',1);
+            $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->string('phone',15);
             $table->string('street',50);
             $table->integer('city_id')->unsigned();
             $table->foreign('city_id')->references('id')->on('cities');
             $table->string('zip_code',5);
-            $table->smallInteger('status');
             $table->string('confirmation_code');
+            $table->enum('status', ['0', '1']);
             $table->rememberToken();
             $table->timestamps();
         });

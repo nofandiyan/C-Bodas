@@ -73,7 +73,7 @@ class OrderController extends Controller
             ->join('products', 'detail_products.product_id','=','products.id')
             ->join('category_products', 'category_products.id','=','products.category_id')
             ->join('customers', 'reservations.customer_id' ,'=','customers.id')
-            ->join('users', 'users.id' ,'=','customers.user_id')
+            ->join('users', 'users.id' ,'=','customers.id')
             ->select('carts.reservation_id','carts.detail_product_id', 'carts.schedule', 'products.name as product_name', 'category_products.category_name', 'products.category_id', 'carts.amount','users.name as user_name', 'customers.id as customer_id', 'users.street', 'users.city', 'users.province', 'users.zip_code', 'users.phone')
             ->first();
 
