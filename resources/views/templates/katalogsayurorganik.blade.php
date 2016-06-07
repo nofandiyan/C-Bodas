@@ -42,10 +42,10 @@
                                     <ul class="list-unstyled" id="categories" role="tablist" aria-multiselectable="true">
                                        <li class="panel"><a role="button" data-toggle="collapse" data-parent="#categories" href="#parent-1" aria-expanded="true" aria-controls="parent-1">Pertanian<span>[4]</span></a>
                                             <ul id="parent-1" class="list-unstyled panel-collapse collapse in" role="menu">
-                                                <li class="active"><a href="sayurorganik">Sayur Organik</a></li>
-                                                <li><a href="sayuranorganik">Sayur Anorganik</a></li>
-                                                <li><a href="buahorganik">Buah Organik</a></li>
-                                                <li><a href="buahanorganik">Buah Anorganik</a></li>
+                                                <li class="active"><a href="katalogsayurorganik">Sayur Organik</a></li>
+                                                <li><a href="katalogsayuranorganik">Sayur Anorganik</a></li>
+                                                <li><a href="katalogbuahorganik">Buah Organik</a></li>
+                                                <li><a href="katalogbuahanorganik">Buah Anorganik</a></li>
                                                
                                             </ul>
                                         </li>

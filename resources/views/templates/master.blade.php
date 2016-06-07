@@ -265,16 +265,16 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
                         <ul class="dropdown-menu">
                             <li>
-                                {{ Form::open(['method'=>'GET','url'=>$url,'class'=>'navbar-form navbar-left','role'=>'search'])  }}
+                               
  
                                     <div class="input-group input-group-lg">
-                                     {{ Form::text('name', '', array('placeholder'=>'name', 'class'=>'form-control') ) }}
+                                     <form>
                                         <input type="text" class="form-control" placeholder="Cari...">
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" type="button">Cari</button>
                                         </span>
                                     </div>
-                                {{ Form::close() }}
+                                    </form>
                             </li>
                         </ul>
                     </li>

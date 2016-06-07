@@ -154,7 +154,7 @@ class KatalogController extends Controller
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
             ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
-            ->where('type_product', '=' , 'Buah Organik' )
+            ->where('type_product', '=' , 'Buah Anorganik' )
             ->paginate(9);
 
         foreach ($barang as $bar) {
@@ -191,7 +191,7 @@ class KatalogController extends Controller
             ->get();
         }
 
-    return view('templates.katalogpeternakan', compact('barang')); 
+    return view('templates.katalogpariwisata', compact('barang')); 
     }
 
     /*//Sapi
