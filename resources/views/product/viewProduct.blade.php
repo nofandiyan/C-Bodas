@@ -11,8 +11,14 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/Product/{{$product->id}}">
                         {!! csrf_field() !!}
-
-                        <div align="center"><h2><label>Produk Pertanian <br> <font color="E87169">{{ $product->name }}</font></label></h2></div>
+                        
+                        @if($product->category_id == 1)
+                            <div align="center"><h2><label>Produk Pertanian <br> <font color="E87169">{{ $product->name }}</font></label></h2></div>
+                        @elseif($product->category_id == 2)
+                            <div align="center"><h2><label>Produk Peternakan <br> <font color="E87169">{{ $product->name }}</font></label></h2></div>
+                        @elseif($product->category_id == 3)
+                            <div align="center"><h2><label>Produk Pariwisata<br> <font color="E87169">{{ $product->name }}</font></label></h2></div>
+                        @endif
                         <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
                         <br>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
