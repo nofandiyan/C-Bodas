@@ -7,23 +7,24 @@
 </script> 
                 
     <div class="row">
+    <br>
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Form Pendaftaran Tiket Pariwisata</div>
+                
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/Product') }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
 
-                        <div align="center">
-                            <label><h2><b>Form Pendaftaran Tiket Pariwisata</b></h2></label>
-                        </div>
+                        <div align="center"><h2><label>Form Pendaftaran <br> <font color="E87169">Produk Pariwisata</font></label></h2></div>
+                        <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
                         <br/>
 
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="category_id" value="3">
+                        <input type="hidden" name="type_product" value="Null">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Judul</label>
+                            <label class="col-md-4 control-label">Nama Produk</label>
 
                             <div class="col-md-6">
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}">
@@ -50,7 +51,7 @@
                             </div>
                         </div>
 <!-- Tani -->           
-                        <label class="col-md-4 control-label">Foto Produk</label>
+                        <label class="col-md-4 control-label">Foto Pariwisata</label>
                             
                             <div class="form-group{{ $errors->has('foto1') ? ' has-error' : '' }}">
                                  <div class="col-md-6 col-md-offset-4">
@@ -107,24 +108,11 @@
                                     @endif
                                 </div>
                             </div>
-
-                        <div class="col-md-9 col-md-offset-1">
-                            <div class="form-group{{ $errors->has('stock') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Jumlah Tiket Tersedia</label>
-
-                                <div class="col-md-4">
-                                    <input type="number" class="form-control" name="stock" step="1">
-
-                                    @if ($errors->has('stock'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('stock') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
+                                  
+                            <input type="hidden" class="form-control" name="stock" step="1" value="1000">
 
                             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Harga Tiket</label>
+                                <label class="col-md-4 control-label">Harga</label>
 
                                 <div class="col-md-4">
                                     <input type="number" class="form-control" name="price" step="50">
@@ -136,14 +124,30 @@
                                     @endif
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-10">
+                                <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
+                                <br>
+                                    <div class="col-md-1 col-md-offset-2" align="right">
+                                        <input type="checkbox" id="myCheck" name="myCheck" required>
+                                    </div>
+                                    <div class="col-md-offset-1" align="justify">
+                                        Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada isi formulir merupakan murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" align="center">
                                 <button type="submit" class="btn btn-primary" name="submit" value="POST">
                                     <i class="fa fa-btn fa-user"></i>Daftar
                                 </button>
+
                             </div>
+
+                        
+                            
+                            
                         </div>
 
                     </form>

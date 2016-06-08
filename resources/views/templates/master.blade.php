@@ -101,7 +101,8 @@
             });
 
         });
-    
+
+//address
         function getIdProvince() {
             $(".kota:selected").removeAttr("selected");
             $("#kota-default").attr("selected", true);
@@ -111,6 +112,14 @@
             $("."+provid).css("display", "block");
             $("."+provid).attr("disabled", false);
         }
+//input numeric
+            function numeric(ob) {
+              var invalidChars = /[^0-9]/gi
+              if(invalidChars.test(ob.value)) {
+                        ob.value = ob.value.replace(invalidChars,"");
+                  }
+            }
+        
     </script>
 
     <style type="text/css">
@@ -189,7 +198,7 @@
                         @if (Auth::user()->role=='admin')
                         <li><a href="/AdminProfile">Hai, {{Auth::user()->name}}</a></li>
                         @elseif (Auth::user()->role=='seller')
-                        <li><a href="/SellerProfile">Hai, {{Auth::user()->name}}</a></li>
+                        <li><a href="{{ url ('SellerProfile')}}">Hai, {{Auth::user()->name}}</a></li>
                         @elseif (Auth::user()->role=='customer')
                         <li><a href="/CustomerProfile">Hai, {{Auth::user()->name}}</a></li>
                         @endif
@@ -247,21 +256,32 @@
                             
                         </ul>
                     </li>
+
+                    <!-- Searching start -->
+
+
+
                     <li class="dropdown navbar-search hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <form>
+                               
+ 
                                     <div class="input-group input-group-lg">
+                                     <form>
                                         <input type="text" class="form-control" placeholder="Cari...">
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" type="button">Cari</button>
                                         </span>
                                     </div>
-                                </form>
+                                    </form>
                             </li>
                         </ul>
                     </li>
+
+
+
+                    <!-- Searching end -->
                 </ul>
             </div>
         </div>

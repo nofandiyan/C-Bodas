@@ -36,7 +36,7 @@
                 <div class="panel panel-default">
                     <!-- <div class="panel-heading">Halaman Admin</div> -->
                     <div class="panel-body">
-                        <label><h3>Selamat Bertugas <font color="E87169">{{$profiles->name}}</font></h3></label>
+                        <h3>Selamat Bertugas <font color="E87169">{{$profiles->name}}</font></h3>
                         <br>
                         <a href="/AdminProfile/{{$profiles->id}}" class="btn btn-info" role="button">Lihat Profil</a>
                     </div>
@@ -47,34 +47,15 @@
         <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Overview</div>
+            <br>
+                <div  align="center"><h2><label><font color="E87169">Overview</font></label></h2></div>
+                <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
                 <div class="panel-body">
                     <div class="col-md-3">
                         
                         <!-- <h4 align="center"><label>Category</label></h4> -->
                             
                         <div class="panel-group" id="accordion">
-                            <div class="panel panel-default">
-                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listCategory">
-                                    <h4 class="panel-title">
-                                        <a class="accordion-toggle">
-                                          List Category
-                                        </a>
-                                    </h4>
-                                </div>
-                            </div>
-                        <!-- </div>
-
-                        <div class="panel-group" id="accordion"> -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listProduct">
-                                    <h4 class="panel-title">
-                                        <a class="accordion-toggle">
-                                          List Product
-                                        </a>
-                                    </h4>
-                                </div>
-                            </div>
 
                             <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listUser">
@@ -85,6 +66,27 @@
                                     </h4>
                                 </div>
                             </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listCategory">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          List Category
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+                            
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listProduct">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          List Product
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+
                         </div>
                         
                         
@@ -282,7 +284,6 @@
                                                         <thead>
                                                           <tr>
                                                             <th class="col-md-1">ID User</th>
-                                                            <th class="col-md-3">ID Seller</th>
                                                             <th class="col-md-4">Name</th>
                                                             <th class="col-md-2">Opsi</th>
                                                           </tr>
@@ -293,7 +294,6 @@
                                                             @foreach($sellers as $seller)
                                                                 @if(($seller->role)=='seller')
                                                                   <tr>
-                                                                    <td class="short">{{$seller->user_id}}</td>
                                                                     <td class="short">{{$seller->id}}</td>
                                                                     <td class="short">{{$seller->name}}</td>
                                                                     <td><a href="viewSellerProfile/{{$seller->id}}" class="btn btn-info" role="button">Detail</a></td>
@@ -312,7 +312,6 @@
                                                         <thead>
                                                           <tr>
                                                              <th class="col-md-1">ID User</th>
-                                                            <th class="col-md-3">ID Customer</th>
                                                             <th class="col-md-4">Name</th>
                                                             <th class="col-md-2">Opsi</th>
                                                           </tr>
@@ -323,7 +322,6 @@
                                                             @foreach($customers as $customer)
                                                                 @if(($customer->role)=='customer')
                                                                   <tr>
-                                                                    <td class="short">{{$customer->user_id}}</td>
                                                                     <td class="short">{{$customer->id}}</td>
                                                                     <td class="short">{{$customer->name}}</td>
                                                                     <td><a href="viewCustomerProfile/{{$customer->id}}" class="btn btn-info" role="button">Detail</a></td>
@@ -334,9 +332,7 @@
                                                         </tbody>
                                                       </table>
                                                       <hr>
-                                                    </div>
-
-                                                    
+                                                    </div>  
                                             </div>
                                         </div>
                                       <hr>

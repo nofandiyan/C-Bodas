@@ -34,31 +34,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Halaman Penjual</div>
+                    
                     <div class="panel-body">
-                        
+                        <div><h2><label>Selamat Datang <font color="E87169">{{$profile->name}}</font></label></h2></div>
+                                                
                         {!! csrf_field() !!}
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                        <div class="col-md-4" align="center">
-                            <img src="{{ $profile->prof_pic }}" class="img-thumbnail" height="250" width="250">
-                            <br>
+                        
                             <a href="/SellerProfile/{{$profile->id}}" class="btn btn-info" role="button">Lihat Profil</a>
-                        </div>
-
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                {{$profile->name}}
-                            </div>
-
-                            <div class="form-group">
-                                {{$profile->phone}}
-                            </div>
-
-                            <div class="form-group">
-                                {{$profile->email}}
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -67,8 +52,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Manage Produk</div>
+
                     <div class="panel-body">
+                        <div align="center"><h2><label><font color="E87169">Manage Page</font></label></h2></div>
+                        <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
                         <div class="col-md-3">
                             
                             <h4 align="center"><label>Daftar Produk Yuk!</label></h4>
@@ -125,19 +112,7 @@
                                 </div>
                             </div> 
 
-                            <h4 align="center"><label>Pesanan</label></h4>
-                                
-                            <div class="panel-group" id="accordion">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrder">
-                                        <h4 class="panel-title">
-                                            <a class="accordion-toggle">
-                                              List Pesanan
-                                            </a>
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div> 
+                            
                             
                         </div>
                         <div class="col-md-9">

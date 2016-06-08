@@ -18,7 +18,7 @@ class CreateReservationsTable extends Migration
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->integer('delivery_address_id')->unsigned();
             $table->foreign('delivery_address_id')->references('id')->on('delivery_address');
-            $table->smallInteger('status');
+            $table->enum('status', ['0', '1', '2', '3', '4']);
             $table->string('bank_name',30);
             $table->string('bank_account',50);
             $table->string('payment_proof');

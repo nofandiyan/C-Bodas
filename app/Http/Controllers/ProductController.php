@@ -48,12 +48,13 @@ class ProductController extends Controller
         $this->validate($request, [
             'name'          => 'required',
             'description'   => 'required',
+            
             'foto1'         => 'required|mimes:jpeg,png',
             'foto2'         => 'required|mimes:jpeg,png',
             'foto3'         => 'required|mimes:jpeg,png',
             'foto4'         => 'required|mimes:jpeg,png',
             'stock'         => 'required',
-            'price'         => 'required',
+            'price'         => 'required'
 
         ]);
 
@@ -61,16 +62,17 @@ class ProductController extends Controller
         $product->category_id   = $request->category_id;
         $product->name          = $request->name;
 
+
         $product->save();
 
-        $seller = DB::table('sellers')->where('user_id', Auth::user()->id)->value('id');
+        $seller = DB::table('sellers')->where('id', Auth::user()->id)->value('id');
 
         $detail = new Detail_ProductsModel;
-        $detail->product_id   = $product->id;
-        $detail->seller_id    = $seller;
-        $detail->stock        = $request->stock;
-        $detail->description  = $request->description;
-        $detail->type_product  = $request->type_product;
+        $detail->product_id     = $product->id;
+        $detail->seller_id      = $seller;
+        $detail->stock          = $request->stock;
+        $detail->description    = $request->description;
+        $detail->type_product   = $request->type_product;
         $detail->save();
 
         $price = new Prices_ProductsModel;
@@ -107,7 +109,7 @@ class ProductController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
+            ->select('detail_products.id as id', 'detail_products.seller_id', 'detail_products.created_at', 'detail_products.updated_at', 'products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
             ->where('detail_products.id', '=', $id)
             ->first();
 
@@ -126,13 +128,11 @@ class ProductController extends Controller
         //     ->select('carts.amount')
         //     ->first();
 
-        if ($product->category_id == 1) {
-            return view('product.viewProductTani', compact('product', 'images', 'price', 'sold'));
-        }elseif ($product->category_id == 2) {
-            return view('product.viewProductTernak', compact('product', 'images', 'price'));
-        }elseif ($product->category_id == 3) {
-            return view('product.viewProductWisata', compact('product', 'images', 'price'));
-        }
+            // echo("<pre>");
+            // var_dump($product);
+            // die();
+
+        return view('product.viewProduct', compact('product','images','price'));
         
     }
 
@@ -258,7 +258,6 @@ class ProductController extends Controller
                     ]);
             }
         }
-
         return redirect('/');
     }
 

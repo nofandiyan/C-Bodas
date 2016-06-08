@@ -31,6 +31,7 @@ class HomeController extends Controller
     {
         if(Auth::user()->role == "admin"){
             $profiles = User::where('id', Auth::user()->id)->first();
+            
             $category = DB::table('category_products')->get();
             
             $products = DB::table('products')
@@ -41,20 +42,20 @@ class HomeController extends Controller
             ->get();
 
             $sellers = DB::table('sellers')
-                ->join('users', 'sellers.user_id', '=', 'users.id')
-                ->select('sellers.user_id', 'sellers.id', 'users.name', 'users.role')
+                ->join('users', 'sellers.id', '=', 'users.id')
+                ->select('sellers.id', 'sellers.id', 'users.name', 'users.role')
                 ->get();
 
             $customers = DB::table('customers')
-                ->join('users', 'customers.user_id', '=', 'users.id')
-                ->select('customers.user_id', 'customers.id', 'users.name', 'users.role')
+                ->join('users', 'customers.id', '=', 'users.id')
+                ->select('customers.id', 'customers.id', 'users.name', 'users.role')
                 ->get();            
 
             return view ('admin.adminHome', compact('profiles', 'category','products','sellers', 'customers'));
 
         }elseif(Auth::user()->role == "seller"){
             $profile = DB::table('users')
-                ->join('sellers', 'users.id', '=', 'sellers.user_id')
+                ->join('sellers', 'users.id', '=', 'sellers.id')
                 ->where('users.id','=', Auth::user()->id)
                 ->select('users.id', 'sellers.prof_pic', 'users.name', 'users.phone', 'users.email')
             ->first();
@@ -63,8 +64,8 @@ class HomeController extends Controller
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('detail_products', 'products.id', '=', 'detail_products.product_id')
             ->join('sellers', 'detail_products.seller_id', '=', 'sellers.id')
-            ->where('sellers.user_id', '=', Auth::user()->id)
-            ->select('detail_products.id', 'products.name', 'detail_products.description', 'products.category_id','sellers.user_id')
+            ->where('sellers.id', '=', Auth::user()->id)
+            ->select('detail_products.id as id', 'products.name', 'detail_products.description', 'products.category_id','sellers.id as sellerId')
             ->get();
 
             $orders = DB::table('carts')
@@ -73,7 +74,7 @@ class HomeController extends Controller
                 ->join('products', 'detail_products.product_id','=','products.id')
                 ->join('category_products', 'category_products.id','=','products.category_id')
                 ->join('sellers', 'detail_products.seller_id' ,'=','sellers.id')
-                ->where('sellers.user_id','=',Auth::user()->id)
+                ->where('sellers.id','=',Auth::user()->id)
                 ->select('carts.reservation_id','carts.detail_product_id', 'products.name', 'category_products.category_name', 'carts.status','carts.created_at')
                 ->orderBy('carts.reservation_id', 'asc')
                 ->get();
@@ -83,11 +84,10 @@ class HomeController extends Controller
         }elseif(Auth::user()->role == "customer"){
             $profiles   = DB::table('users')
             ->join('customers', function ($join) {
-                $join->on('users.id', '=', 'customers.user_id')
-                     ->where('customers.user_id', '=', Auth::user()->id);
+                $join->on('users.id', '=', 'customers.id')
+                     ->where('customers.id', '=', Auth::user()->id);
             })
             ->get();
-            // return view ('customer.customerHome', compact('profiles'));
             return view ('templates\homepage');
         }
     }

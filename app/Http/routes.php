@@ -27,8 +27,10 @@
     $this->post('password/reset', 'Auth\PasswordController@reset');
      
     // Registration routes...
-    Route::get('register', 'Auth\AuthController@getRegister');
-    Route::post('register', 'RegistrationController@postRegister');
+    Route::get('register', 'Auth\AuthController@getRegister');    
+    Route::post('registerAdmin', 'RegistrationController@postRegisterAdmin');
+    Route::post('registerSeller', 'RegistrationController@postRegisterSeller');
+    Route::post('registerCustomer', 'RegistrationController@postRegisterCustomer');
     Route::get('register/verify/{confirmationCode}', 'RegistrationController@confirm');
 
 Route::group(['middleware' => 'web'], function () {
@@ -77,11 +79,19 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/katalogpariwisata', 'KatalogController@showKatalogpariwisata');
 
-    //Route::get('/katalogdomba', 'KatalogController@showKatalogdomba');
+    Route::get('/katalogsayurorganik', 'KatalogController@showSayurorganik');
 
-    //Route::get('/katalogsapi', 'KatalogController@showKatalogsapi');
+    Route::get('/katalogsayuranorganik', 'KatalogController@showSayuranorganik');
 
-    //Route::get('/katalogvilla', 'KatalogController@showKatalogvilla');
+    Route::get('/katalogbuahorganik', 'KatalogController@showBuahorganik');
+
+    Route::get('/katalogbuahanorganik', 'KatalogController@showBuahanorganik');
+
+    //--------------------------------------------------------------------------
+
+    Route::get('/homepage', 'SearchController@search');
+
+    //-------------------------------------------------------------------------
 
     Route::get('/cart', 'CartController@showCart');
 
