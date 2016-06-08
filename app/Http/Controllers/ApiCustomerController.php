@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\ Session as Session;
 use Hash;
 use Auth;
 use DB;
@@ -17,7 +18,7 @@ class ApiCustomerController extends Controller{
     {        
         $model = DB::table('users')
         ->where('email', $request->input('EMAIL'))
-        ->where('role', 'customer')
+        // ->where('role', 'customer')
         ->get();
         if(count($model)> 0){
             $response['Response']= false;  
@@ -30,10 +31,10 @@ class ApiCustomerController extends Controller{
             $user=User::create([
                 'name'      => $request->input('NAME'),
                 'email'     => $request->input('EMAIL'),
+                'gender'    => $request->input('GENDER'),
                 'password'  => bcrypt($request->input('PASSWORD')),
                 'street'    => $request->input('STREET'),
-                'city'      => $request->input('CITY'),
-                'province'  => $request->input('PROVINCE'),
+                'city_id'   => $request->input('CITY_ID'),
                 'zip_code'  => $request->input('ZIP_CODE'),
                 'phone'     => $request->input('PHONE'),
                 'status'    => 0,
@@ -48,12 +49,12 @@ class ApiCustomerController extends Controller{
             // ]);
             // $customer->save();
             $id= DB::table('customers')->insertGetId([
-                'user_id' => $user->id, 'gender' => $request->input('GENDER'),
+                'id' => $user->id, 
                 'created_at' => $user->created_at, 'updated_at' => $user->updated_at
                 ]);
             DB::table('delivery_address')->insert([
                 'customer_id' => $id, 'street' => $user->street, 'name' => $user->name, 'phone' => $user->phone,
-                'city_id' => $request->input('city_id'), 'zip_code' => $user->zip_code
+                'city_id' => $user->city_id, 'zip_code' => $user->zip_code
                 ]);
             $response['Response']= true;
             Mail::send('customer.verify', ['Customer' => $user], function($message) use ($user)
@@ -84,6 +85,8 @@ class ApiCustomerController extends Controller{
             ->update(['status' => 1,'confirmation_code' => 1]);
             
             echo 'Your Account Has Been Verified !';
+
+
         }else
         echo 'Confirmation Code Failed';
         // echo $user->email;
@@ -97,11 +100,11 @@ class ApiCustomerController extends Controller{
         // if ($auth->attempt($credentials)){
         if($auth->attempt(['email' => $email, 'password' => $password])){
             $customer=DB::table('users')
-            ->join('customers', 'users.id', '=', 'customers.user_id')
-            ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY', 
-                'users.PROVINCE', 'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
+            ->join('customers', 'users.id', '=', 'customers.id')
+            ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY_ID',
+                'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
                 'users.API_TOKEN', 'users.ROLE', 'users.ROLE', 'users.CREATED_AT', 'users.UPDATED_AT', 
-                'customers.id as ID_CUSTOMER', 'GENDER')
+                'customers.id as ID_CUSTOMER', 'users.GENDER')
             ->where('email', $email)
             // ->where('password', $password)
             ->get();
@@ -114,12 +117,6 @@ class ApiCustomerController extends Controller{
                     'cities.type', 'cities.city', 'cities.province_id', 'provinces.province')
                 ->where('customer_id', $model->ID_CUSTOMER)
                 ->get();
-
-                $model->BOUGHT = DB::table('reservations')
-                ->join('carts', 'carts.reservation_id', '=', 'reservations.id')
-                ->select(DB::raw('DISTINCT(carts.detail_product_id) as id_detail_product'))
-                ->where('reservations.customer_id', $model->ID_CUSTOMER)
-                ->get();
             }
             return $customer;
         }else{
@@ -127,32 +124,29 @@ class ApiCustomerController extends Controller{
            return $model;
         }
     }
-    public function maintainLogin(Request $request){
-        $customer=DB::table('users')
-        ->join('customers', 'users.id', '=', 'customers.user_id')
-        ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY', 
-            'users.PROVINCE', 'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
-            'users.API_TOKEN', 'users.ROLE', 'users.ROLE', 'users.CREATED_AT', 'users.UPDATED_AT', 
-            'customers.id as ID_CUSTOMER', 'GENDER')
-        ->where('customers.id', $request->input('id_customer'))
-        ->get();
-        foreach ($customer as $model) {
-            $model->DELIVERY_ADDRESS= DB::table('delivery_address')
-            ->join('cities', 'delivery_address.city_id', '=', 'cities.id')
-            ->join('provinces', 'cities.province_id', '=', 'provinces.id')
-            ->select('delivery_address.id as delivery_id', 'delivery_address.street', 'delivery_address.city_id', 
-               'delivery_address.zip_code', 'delivery_address.name', 'delivery_address.phone',
-               'cities.type', 'cities.city', 'cities.province_id', 'provinces.province')
-            ->where('customer_id', $model->ID_CUSTOMER)
-            ->get();
 
-            $model->BOUGHT = DB::table('reservations')
-            ->join('carts', 'carts.reservation_id', '=', 'reservations.id')
-            ->select(DB::raw('DISTINCT(carts.detail_product_id) as id_detail_product'))
-            ->where('reservations.customer_id', $model->ID_CUSTOMER)
+    public function maintainLogin(Request $request){
+            $customer=DB::table('users')
+            ->join('customers', 'users.id', '=', 'customers.id')
+            ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY_ID',
+                'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
+                'users.API_TOKEN', 'users.ROLE', 'users.ROLE', 'users.CREATED_AT', 'users.UPDATED_AT', 
+                'customers.id as ID_CUSTOMER', 'users.GENDER')
+            ->where('customers.id', $request->input('id_customer'))
+            // ->where('password', $password)
             ->get();
-        }
-        return $customer;
+            foreach ($customer as $model) {
+                $model->DELIVERY_ADDRESS= DB::table('delivery_address')
+                ->join('cities', 'delivery_address.city_id', '=', 'cities.id')
+                ->join('provinces', 'cities.province_id', '=', 'provinces.id')
+                ->select('delivery_address.id as delivery_id', 'delivery_address.street', 'delivery_address.city_id', 
+                    'delivery_address.zip_code', 'delivery_address.name', 'delivery_address.phone',
+                    'cities.type', 'cities.city', 'cities.province_id', 'provinces.province')
+                ->where('customer_id', $model->ID_CUSTOMER)
+                ->get();
+
+            }
+            return $customer;
     }
     
     public function requestLinkPassword(Request $request){
@@ -242,7 +236,7 @@ class ApiCustomerController extends Controller{
 
     public function getCities(Request $request){
         $model = DB::table('cities')
-        ->select('id', 'province_id', 'type', 'city', 'zip_code')
+        ->select('id', 'province_id', 'type', 'city')
         ->where('province_id', $request->input('province_id'))
         ->get();
         return $model;

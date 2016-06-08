@@ -107,11 +107,15 @@ Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function 
 Route::group(['prefix' => '/api/v1/products', 'middleware' => 'api'], function () {
     Route::get('/catalog', 'ApiProductsController@getCatalog');
     Route::get('/find','ApiProductsController@findProductName');
+    Route::get('/detail','ApiProductsController@detailProduct');
+    Route::post('/review', 'ApiProductsController@reviewProduct');
+    Route::get('/getReview', 'ApiProductsController@getReview');
 });
 
 Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'api'], function () {
     Route::post('/store', 'ApiReservationsController@store');
     Route::get('/getReservation', 'ApiReservationsController@getReservation');
+    Route::get('/detail', 'ApiReservationsController@getDetailReservation');
     Route::post('/paymentConfirmation', 'ApiReservationsController@paymentConfirmation');
 });
 

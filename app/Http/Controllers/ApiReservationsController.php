@@ -55,9 +55,33 @@ class ApiReservationsController extends Controller{
 		}else{
 			 $id_customer=$request->input('id_customer');
 			 $models = DB::table('reservations')
-			 ->select('id as id_reservation', 'customer_id as id_customer', 'delivery_id as id_delivery', 'status', 
-			 	'bank_name', 'bank_account', 'created_at', 'payment_proof')
-			 ->where('customer_id', $id_customer)
+			 ->select('reservations.id as id_reservation', 'reservations.customer_id as id_customer', 
+			 	'reservations.delivery_id as id_delivery', 
+			 	'status', 'bank_name', 'bank_account', 'reservations.created_at')
+			 ->where('reservations.customer_id', $id_customer)
+			 ->orderBy('created_at', 'desc')
+			 ->get();
+
+
+			 return $models;
+		}
+	}
+
+	public function getDetailReservation(Request $request){
+		$auth = auth()->guard('api');
+		if (!$auth->check()){
+			return response('Unauthorized.', 401);
+		}else{
+			 $idReservation=$request->input('id_reservation');
+			 $models = DB::table('reservations')
+			 ->join('delivery_address', 'reservations.delivery_id', '=', 'delivery_address.id')
+			 ->join('cities', 'delivery_address.city_id', '=', 'cities.id')
+			 ->join('provinces', 'cities.province_id', '=', 'provinces.id')
+			 ->select('reservations.id as id_reservation', 'reservations.customer_id as id_customer', 
+			 	'reservations.delivery_id as id_delivery', 'delivery_address.name as recipient_name', 'delivery_address.street',
+			 	'delivery_address.zip_code', 'delivery_address.phone', 'cities.type', 'cities.city', 'provinces.province',
+			 	'status', 'bank_name', 'bank_account', 'reservations.created_at', 'payment_proof')
+			 ->where('reservations.id', $idReservation)
 			 ->orderBy('created_at', 'desc')
 			 ->get();
 
@@ -72,7 +96,7 @@ class ApiReservationsController extends Controller{
 			 		foreach ($model->carts as $key => $object ) {
 					 	$tmps = DB::table('detail_products')
 					 	->join('sellers', 'detail_products.seller_id', '=', 'sellers.id')
-					 	->join('users', 'sellers.user_id', '=', 'users.id')
+					 	->join('users', 'sellers.id', '=', 'users.id')
 			        	->join('products', 'detail_products.product_id', '=', 'products.id')
 			        	->join('category_products', 'products.category_id', '=', 'category_products.id')
 					 	->select('products.name as product_name', 'detail_products.rating', 'detail_products.stock',
@@ -110,7 +134,7 @@ class ApiReservationsController extends Controller{
 			$image = $request->input('image');
 			$destinationPath = public_path().'/images/payment/';
 			$path = $destinationPath.$name.".jpg";
-			$url = '/images/payment'.$name.".jpg";
+			$url = 'images/payment/'.$name.".jpg";
 			$decoded = base64_decode($image);
 
 			$model=DB::table('reservations')
