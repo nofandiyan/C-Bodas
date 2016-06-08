@@ -99,16 +99,22 @@ class ApiReservationsController extends Controller{
 					 	->join('users', 'sellers.id', '=', 'users.id')
 			        	->join('products', 'detail_products.product_id', '=', 'products.id')
 			        	->join('category_products', 'products.category_id', '=', 'category_products.id')
-					 	->select('products.name as product_name', 'detail_products.rating', 'detail_products.stock',
+					 	->select('products.name as product_name', 'detail_products.stock',
 					 		'category_products.category_name', 'users.name as seller_name', 'detail_products.updated_at'
 					 		)
 					 	->where('detail_products.id', $object->ID_DETAIL_PRODUCT)
-					 	
 					 	->get();
+
+					 	// $tmps->RATING= DB::table('reviews')
+       //          		->where('reviews.detail_product_id', $object->ID_DETAIL_PRODUCT)
+       //          		->avg('rating');
 					 	// var_dump($tmps);
 						 	foreach ($tmps as $tmp) {
+						 		$object->RATING= DB::table('reviews')
+                				->where('reviews.detail_product_id', $object->ID_DETAIL_PRODUCT)
+                				->avg('rating');
 						 		$object->PRODUCT_NAME= $tmp->product_name;
-						 		$object->RATING = $tmp->rating;
+						 		// $object->RATING = $tmp->rating;
 						 		$object->STOCK = $tmp->stock;
 						 		$object->CATEGORY = $tmp->category_name;
 						 		$object->SELLER = $tmp->seller_name;

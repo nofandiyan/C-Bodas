@@ -157,6 +157,7 @@ class ApiProductsController extends Controller
                 ->join('users', 'users.id', '=', 'customers.id')
                 ->select('reviews.*', 'users.name as customer_name')
                 ->where('reviews.detail_product_id', $idProduct)
+                ->orderBy('reviews.created_at', 'desc')
                 ->take(3)
                 ->get();
             }
