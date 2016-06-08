@@ -67,6 +67,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('Order', 'OrderController');
 
+    // Route::get('/invalid', 'OrderController@invalid')
+
     // --------------------------------------------------------------------------
 
     Route::get('/single-product', 'SingleproductController@showSingleproduct');

@@ -19,6 +19,7 @@ class CreateCartsTable extends Migration
             $table->foreign('reservation_id')->references('id')->on('reservations');
             $table->integer('price_id')->unsigned();
             $table->foreign('price_id')->references('id')->on('prices_products');
+            $table->decimal('delivery_cost',19,0)->default(0,0);
             $table->integer('amount',10);
             $table->date('schedule')->nullable();
             $table->enum('status', ['0', '1', '2', '3', '4']);

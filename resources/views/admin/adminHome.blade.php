@@ -87,6 +87,16 @@
                                 </div>
                             </div>
 
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrder">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          List Order
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+
                         </div>
                         
                         
@@ -333,6 +343,40 @@
                                                       </table>
                                                       <hr>
                                                     </div>  
+                                            </div>
+                                        </div>
+                                      <hr>
+                                </div>
+
+                                <div id="listOrder" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                      <table class="table table-hover" style="table-layout: fixed;">
+                                                        <thead>
+                                                          <tr>
+                                                            <th class="col-md-1">Resv. ID</th>
+                                                            <th class="col-md-1">Cust. ID</th>
+                                                            <th class="col-md-1">Cust. Name</th>
+                                                            <th class="col-md-1">Total Biaya</th>
+                                                            <th class="col-md-2">Opsi</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($orders as $order)
+                                                                  <tr>
+                                                                    <td class="short">{{$order->resv->id}}</td>
+                                                                    <td class="short">{{$order->resv->customer_id}}</td>
+                                                                    <td class="short">{{$order->resv->name}}</td>
+                                                                    <td class="short">{{$order->totPrice}}</td>
+                                                                    <td><a href="Order/{{$order->resv->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                  </tr>
+
+                                                            @endforeach
+                                                        </tbody>
+                                                      </table>
+                                                      <hr>
                                             </div>
                                         </div>
                                       <hr>

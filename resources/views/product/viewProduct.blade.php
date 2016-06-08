@@ -142,7 +142,7 @@
                                 @else
                                 <div class="col-md-7">
                                     <div class="col-md-3" align="right">
-                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                        <a href="" onclick="goBack()" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                 </div>
                                 @endif

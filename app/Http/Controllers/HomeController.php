@@ -49,9 +49,30 @@ class HomeController extends Controller
             $customers = DB::table('customers')
                 ->join('users', 'customers.id', '=', 'users.id')
                 ->select('customers.id', 'customers.id', 'users.name', 'users.role')
-                ->get();            
+                ->get();
 
-            return view ('admin.adminHome', compact('profiles', 'category','products','sellers', 'customers'));
+            $orders = DB::table('carts')
+                ->join('reservations','reservations.id','=','carts.reservation_id')
+                ->select('carts.reservation_id','carts.detail_product_id')
+                ->where('reservations.status','=','1')
+                ->get();
+            
+            foreach ($orders as $ord) {
+
+            $ord->resv = DB::table('reservations')
+            ->join('users','reservations.customer_id','=','users.id')
+            ->where('reservations.id','=',$ord->reservation_id)
+            ->select('reservations.id','reservations.customer_id','reservations.status','users.name')
+            ->first();
+
+             $ord->totPrice = DB::table('prices_products')
+            ->join('carts', 'carts.price_id','=', 'prices_products.id')
+            ->where('carts.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            
+            }
+
+            return view ('admin.adminHome', compact('profiles', 'category','products','sellers', 'customers','orders'));
 
         }elseif(Auth::user()->role == "seller"){
             $profile = DB::table('users')
@@ -75,7 +96,9 @@ class HomeController extends Controller
                 ->join('category_products', 'category_products.id','=','products.category_id')
                 ->join('sellers', 'detail_products.seller_id' ,'=','sellers.id')
                 ->where('sellers.id','=',Auth::user()->id)
-                ->select('carts.reservation_id','carts.detail_product_id', 'products.name', 'category_products.category_name', 'carts.status','carts.created_at')
+                ->where('reservations.status','=','3')
+                ->select('carts.reservation_id','carts.detail_product_id', 'carts.status','carts.created_at',
+                    'products.name', 'category_products.category_name')
                 ->orderBy('carts.reservation_id', 'asc')
                 ->get();
 

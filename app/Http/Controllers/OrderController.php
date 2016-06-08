@@ -18,66 +18,100 @@ use Illuminate\Support\Facades\Input as Input;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    
-    // public function index($id)
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $price = DB::table('prices_products')
-            ->orderBy('id', 'desc')
+
+        $order = DB::table('carts')
+            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
+            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->where('carts.reservation_id','=',$id)
+            ->select('prices_products.price','reservations.id','reservations.customer_id','reservations.delivery_address_id','reservations.created_at','reservations.status','reservations.payment_proof','reservations.bank_name','reservations.bank_account')
+            ->take(1)
+            ->get();
+
+        foreach ($order as $ord) {
+
+            $ord->totPrice = DB::table('prices_products')
             ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.detail_product_id','=',$id)
-            ->select('prices_products.price')
+            ->where('carts.reservation_id','=',$id)
+            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+
+            $ord->cust = DB::table('users')
+            ->where('id','=', $ord->customer_id)
+            ->select('name','email','phone','city_id','street','zip_code')
             ->first();
 
-        $orders = DB::table('carts')
-            ->where('detail_products.id', '=', $id)
-            ->join('reservations', 'reservations.id','=','carts.reservation_id')
-            ->join('detail_products', 'detail_products.id','=','carts.detail_product_id')
-            ->join('products', 'detail_products.product_id','=','products.id')
-            ->join('category_products', 'category_products.id','=','products.category_id')
-            ->join('customers', 'reservations.customer_id' ,'=','customers.id')
-            ->join('users', 'users.id' ,'=','customers.id')
-            ->select('carts.reservation_id','carts.detail_product_id', 'carts.schedule', 'products.name as product_name', 'category_products.category_name', 'products.category_id', 'carts.amount','users.name as user_name', 'customers.id as customer_id', 'users.street', 'users.city', 'users.province', 'users.zip_code', 'users.phone')
+            $ord->city = DB::table('cities')
+            ->where('id','=', $ord->cust->city_id)
+            ->select('city','type','province_id')
             ->first();
 
-        return view ('order.viewOrder', compact('orders','price'));
+            $ord->prov = DB::table('provinces')
+            ->where('id','=', $ord->city->province_id)
+            ->select('province')
+            ->first();
+
+            $ord->deliv = DB::table('delivery_address')
+            ->join('cities','delivery_address.city_id','=','cities.id')
+            ->join('provinces','cities.province_id','=','provinces.id')
+            ->where('delivery_address.id','=', $ord->delivery_address_id)
+            ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
+            ->first();
+        }        
+
+        $products = DB::table('carts')
+            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
+            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->where('carts.reservation_id','=',$id)
+            ->select('prices_products.price','reservations.id','reservations.customer_id','reservations.delivery_address_id','reservations.created_at','reservations.status','reservations.payment_proof','carts.amount', 'carts.delivery_cost', 'carts.detail_product_id')
+            ->get();
+
+        foreach ($products as $prod) {
+            $prod->detProd = DB::table('detail_products')
+            ->join('products','products.id','=','detail_products.product_id')
+            ->join('sellers','detail_products.seller_id','=','sellers.id')
+            ->where('detail_products.id','=', $prod->detail_product_id)
+            ->select(
+                'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
+                'products.name', 'products.category_id',
+                'sellers.bank_name as sellerBankName','sellers.bank_account as sellerBankAccount','sellers.account_number as sellerAccountNumber')
+            ->first();
+
+            $prod->countPrice = DB::table('prices_products')
+            ->join('carts', 'carts.price_id','=', 'prices_products.id')
+            ->where('carts.detail_product_id','=',$prod->detProd->detId)
+            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+
+            $prod->totPrice = DB::table('prices_products')
+            ->join('carts', 'carts.price_id','=', 'prices_products.id')
+            ->where('carts.reservation_id','=',$id)
+            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+        }
+        
+        
+
+        // echo "<pre>";
+        // var_dump($orders);
+        // die();
+
+        return view ('order.viewOrder', compact('products','order'));
     }
 
     /**
@@ -87,6 +121,12 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     // public function edit($id)
+
+    public function invalid($id)
+    {
+        echo "lalala";
+    }
+
     public function edit()
     {
         //

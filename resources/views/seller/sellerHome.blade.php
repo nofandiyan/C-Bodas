@@ -110,6 +110,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 align="center"><label>Order</label></h4>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrder">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle">
+                                              List Order
+                                            </a>
+                                        </h4>
+                                    </div>
+                                </div>
                             </div> 
 
                             
@@ -263,7 +273,6 @@
                                                 <th class="col-md-1">ID</th>
                                                 <th class="col-md-1">ID Product</th>
                                                 <th class="col-md-3">Nama Produk</th>
-                                                <th class="col-md-2">Kategori</th>
                                                 <th class="col-md-2">Status</th>
                                                 <th class="col-md-2">Tanggal Pemesanan</th>
                                                 <th class="col-md-2">Opsi</th>
@@ -278,7 +287,6 @@
                                                         <td class="short">{{$order->detail_product_id}}</td>
                                                         <td class="short">{{$order->name}}</td>
                                                         <td class="short">{{$order->status}}</td>
-                                                        <td class="short">{{$order->category_name}}</td>
                                                         <td class="short">{{$order->created_at}}</td>
                                                         
                                                         <td><a href="/Order/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>

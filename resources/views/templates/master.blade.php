@@ -42,6 +42,9 @@
     <link href="{{ URL::asset('assets/css/color-switcher.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/color/red.css') }}" id="main-color" rel="stylesheet" type="text/css">
+
+    
+    <link href="{{ URL::asset('assets/css/lightbox.css') }}" rel="stylesheet">
     
     <!-- ==========================
         JS 
@@ -78,6 +81,11 @@
     
 
     <script type="text/javascript">
+
+        function goBack() {
+            window.history.back();
+        }
+
         $(function () {
 
             var active = true;
@@ -399,6 +407,9 @@
     <script src="{{ URL::asset('assets/js/color-switcher.js') }}"></script>
 
     <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
+
+    <script src="{{ URL::asset('assets/js/lightbox.js') }}"></script>
+
 
 <!-- Mirrored from demos.pixelized.cz/C-Bodas/v1.1/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Apr 2016 15:38:50 GMT -->
 </html>
