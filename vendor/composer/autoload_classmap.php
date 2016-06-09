@@ -16,7 +16,7 @@ return array(
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_000003_create_password_resets_table.php',
     'CreatePricesProductsTable' => $baseDir . '/database/migrations/2016_05_20_145716_create_prices_products_table.php',
     'CreateProductsTable' => $baseDir . '/database/migrations/2016_05_20_145650_create_products_table.php',
-    'CreateProvincesTable' => $baseDir . '/database/migrations/2016_06_02_051423_create_provinces_table.php',
+    'CreateProvincesTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_provinces_table.php',
     'CreateReservationsTable' => $baseDir . '/database/migrations/2016_05_20_145641_create_reservations_table.php',
     'CreateReviewsTable' => $baseDir . '/database/migrations/2016_05_20_145714_create_reviews_table.php',
     'CreateSellersTable' => $baseDir . '/database/migrations/2016_05_20_124655_create_sellers_table.php',
@@ -528,6 +528,4 @@ return array(
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'category_productsSeeder' => $baseDir . '/database/seeds/category_productsSeeder.php',
-    'citiesSeeder' => $baseDir . '/database/seeds/citiesSeeder.php',
-    'provinceSeeder' => $baseDir . '/database/seeds/provinceSeeder.php',
 );

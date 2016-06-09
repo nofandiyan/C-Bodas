@@ -274,15 +274,14 @@
                         <ul class="dropdown-menu">
                             <li>
                                
- 
                                     <div class="input-group input-group-lg">
-                                     <form>
+                                     {!! Form::open() !!}
                                         <input type="text" class="form-control" placeholder="Cari...">
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" type="button">Cari</button>
                                         </span>
+                                    {!! Form::close() !!}
                                     </div>
-                                    </form>
                             </li>
                         </ul>
                     </li>
