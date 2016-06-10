@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Input as Input;
 class OrderController extends Controller
 {
 
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         //

@@ -273,12 +273,11 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
                         <ul class="dropdown-menu">
                             <li>
-                               
                                     <div class="input-group input-group-lg">
-                                     {!! Form::open() !!}
-                                        <input type="text" class="form-control" placeholder="Cari...">
+                                     {!! Form::open(['method'=>'GET','url'=>'searchresult','class'=>'navbar-form navbar-left','role'=>'search'])  !!}
+                                        <input type="text" class="form-control" name="search" placeholder="Cari...">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button">Cari</button>
+                                            <button class="btn btn-primary" type="submit">Cari</button>
                                         </span>
                                     {!! Form::close() !!}
                                     </div>

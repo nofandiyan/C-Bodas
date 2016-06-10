@@ -1,6 +1,7 @@
-@extends('templates\master')
+@extends('templates\master',['url'=>'barang','link'=>'barang'])
 
 @section('konten')
+
 
    <!-- ==========================
     	BREADCRUMB - START 
