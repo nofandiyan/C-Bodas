@@ -31,15 +31,27 @@ class ProductController extends Controller
 
     public function createTani()
     {
-        return view('product.createTani');
+        if (Auth::user()->role=='seller') {
+            return view('product.createTani');
+        }else{
+            return redirect('/');
+        }
     }
     public function createTernak()
     {
-        return view('product.createTernak');
+        if (Auth::user()->role=='seller') {
+            return view('product.createTernak');
+        }else{
+            return redirect('/');
+        }
     }
     public function createWisata()
     {
-        return view('product.createWisata');
+        if (Auth::user()->role=='seller') {
+            return view('product.createWisata');
+        }else{
+            return redirect('/');
+        }
     }
 
     public function store(Request $request)
@@ -156,7 +168,11 @@ class ProductController extends Controller
             ->where('detail_product_id', '=', $id)
             ->first();
         
-        return view('product.editProduct', compact('product', 'images', 'prices'));
+        if (Auth::user()->role=='seller') {
+            return view('product.editProduct', compact('product', 'images', 'prices'));
+        }else{
+            return redirect('/');
+        }
     }
 
     public function update(Request $request, $id)

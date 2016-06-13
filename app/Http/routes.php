@@ -67,7 +67,24 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('Order', 'OrderController');
 
-    // Route::get('/invalid', 'OrderController@invalid')
+    Route::get('OrderAdmin/{resvId}', 'OrderController@OrderAdmin');
+    Route::get('OrderValid/{resvId}', 'OrderController@OrderValid');
+    Route::get('OrderInvalid/{resvId}', 'OrderController@OrderInvalid');
+    Route::get('OrderAdminShipping/{resvId}', 'OrderController@OrderAdminShipping');
+
+    Route::get('OrderPending/{resvId}', 'OrderController@orderPending');
+    Route::get('OrderAccepted/{resvId}', 'OrderController@orderAccepted');
+    Route::get('OrderRejected/{resvId}', 'OrderController@orderRejected');
+    Route::get('OrderShipping/{resvId}', 'OrderController@OrderShipping');
+
+    Route::get('/invalid/{id}', 'OrderController@invalid');
+    Route::get('/valid/{id}', 'OrderController@valid');
+
+    Route::get('/accepted/{resvId}/{detId}', 'OrderController@accepted');
+    Route::get('/rejected/{resvId}/{detId}', 'OrderController@rejected');
+
+    Route::resource('/shipping/{resvId}/{detId}', 'OrderController@shipping');
+
 
     // --------------------------------------------------------------------------
 

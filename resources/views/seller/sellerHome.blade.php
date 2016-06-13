@@ -110,9 +110,12 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> 
+
+                            <div class="panel-group" id="accordionProduct">
                                 <h4 align="center"><label>Order</label></h4>
                                 <div class="panel panel-default">
-                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrder">
+                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#listOrder">
                                         <h4 class="panel-title">
                                             <a class="accordion-toggle">
                                               List Order
@@ -120,17 +123,42 @@
                                         </h4>
                                     </div>
                                 </div>
-                            </div> 
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#listOrderAccepted">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle">
+                                              Produk Di Terima
+                                            </a>
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#listOrderRejected">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle">
+                                              Produk Di Tolak
+                                            </a>
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#listOrderShipping">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle">
+                                              Produk Di Kirim
+                                            </a>
+                                        </h4>
+                                    </div>
+                                </div>
 
-                            
-                            
+                            </div>
                         </div>
                         <div class="col-md-9">
                             <h3 align="center"><label>Produk Terdaftar</label></h3>
-                            <div id="accordion1">
+                            <div class="panel-group" id="accordionTerdaftar">
                                 <div class="panel">
                                     <div align="center">
-                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#productTani">
+                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionTerdaftar" data-target="#productTani">
                                             <h4 class="panel-title">
                                                 <a class="accordion-toggle">
                                                   Pertanian
@@ -138,7 +166,7 @@
                                             </h4>
                                         </button>
                                         
-                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#productTernak">
+                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionTerdaftar" data-target="#productTernak">
                                             <h4 class="panel-title">
                                                 <a class="accordion-toggle">
                                                   Hewan Ternak
@@ -146,7 +174,7 @@
                                             </h4>
                                         </button>
 
-                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordion1" data-target="#productWisata">
+                                        <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionTerdaftar" data-target="#productWisata">
                                             <h4 class="panel-title">
                                                 <a class="accordion-toggle">
                                                   Pariwisata
@@ -154,7 +182,7 @@
                                             </h4>
                                         </button>
 
-                                        <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordion1">
+                                        <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordionTerdaftar">
                                             <h4 class="panel-title">
                                                 <a class="accordion-toggle">
                                                   Semua Produk
@@ -162,144 +190,246 @@
                                             </h4>
                                         </button>
                                     </div>
-
-                                    
                                     <br>
-                                    
-                                        <div id="productTani" class="panel-collapse collapse showHideProduct" align="center">
-                                        <h4><label>Produk Pertanian</label></h4>
-                                          <table class="table table-hover" style="table-layout: fixed;">
-                                            <thead>
-                                              <tr>
-                                                <th class="col-md-1">ID</th>
-                                                <th class="col-md-3">Nama Produk</th>
-                                                <th class="col-md-10">Keterangan Produk</th>
-                                                <th class="col-md-2">Opsi</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
 
-                                            <?php $i=1; ?>
-                                                @foreach($products as $product)
-                                                    @if(($product->category_id)==1)
-                                                      <tr>
-                                                        <td class="short">{{$product->id}}</td>
-                                                        <td class="short">{{$product->name}}</td>
-                                                        <td class="short">{{$product->description}}</td>
-                                                        <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
-                                                      </tr>
-                                                  <?php $i++; ?>
-                                                  @endif
-                                                @endforeach
-                                            </tbody>
-                                          </table>
-                                          <hr>
-                                        </div>
+                                    <div id="productTani" class="panel-collapse collapse showHideProduct" align="center">
+                                    <h4><label>Produk Pertanian</label></h4>
+                                      <table class="table table-hover" style="table-layout: fixed;">
+                                        <thead>
+                                          <tr>
+                                            <th class="col-md-1">ID</th>
+                                            <th class="col-md-3">Nama Produk</th>
+                                            <th class="col-md-10">Keterangan Produk</th>
+                                            <th class="col-md-2">Opsi</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        <div id="productTernak" class="panel-collapse collapse showHideProduct" align="center">
-                                        <h4><label>Produk Hewan Ternak</label></h4>
-                                          <table class="table table-hover" style="table-layout: fixed;">
-                                            <thead>
-                                              <tr>
-                                                <th class="col-md-1">ID</th>
-                                                <th class="col-md-3">Nama Produk</th>
-                                                <th class="col-md-10">Keterangan Produk</th>
-                                                <th class="col-md-2">Opsi</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
+                                        
+                                            @foreach($products as $product)
+                                                @if(($product->category_id)==1)
+                                                  <tr>
+                                                    <td class="short">{{$product->id}}</td>
+                                                    <td class="short">{{$product->name}}</td>
+                                                    <td class="short">{{$product->description}}</td>
+                                                    <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                  </tr>
+                                              @endif
+                                            @endforeach
+                                        </tbody>
+                                      </table>
+                                      <hr>
+                                    </div>
 
-                                            <?php $i=1; ?>
-                                                @foreach($products as $product)
-                                                    @if(($product->category_id)==2)
-                                                      <tr>
-                                                        <td class="short">{{$product->id}}</td>
-                                                        <td class="short">{{$product->name}}</td>
-                                                        <td class="short">{{$product->description}}</td>
-                                                        
-                                                        <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
-                                                      </tr>
-                                                  <?php $i++; ?>
-                                                  @endif
-                                                @endforeach
-                                            </tbody>
-                                          </table>
-                                          <hr>
-                                        </div>
+                                    <div id="productTernak" class="panel-collapse collapse showHideProduct" align="center">
+                                    <h4><label>Produk Hewan Ternak</label></h4>
+                                      <table class="table table-hover" style="table-layout: fixed;">
+                                        <thead>
+                                          <tr>
+                                            <th class="col-md-1">ID</th>
+                                            <th class="col-md-3">Nama Produk</th>
+                                            <th class="col-md-10">Keterangan Produk</th>
+                                            <th class="col-md-2">Opsi</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        <div id="productWisata" class="panel-collapse collapse showHideProduct" align="center">
-                                        <h4><label>Produk Pariwisata</label></h4>
-                                          <table class="table table-hover" style="table-layout: fixed;">
-                                            <thead>
-                                              <tr>
-                                                <th class="col-md-1">ID</th>
-                                                <th class="col-md-3">Nama Produk</th>
-                                                <th class="col-md-10">Keterangan Produk</th>
-                                                <th class="col-md-2">Opsi</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
+                                        
+                                            @foreach($products as $product)
+                                                @if(($product->category_id)==2)
+                                                  <tr>
+                                                    <td class="short">{{$product->id}}</td>
+                                                    <td class="short">{{$product->name}}</td>
+                                                    <td class="short">{{$product->description}}</td>
+                                                    
+                                                    <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                  </tr>
+                                        
+                                              @endif
+                                            @endforeach
+                                        </tbody>
+                                      </table>
+                                      <hr>
+                                    </div>
 
-                                            <?php $i=1; ?>
-                                                @foreach($products as $product)
-                                                    @if(($product->category_id)==3)
-                                                      <tr>
-                                                        <td class="short">{{$product->id}}</td>
-                                                        <td class="short">{{$product->name}}</td>
-                                                        <td class="short">{{$product->description}}</td>
-                                                        
-                                                        <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
-                                                      </tr>
-                                                  <?php $i++; ?>
-                                                  @endif
-                                                @endforeach
-                                            </tbody>
-                                          </table>
-                                          <hr>
-                                        </div>
-                                </div>
-                            </div>
+                                    <div id="productWisata" class="panel-collapse collapse showHideProduct" align="center">
+                                    <h4><label>Produk Pariwisata</label></h4>
+                                      <table class="table table-hover" style="table-layout: fixed;">
+                                        <thead>
+                                          <tr>
+                                            <th class="col-md-1">ID</th>
+                                            <th class="col-md-3">Nama Produk</th>
+                                            <th class="col-md-10">Keterangan Produk</th>
+                                            <th class="col-md-2">Opsi</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
 
-                            <div id="accordion2">
-                                <div class="panel">
-                                    <div align="center">                                   
-                                    <br>
-                                    
-                                        <div id="listOrder" class="panel-collapse collapse" align="center">
-                                        <h4><label>List Pesanan</label></h4>
-                                          <table class="table table-hover" style="table-layout: fixed;">
-                                            <thead>
-                                              <tr>
-                                                <th class="col-md-1">ID</th>
-                                                <th class="col-md-1">ID Product</th>
-                                                <th class="col-md-3">Nama Produk</th>
-                                                <th class="col-md-2">Status</th>
-                                                <th class="col-md-2">Tanggal Pemesanan</th>
-                                                <th class="col-md-2">Opsi</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            @if($profile->id == Auth::user()->id)
-                                                @foreach($orders as $order)
-                                                      <tr>
-                                                        <td class="short">{{$order->reservation_id}}</td>
-                                                        <td class="short">{{$order->detail_product_id}}</td>
-                                                        <td class="short">{{$order->name}}</td>
-                                                        <td class="short">{{$order->status}}</td>
-                                                        <td class="short">{{$order->created_at}}</td>
-                                                        
-                                                        <td><a href="/Order/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
-                                                      </tr>
-                                                @endforeach
-                                            @endif
-                                            </tbody>
-                                          </table>
-                                          <hr>
-                                        </div>
+                                        
+                                            @foreach($products as $product)
+                                                @if(($product->category_id)==3)
+                                                  <tr>
+                                                    <td class="short">{{$product->id}}</td>
+                                                    <td class="short">{{$product->name}}</td>
+                                                    <td class="short">{{$product->description}}</td>
+                                                    
+                                                    <td><a href="/Product/{{$product->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                  </tr>
+                                              
+                                              @endif
+                                            @endforeach
+                                        </tbody>
+                                      </table>
+                                      <hr>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-md-9">
+                           
+                                <div class="panel">
+
+                                    <div id="listOrder" class="panel-collapse collapse showHideProduct" align="center">
+                                    <h4><label>List Order</label></h4>
+                                        <div id="accordionProduct">
+                                            <div class="panel">
+                                                <br>
+                                                    <table class="table table-hover" style="table-layout: fixed;">
+                                                        <thead>
+                                                          <tr>
+                                                            <th class="col-md-1">Kode Pemesanan</th>
+                                                            <th class="col-md-1">Cust. ID</th>
+                                                            <th class="col-md-3">Cust. Name</th>
+                                                            <th class="col-md-3">Tanggal Pemesanan</th>
+                                                            <th class="col-md-2">Opsi</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($productSeller as $order)
+                                                                  <tr>
+                                                                    <td class="short" align="center">{{$order->reservation_id}}</td>
+                                                                    <td class="short" align="center">{{$order->cust->custId}}</td>
+                                                                    <td class="short" align="center">{{$order->cust->custName}}</td>
+
+                                                                    <td class="short">{{$order->detProd->created_at}}</td>
+                                                                    <!-- <td><a href="Order/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td> -->
+                                                                    <td><a href="OrderPending/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                                  </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                    </div>
+
+                                    <div id="listOrderAccepted" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Diterima</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Kode Pemesanan</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-3">Tanggal Pemesanan</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($productSellerAccepted as $order)
+                                                              <tr>
+                                                                <td class="short" align="center">{{$order->reservation_id}}</td>
+                                                                <td class="short" align="center">{{$order->cust->custId}}</td>
+                                                                <td class="short" align="center">{{$order->cust->custName}}</td>
+
+                                                                <td class="short">{{$order->detProd->created_at}}</td>
+                                                                <!-- <td><a href="Order/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td> -->
+                                                                <td><a href="OrderAccepted/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                    </div>
+
+                                    <div id="listOrderRejected" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Di Tolak</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Kode Pemesanan</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-3">Tanggal Pemesanan</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($productSellerRejected as $order)
+                                                              <tr>
+                                                                <td class="short" align="center">{{$order->reservation_id}}</td>
+                                                                <td class="short" align="center">{{$order->cust->custId}}</td>
+                                                                <td class="short" align="center">{{$order->cust->custName}}</td>
+
+                                                                <td class="short">{{$order->detProd->created_at}}</td>
+                                                                <!-- <td><a href="Order/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td> -->
+                                                                <td><a href="OrderRejected/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                    </div>
+
+                                    <div id="listOrderShipping" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Di Kirim</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Kode Pemesanan</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-3">Tanggal Pemesanan</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($productSellerShipping as $order)
+                                                              <tr>
+                                                                <td class="short" align="center">{{$order->reservation_id}}</td>
+                                                                <td class="short" align="center">{{$order->cust->custId}}</td>
+                                                                <td class="short" align="center">{{$order->cust->custName}}</td>
+
+                                                                <td class="short">{{$order->detProd->created_at}}</td>
+                                                                <!-- <td><a href="Order/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td> -->
+                                                                 <td><a href="OrderShipping/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                    </div>
+                               
                         </div>
                     </div>
                 </div>

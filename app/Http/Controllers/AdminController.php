@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Input as Input;
 
 class AdminController extends Controller
 {
+
     public function index()
     {
         $profiles   = DB::table('users')
@@ -58,7 +59,13 @@ class AdminController extends Controller
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street', 'users.city_id', 'cities.city','cities.type', 'provinces.id as idProvince','provinces.province','users.zip_code')
             ->where('users.id', '=', Auth::user()->id)
             ->first();
+
+        if (Auth::user()->role=='admin') {
             return view ('admin.AdminProfileEdit', compact('profiles','province','cities'));
+        }else{
+            return redirect('/');
+        }
+
     }
 
     public function update(Request $request, $id)
@@ -83,7 +90,11 @@ class AdminController extends Controller
                 'zip_code'  => Input::get('zip_code'),
                 ]);
 
-        return redirect('/AdminProfile');
+        if (Auth::user()->role=='admin') {
+            return redirect('/AdminProfile');
+        }else{
+            return redirect('/');
+        }
     }
     
     public function destroy($id)

@@ -56,7 +56,8 @@
                         <!-- <h4 align="center"><label>Category</label></h4> -->
                             
                         <div class="panel-group" id="accordion">
-
+                            
+                            <h4 align="center"><label>User</label></h4>
                             <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listUser">
                                     <h4 class="panel-title">
@@ -66,7 +67,8 @@
                                     </h4>
                                 </div>
                             </div>
-
+                            <br>
+                            <h4 align="center"><label>Produk</label></h4>
                             <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listCategory">
                                     <h4 class="panel-title">
@@ -86,20 +88,58 @@
                                     </h4>
                                 </div>
                             </div>
-
+                            <br>
+                            <h4 align="center"><label>Order</label></h4>
                             <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrder">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
-                                          List Order
+                                          Order Request
                                         </a>
                                     </h4>
                                 </div>
                             </div>
 
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrderValid">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          Order Valid
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrderInvalid">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          Order Invalid
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrderShipping">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          Order Shipping
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrderClosed">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          Order Closed
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
                         </div>
-                        
-                        
                     </div>
                     <div class="col-md-9">
                         
@@ -286,7 +326,6 @@
                                                     </button>
                                                 </div>
 
-
                                                 <br>
                                                     <div id="listSeller" class="panel-collapse collapse showHideLapak" align="center">
                                                     <h4><label>List Seller</label></h4>
@@ -349,41 +388,183 @@
                                 </div>
 
                                 <div id="listOrder" class="panel-collapse collapse" align="center">
-                                    <h4><label>List Order</label></h4>
+                                    <h4><label>List Order Request</label></h4>
                                         <div id="accordionUser">
                                             <div class="panel">
                                                 <br>
-                                                      <table class="table table-hover" style="table-layout: fixed;">
-                                                        <thead>
-                                                          <tr>
-                                                            <th class="col-md-1">Resv. ID</th>
-                                                            <th class="col-md-1">Cust. ID</th>
-                                                            <th class="col-md-1">Cust. Name</th>
-                                                            <th class="col-md-1">Total Biaya</th>
-                                                            <th class="col-md-2">Opsi</th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach($orders as $order)
-                                                                  <tr>
-                                                                    <td class="short">{{$order->resv->id}}</td>
-                                                                    <td class="short">{{$order->resv->customer_id}}</td>
-                                                                    <td class="short">{{$order->resv->name}}</td>
-                                                                    <td class="short">{{$order->totPrice}}</td>
-                                                                    <td><a href="Order/{{$order->resv->id}}" class="btn btn-info" role="button">Detail</a></td>
-                                                                  </tr>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Resv. ID</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-2">Total Biaya</th>
+                                                        <th class="col-md-3">Tanggal Pemeesanan</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($orders as $order)
+                                                              <tr>
+                                                                <td class="short" align="center">{{$order->resv->id}}</td>
+                                                                <td class="short" align="center">{{$order->resv->customer_id}}</td>
+                                                                <td class="short">{{$order->resv->name}}</td>
+                                                                <td class="short">{{$order->totPrice}}</td>
+                                                                <td class="short">{{$order->resv->created_at}}</td>
+                                                                <td><a href="OrderAdmin/{{$order->resv->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
 
-                                                            @endforeach
-                                                        </tbody>
-                                                      </table>
-                                                      <hr>
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
                                             </div>
                                         </div>
                                       <hr>
                                 </div>
-                            </div>
-                        
 
+                                <div id="listOrderValid" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Valid</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Resv. ID</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-2">Total Biaya</th>
+                                                        <th class="col-md-3">Tanggal Pemeesanan</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($orderValid as $order)
+                                                              <tr>
+                                                                <td class="short" align="center">{{$order->resv->id}}</td>
+                                                                <td class="short" align="center">{{$order->resv->customer_id}}</td>
+                                                                <td class="short">{{$order->resv->name}}</td>
+                                                                <td class="short">{{$order->totPrice}}</td>
+                                                                <td class="short">{{$order->resv->created_at}}</td>
+                                                                <td><a href="OrderValid/{{$order->resv->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                </div>
+
+                                <div id="listOrderInvalid" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Invalid</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Resv. ID</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-2">Total Biaya</th>
+                                                        <th class="col-md-3">Tanggal Pemeesanan</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($orderInvalid as $order)
+                                                              <tr>
+                                                                <td class="short" align="center">{{$order->resv->id}}</td>
+                                                                <td class="short" align="center">{{$order->resv->customer_id}}</td>
+                                                                <td class="short">{{$order->resv->name}}</td>
+                                                                <td class="short">{{$order->totPrice}}</td>
+                                                                <td class="short">{{$order->resv->created_at}}</td>
+                                                                <td><a href="OrderInvalid/{{$order->resv->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                </div>
+
+                                <div id="listOrderShipping" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Di Kirim</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Kode Pemesanan</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($orderAdminShipping as $ordShip)
+                                                            <tr>
+                                                                <td class="short" align="center">{{$ordShip->reservation_id}}</td>
+                                                                <td class="short" align="center">{{$ordShip->cust->custId}}</td>
+                                                                <td class="short" align="center">{{$ordShip->cust->custName}}</td>
+                                                                
+                                                                 <td><a href="OrderAdminShipping/{{$ordShip->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                    </div>
+
+                                <div id="listOrderClosed" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Closed</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Resv. ID</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-2">Total Biaya</th>
+                                                        <th class="col-md-3">Tanggal Pemeesanan</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($orderClosed as $order)
+                                                              <tr>
+                                                                <td class="short" align="center">{{$order->resv->id}}</td>
+                                                                <td class="short" align="center">{{$order->resv->customer_id}}</td>
+                                                                <td class="short">{{$order->resv->name}}</td>
+                                                                <td class="short">{{$order->totPrice}}</td>
+                                                                <td class="short">{{$order->resv->created_at}}</td>
+                                                                <td><a href="OrderClosed/{{$order->resv->id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                </div>
+
+
+                            </div>
                     </div>
             </div>
         </div>

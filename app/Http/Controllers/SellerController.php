@@ -74,7 +74,12 @@ class sellerController extends Controller
             })
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street', 'users.city_id','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
             ->first();
+
+        if (Auth::user()->role=='seller') {
             return view ('seller.sellerProfileEdit', compact('profiles','province','cities'));
+        }else{
+            return redirect('/');
+        }
     }
 
     public function update(Request $request, $id)
@@ -126,7 +131,12 @@ class sellerController extends Controller
                 'prof_pic'      => $prof_pic
                 ]);
 
-        return redirect('/SellerProfile');
+        if (Auth::user()->role=='seller') {
+            return redirect('/SellerProfile');
+        }else{
+            return redirect('/');
+        }
+        
     }
 
     public function destroy($id)

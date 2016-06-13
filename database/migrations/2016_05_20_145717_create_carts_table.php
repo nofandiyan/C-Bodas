@@ -22,6 +22,7 @@ class CreateCartsTable extends Migration
             $table->decimal('delivery_cost',19,0)->default(0,0);
             $table->integer('amount',10);
             $table->date('schedule')->nullable();
+            $table->date('resi',30)->nullable();
             $table->enum('status', ['0', '1', '2', '3', '4']);
             $table->timestamps();
         });

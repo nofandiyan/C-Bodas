@@ -64,7 +64,11 @@ class CustomerController extends Controller
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street', 'users.city_id', 'cities.city', 'cities.type', 'provinces.id as idProvince','provinces.province','users.zip_code')
             ->first();
             
+        if (Auth::user()->role=='customer') {
             return view ('customer.CustomerProfileEdit', compact('profiles','province','cities'));
+        }else{
+            return redirect('/');
+        }
     }
 
     public function show($id)
@@ -102,7 +106,11 @@ class CustomerController extends Controller
                 'zip_code'  => Input::get('zip_code'),
                 ]);
 
-        return redirect('/CustomerProfile');
+        if (Auth::user()->role=='customer') {
+            return redirect('/CustomerProfile');
+        }else{
+            return redirect('/');
+        }
     }
 
     public function destroy($id)
