@@ -108,7 +108,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //--------------------------------------------------------------------------
 
-    Route::get('/homepage', 'SearchController@search');
+    Route::get('/searchresult', 'SearchController@cari');
 
     //-------------------------------------------------------------------------
 

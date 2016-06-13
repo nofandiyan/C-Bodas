@@ -24,11 +24,11 @@ class SearchController extends Controller
         $this->middleware('guest');
     }
 
-    public function searchhome()
+    public function cari()
     {
-        $search = \Request::get('search'); //<-- we use global request to get the param of URI
+        $search = \Request::get('search'); 
  
-        DB::table('detail_products')
+        $barang = DB::table('detail_products')
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
@@ -44,15 +44,17 @@ class SearchController extends Controller
             ->get();
         }
     
-
+        /*echo "<pre>";
+        var_dump($barang);
+        die();*/
        /* $barang = DB::where('name','like','%'.$search.'%')
         ->orderBy('name')
         ->paginate(9);*/
  
-    return view('templates.homepage',compact('barang'));
+    return view('templates.searchresult',compact('barang'));
     }
 
-    public function searchsayuranorganik()
+    /*public function searchsayuranorganik()
     {
         $search = \Request::get('search'); //<-- we use global request to get the param of URI
  
@@ -177,6 +179,6 @@ class SearchController extends Controller
 
     return view('templates.katalogpeternakan',compact('barang'));
     }
-   
+   */
 
 }
