@@ -128,8 +128,10 @@
 		                        </div>
 
                                 <div class="col-md-12">
-                                    <label class="col-md-3" align="right">Reputasi</label>
+                                    <div class="col-md-3" align="right"><label>Reputasi</label></div>
+                                    <div class="col-md-9">
                                     <input id="rating" name="input-name" type="number" class="rating" min=0 max=5 step=0.01 data-rtl="false" value="{{$avgRat}}" data-size="xs" disabled>
+                                    </div>
                                 </div>
 
                         		@if(Auth::user()->role == 'seller')

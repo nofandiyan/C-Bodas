@@ -140,7 +140,7 @@
                                 </div>
                             </div>
                         </div>
-                        @endforeach
+                        
 
                         <div class="col-md-12">
                             <div>
@@ -149,7 +149,8 @@
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
                                             <th class="col-md-1" align="center">ID Produk</th>
-                                            <th class="col-md-3" align="center">Nama Produk</th>
+                                            <th class="col-md-2" align="center">Nama Produk</th>
+                                            <th class="col-md-1" align="center">Untuk Tanggal</th>
                                             <th class="col-md-1" align="center">Jumlah</th>
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
@@ -157,11 +158,16 @@
                                             <th class="col-md-2" align="center">Opsi</th>
                                         </thead>
                                         <tbody>
-                                        
+                        @endforeach                
                                                 @foreach($products as $prod)
                                                         <tr>
                                                             <td align="center">{{$prod->detProd->detId}}</td>
                                                             <td>{{$prod->detProd->name}}</td>
+                                                        @if($prod->detProd->category_id == 3)
+                                                            <td>{{$prod->schedule}}</td>
+                                                        @else
+                                                            <td>-</td>
+                                                        @endif
                                                             <td>{{$prod->amount}}</td>
                                                             <td>{{$prod->price}}</td>
                                                             <td>{{$prod->delivery_cost}}</td>

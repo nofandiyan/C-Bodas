@@ -24,10 +24,8 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     
-                        @foreach($order as $ord)
-
-                            
-                                <div align="center"><h2><label>Produk <font color="E87169">Diterima</font></label></h2></div>
+                        @foreach($order as $ord)                            
+                        <div align="center"><h2><label>Produk <font color="E87169">Diterima</font></label></h2></div>
                             
                         <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
 

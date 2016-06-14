@@ -59,9 +59,11 @@
                                     <div class="col-md-12">
                                         <b><label class="col-md-5">Total Harga</label></b>
                                         <div class="col-md-7">
-                                            
+                                            @if(Auth::user()->role=='admin')
+                                                <b>{{$totPriceAdminShipped}}</b>
+                                            @elseif(Auth::user()->role=='seller')
                                                 <b>{{$totPriceSellerShipped}}</b>
-                                            
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +154,8 @@
                                             <th class="col-md-2" align="center">Nomor Resi Pengiriman</th>
                                         </thead>
                                         <tbody>
-                                            @foreach($productSellerShipped as $prod)
+                                        @if(Auth::user()->role=='admin')
+                                            @foreach($productAdminShipped as $prod)
                                                     <tr>
                                                         <td align="center">{{$prod->detProd->detId}}</td>
                                                         <td>{{$prod->detProd->name}}</td>
@@ -171,8 +174,31 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
+                                                <td><h4><b>{{$totPriceAdminShipped}}</b></h4></td>
+                                            </tr>
+                                        @elseif(Auth::user()->role=='seller')
+                                            @foreach($productSellerShipped as $prod)
+                                                <tr>
+                                                    <td align="center">{{$prod->detProd->detId}}</td>
+                                                    <td>{{$prod->detProd->name}}</td>
+                                                    <td>{{$prod->amount}}</td>
+                                                    <td>{{$prod->price}}</td>
+                                                    <td>{{$prod->delivery_cost}}</td>
+                                                    <td>{{$prod->countPrice}}</td>
+                                                    <td>{{$prod->updated_at}}</td>
+                                                    <td>{{$prod->resi}}</td>
+                                                </tr>
+                                            @endforeach
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
                                                 <td><h4><b>{{$totPriceSellerShipped}}</b></h4></td>
                                             </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

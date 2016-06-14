@@ -6,8 +6,10 @@
     <body>
         <h2>Valid</h2>
         <div>
-            Terimakasih telah melakukan transaksi pada C-Bodas. <br>
-            Pesanan Anda telah kami validasi, sekarang pesanan anda sedang menunggu respon dari seller kami.
+            Terimakasih telah melakukan transaksi melaklui aplikasi C-Bodas. <br><br>
+            Pesanan Anda telah kami validasi, <br>
+            Untuk pemesanan produk pertanian dan peternakan menunggu respon dari seller kami untuk di tindak lanjuti. <br>
+            Untuk pemesanan tiket pariwisata, tunjukkan email berikut untuk masuk ke lokasi<br>
 
         <div class="container">
             <div class="row">

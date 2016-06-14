@@ -43,6 +43,7 @@ class OrderController extends Controller
             ->join('reservations','carts.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+            ->join('products','detail_products.product_id','=','products.id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
@@ -484,6 +485,7 @@ class OrderController extends Controller
             ->join('detail_products','carts.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
             ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->where('users.id','=',Auth::user()->id)
             ->where('reservations.id','=',$resvId)
             ->where('carts.status','=','4')
             
@@ -512,7 +514,41 @@ class OrderController extends Controller
             $totPriceSellerShipped += $prod->countPrice;
 
         }
-            return view ('order.viewOrderShipped', compact('products','order','productSellerShipped','totPriceSellerShipped'));
+
+        $productAdminShipped = DB::table('carts')
+            ->join('reservations','carts.reservation_id','=','reservations.id')
+            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+            ->join('users','detail_products.seller_id','=','users.id')
+            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->where('reservations.id','=',$resvId)
+            ->where('carts.status','=','4')
+            
+            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
+                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at')
+            ->get();
+
+        $totPriceAdminShipped = 0;
+        foreach ($productAdminShipped as $prod) {
+            $prod->detProd = DB::table('detail_products')
+            ->join('products','products.id','=','detail_products.product_id')
+            ->join('sellers','detail_products.seller_id','=','sellers.id')
+            ->where('detail_products.id','=', $prod->detail_product_id)
+            ->select(
+                'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
+                'products.name', 'products.category_id',
+                'sellers.bank_name as sellerBankName','sellers.bank_account as sellerBankAccount','sellers.account_number as sellerAccountNumber')
+            ->first();
+
+            $prod->countPrice = DB::table('prices_products')
+            ->join('carts', 'carts.price_id','=', 'prices_products.id')
+            ->where('carts.detail_product_id','=',$prod->detProd->detId)
+            ->where('carts.reservation_id','=',$resvId)
+            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+
+            $totPriceAdminShipped += $prod->countPrice;
+
+        }
+            return view ('order.viewOrderShipped', compact('products','order','productSellerShipped','totPriceSellerShipped','productAdminShipped','totPriceAdminShipped'));
     }
 
     public function orderAdmin($resvId)
@@ -534,11 +570,13 @@ class OrderController extends Controller
             ->join('reservations','carts.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+            ->join('products','products.id','=','detail_products.product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
+                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId',
+                'products.category_id')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -564,7 +602,7 @@ class OrderController extends Controller
             ->join('prices_products','carts.price_id','=','prices_products.id')
             ->where('carts.reservation_id','=',$resvId)
             ->where('reservations.status','=',1)
-            ->select('prices_products.price','reservations.id','reservations.customer_id','reservations.delivery_address_id','reservations.created_at','reservations.status as resvStatus','reservations.id as resvId','reservations.payment_proof','carts.amount', 'carts.delivery_cost', 'carts.detail_product_id as detId')
+            ->select('prices_products.price','reservations.id','reservations.customer_id','reservations.delivery_address_id','reservations.created_at','reservations.status as resvStatus','reservations.id as resvId','reservations.payment_proof','carts.amount', 'carts.delivery_cost', 'carts.detail_product_id as detId','carts.schedule')
             ->get();
 
         $totPriceAdmin = 0;
@@ -577,7 +615,7 @@ class OrderController extends Controller
             ->select(
                 'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
                 'products.name', 'products.category_id',
-                'sellers.bank_name as sellerBankName','sellers.bank_account as sellerBankAccount','sellers.account_number as sellerAccountNumber','products.category_id','carts.status as cartStatus')
+                'sellers.bank_name as sellerBankName','sellers.bank_account as sellerBankAccount','sellers.account_number as sellerAccountNumber','products.category_id','carts.status as cartStatus','products.category_id')
             ->first();
 
             $prod->countPrice = DB::table('prices_products')
@@ -586,7 +624,14 @@ class OrderController extends Controller
             ->where('carts.reservation_id','=',$resvId)
             ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
             $totPriceAdmin += $prod->countPrice;
+        
+        // echo "<pre>";
+        // var_dump($prod->detProd);
         }
+
+        
+        // die();
+
         return view ('order.viewOrderAdmin', compact('products','order','totPriceAdmin'));
     }
 
@@ -795,11 +840,20 @@ class OrderController extends Controller
         $now = $dt->toDateTimeString();
 
         DB::table('reservations')
-
             ->where('id','=', $resvId)
             ->update([
                 'status'      => 2,
                 'updated_at'   => $now
+                ]);
+
+        DB::table('carts')
+            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+            ->join('products','detail_products.product_id','=','products.id')
+            ->where('carts.reservation_id','=', $resvId)
+            ->where('products.category_id','=', 3)
+            ->update([
+                'carts.status'          => 4,
+                'carts.updated_at'      => $now
                 ]);
 
         $order = DB::table('carts')

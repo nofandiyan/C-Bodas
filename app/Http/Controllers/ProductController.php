@@ -158,7 +158,12 @@ class ProductController extends Controller
             $i++;
         }
 
-        $avgRat = $sumRat/$i;
+        if ($i == 0) {
+            $avgRat = $sumRat;
+        }else{
+            $avgRat = $sumRat/$i;
+        }
+        
 
         return view('product.viewProduct', compact('product','images','price','reviews','avgRat'));
         
