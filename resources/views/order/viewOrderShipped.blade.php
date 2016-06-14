@@ -27,7 +27,7 @@
                         @foreach($order as $ord)
 
                             
-                        <div align="center"><h2><label>Produk <font color="E87169">Di Kirim</font></label></h2></div>
+                                <div align="center"><h2><label>Produk <font color="E87169">Terkirim</font></label></h2></div>
                             
                         <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
 
@@ -52,7 +52,7 @@
                                     <div class="col-md-12">
                                         <label class="col-md-5">Status</label>
                                         <div class="col-md-7">
-                                                Shipping
+                                                Shipped
                                         </div>
                                     </div>
 
@@ -60,7 +60,7 @@
                                         <b><label class="col-md-5">Total Harga</label></b>
                                         <div class="col-md-7">
                                             
-                                                <b>{{$totPriceSellerShipping}}</b>
+                                                <b>{{$totPriceSellerShipped}}</b>
                                             
                                         </div>
                                     </div>
@@ -139,7 +139,6 @@
                         <div class="col-md-12">
                             <div>
                                 <h4><label>Informasi Produk</label></h4>
-
                                 <div class="col-md-12">
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
@@ -150,36 +149,30 @@
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
                                             <th class="col-md-2" align="center">Tanggal Pengiriman</th>
-                                            @foreach($productSellerShipping as $prod)
-                                            @if($prod->detProd->category_id == 1)
                                             <th class="col-md-2" align="center">Nomor Resi Pengiriman</th>
-                                            @endif
                                         </thead>
                                         <tbody>
-                                        
-                                                
-                                                        <tr>
-                                                            <td align="center">{{$prod->detProd->detId}}</td>
-                                                            <td>{{$prod->detProd->name}}</td>
-                                                            <td>{{$prod->amount}}</td>
-                                                            <td>{{$prod->price}}</td>
-                                                            <td>{{$prod->delivery_cost}}</td>
-                                                            <td>{{$prod->countPrice}}</td>
-                                                            <td>{{$prod->updated_at}}</td>
-                                                            @if($prod->detProd->category_id == 1)
-                                                            <td>{{$prod->resi}}</td>
-                                                            @endif
-                                                        </tr>
-                                                @endforeach
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                    <td><h4><b>{{$totPriceSellerShipping}}</b></h4></td>
-                                                    <td></td>
-                                                </tr>
-                                          
+                                            @foreach($productSellerShipped as $prod)
+                                                    <tr>
+                                                        <td align="center">{{$prod->detProd->detId}}</td>
+                                                        <td>{{$prod->detProd->name}}</td>
+                                                        <td>{{$prod->amount}}</td>
+                                                        <td>{{$prod->price}}</td>
+                                                        <td>{{$prod->delivery_cost}}</td>
+                                                        <td>{{$prod->countPrice}}</td>
+                                                        <td>{{$prod->updated_at}}</td>
+                                                        <td>{{$prod->resi}}</td>
+                                                    </tr>
+                                            @endforeach
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
+                                                <td><h4><b>{{$totPriceSellerShipped}}</b></h4></td>
+                                            </tr>
                                     </tbody>
                                 </table>
                             </div>

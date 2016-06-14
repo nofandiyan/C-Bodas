@@ -131,6 +131,16 @@
                             </div>
 
                             <div class="panel panel-default">
+                                <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrderShipped">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle">
+                                          Order Shipped
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+
+                            <!-- <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrderClosed">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
@@ -138,7 +148,7 @@
                                         </a>
                                     </h4>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -515,7 +525,6 @@
                                                                 <td class="short" align="center">{{$ordShip->reservation_id}}</td>
                                                                 <td class="short" align="center">{{$ordShip->cust->custId}}</td>
                                                                 <td class="short" align="center">{{$ordShip->cust->custName}}</td>
-                                                                
                                                                  <td><a href="OrderAdminShipping/{{$ordShip->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
                                                               </tr>
                                                         @endforeach
@@ -524,8 +533,40 @@
                                                   <hr>
                                             </div>
                                         </div>
-                                      <hr>
-                                    </div>
+                                    <hr>
+                                </div>
+
+                                <div id="listOrderShipped" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Terkirim</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Kode Pemesanan</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($orderAdminShipped as $ordShip)
+                                                            <tr>
+                                                                <td class="short" align="center">{{$ordShip->reservation_id}}</td>
+                                                                <td class="short" align="center">{{$ordShip->cust->custId}}</td>
+                                                                <td class="short" align="center">{{$ordShip->cust->custName}}</td>
+                                                                
+                                                                 <td><a href="OrderShipped/{{$ordShip->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                    <hr>
+                                </div>
 
                                 <div id="listOrderClosed" class="panel-collapse collapse" align="center">
                                     <h4><label>List Order Closed</label></h4>
@@ -539,7 +580,7 @@
                                                         <th class="col-md-1">Cust. ID</th>
                                                         <th class="col-md-3">Cust. Name</th>
                                                         <th class="col-md-2">Total Biaya</th>
-                                                        <th class="col-md-3">Tanggal Pemeesanan</th>
+                                                        <th class="col-md-3">Tanggal Pemesanan</th>
                                                         <th class="col-md-2">Opsi</th>
                                                       </tr>
                                                     </thead>

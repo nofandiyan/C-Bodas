@@ -57,7 +57,7 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <b><label class="col-md-5">Total Biaya</label></b>
+                                        <b><label class="col-md-5">Total Harga</label></b>
                                         <div class="col-md-7">
                                             
                                                 <b>{{$totPriceAdminShipping}}</b>
@@ -150,6 +150,7 @@
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
                                             <th class="col-md-1" align="center">Tanggal Pengiriman</th>
                                             <th class="col-md-1" align="center">Nomor Resi Pengiriman</th>
+                                            <th class="col-md-1" align="center">Opsi</th>
                                         </thead>
                                         <tbody>
                                         
@@ -163,6 +164,9 @@
                                                             <td>{{$prod->countPrice}}</td>
                                                             <td>{{$prod->updated_at}}</td>
                                                             <td>{{$prod->resi}}</td>
+                                                            <td>
+                                                                <a href="/shipped/{{$ord->cust->resvId}}/{{$prod->detProd->detId}}" class="btn btn-danger" role="button">Terkirim</a>
+                                                            </td>
                                                         </tr>
                                                 @endforeach
                                                 <tr>
@@ -170,8 +174,10 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><h4><b>Total Biaya</b></h4></td>
+                                                    <td><h4><b>Total Harga</b></h4></td>
                                                     <td><h4><b>{{$totPriceAdminShipping}}</b></h4></td>
+                                                    <td></td>
+                                                    <td></td>
                                                 </tr>
                                     </tbody>
                                 </table>

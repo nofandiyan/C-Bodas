@@ -160,19 +160,6 @@ class RegistrationController extends Controller
         
             $prof_pic = 'images/profile/'.$filename;
 
-            // $seller = SellerModel::create([
-            //     'id'            => $userSeller->id,
-            //     'user_id'       => $userSeller->id,
-            //     'type_id'       => Input::get('type_id'),
-            //     'no_id'         => Input::get('no_id'),
-            //     'prof_pic'      => $prof_pic,
-            //     'bank_account'  => Input::get('bank_account'),
-            //     'account_number'=> Input::get('account_number'),
-            //     'bank_name'     => Input::get('bank_name'),
-            // ]);
-
-            // $seller->save();
-
             $seller = DB::table('sellers')->insertGetId([
                 'id'            => $user->id,
                 'type_id'       => Input::get('type_id'),

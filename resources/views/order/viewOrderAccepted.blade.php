@@ -163,6 +163,7 @@
                                                             <td>{{$prod->countPrice}}</td>
                                                             <td>{{$prod->updated_at}}</td>
                                                             <td>
+                                                                @if($prod->category_id == 1)
                                                                 <form method="POST" action="/shipping/{{$prod->resvId}}/{{$prod->detId}}" role="form">
                                                                 
                                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -191,6 +192,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </form>
+                                                                @elseif($prod->category_id == 2)
+                                                                    <a href="/shippingTernak/{{$prod->resvId}}/{{$prod->detId}}" class="btn btn-danger" role="button">Kirim Sekarang</a>
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                 @endforeach

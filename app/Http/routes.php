@@ -72,10 +72,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('OrderInvalid/{resvId}', 'OrderController@OrderInvalid');
     Route::get('OrderAdminShipping/{resvId}', 'OrderController@OrderAdminShipping');
 
+
     Route::get('OrderPending/{resvId}', 'OrderController@orderPending');
     Route::get('OrderAccepted/{resvId}', 'OrderController@orderAccepted');
     Route::get('OrderRejected/{resvId}', 'OrderController@orderRejected');
     Route::get('OrderShipping/{resvId}', 'OrderController@OrderShipping');
+    Route::get('OrderShipped/{resvId}', 'OrderController@OrderShipped');
 
     Route::get('/invalid/{id}', 'OrderController@invalid');
     Route::get('/valid/{id}', 'OrderController@valid');
@@ -83,7 +85,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/accepted/{resvId}/{detId}', 'OrderController@accepted');
     Route::get('/rejected/{resvId}/{detId}', 'OrderController@rejected');
 
-    Route::resource('/shipping/{resvId}/{detId}', 'OrderController@shipping');
+    Route::post('/shipping/{resvId}/{detId}', 'OrderController@shipping');
+
+    Route::get('/shippingTernak/{resvId}/{detId}', 'OrderController@shippingTernak');
+
+    Route::get('/shipped/{resvId}/{detId}', 'OrderController@shipped');
 
 
     // --------------------------------------------------------------------------
