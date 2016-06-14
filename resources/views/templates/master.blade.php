@@ -33,6 +33,8 @@
     <link href="assets/css/custom.css" rel="stylesheet" type="text/css">
     <link href="assets/css/color/red.css" id="main-color" rel="stylesheet" type="text/css"> -->
 
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+
     <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <link href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -43,8 +45,9 @@
     <link href="{{ URL::asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/color/red.css') }}" id="main-color" rel="stylesheet" type="text/css">
 
+    <link href="{{ URL::asset('assets/css/star-rating.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ URL::asset('assets/css/theme-krajee-svg.css') }}" media="all" rel="stylesheet" type="text/css" />
     
-    <link href="{{ URL::asset('assets/css/lightbox.css') }}" rel="stylesheet">
     
     <!-- ==========================
         JS 
@@ -121,13 +124,20 @@
             $("."+provid).attr("disabled", false);
         }
 //input numeric
-            function numeric(ob) {
-              var invalidChars = /[^0-9]/gi
-              if(invalidChars.test(ob.value)) {
-                        ob.value = ob.value.replace(invalidChars,"");
-                  }
-            }
+        function numeric(ob) {
+          var invalidChars = /[^0-9]/gi
+          if(invalidChars.test(ob.value)) {
+                    ob.value = ob.value.replace(invalidChars,"");
+              }
+        }
         
+//rating
+        var ratingValue = $('#rating').rating('refresh', {
+            disabled: true, 
+            showClear: false, 
+            showCaption: true
+        }).val(); 
+
     </script>
 
     <style type="text/css">
@@ -485,8 +495,7 @@
 
     <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
 
-    <script src="{{ URL::asset('assets/js/lightbox.js') }}"></script>
-
+    <script src="{{ URL::asset('assets/js/star-rating.js') }}"></script>
 
 <!-- Mirrored from demos.pixelized.cz/C-Bodas/v1.1/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Apr 2016 15:38:50 GMT -->
 </html>

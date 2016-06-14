@@ -144,7 +144,23 @@ class ProductController extends Controller
             // var_dump($product);
             // die();
 
-        return view('product.viewProduct', compact('product','images','price'));
+        $reviews = DB::table('reviews')
+            ->join('users','users.id','=','reviews.customer_id')
+            ->join('detail_products','reviews.detail_product_id','=','detail_products.id')
+            ->where('reviews.detail_product_id',$id)
+            ->select('reviews.id as idRev','users.name as custName','reviews.detail_product_id as detId','reviews.rating','reviews.review','reviews.created_at')
+            ->get();
+
+        $i=0;
+        $sumRat=0;
+        foreach ($reviews as $rev) {
+            $sumRat += $rev->rating;
+            $i++;
+        }
+
+        $avgRat = $sumRat/$i;
+
+        return view('product.viewProduct', compact('product','images','price','reviews','avgRat'));
         
     }
 
@@ -276,6 +292,8 @@ class ProductController extends Controller
         }
         return redirect('/');
     }
+
+
 
     public function destroy($id)
     {
