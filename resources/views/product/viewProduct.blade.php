@@ -130,7 +130,7 @@
                                 <div class="col-md-12">
                                     <div class="col-md-3" align="right"><label>Reputasi</label></div>
                                     <div class="col-md-9">
-                                    <input id="rating" name="input-name" type="number" class="rating" min=0 max=5 step=0.01 data-rtl="false" value="{{$avgRat}}" data-size="xs" disabled>
+                                    <input id="rating" name="input-name" type="number" class="rating" min=0 max=5 step=0.01 data-rtl="false" value="{{$avgRat}}" data-size="xs">
                                     </div>
                                 </div>
 

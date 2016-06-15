@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Input as Input;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $profiles   = DB::table('users')
@@ -80,6 +85,10 @@ class CustomerController extends Controller
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code')
             ->where('customers.id','=', $id)
             ->first();
+
+        if (count($profiles) == 0) {
+            return redirect('/');
+        }
 
             return view ('customer.customerProfile', compact('profiles'));
     }

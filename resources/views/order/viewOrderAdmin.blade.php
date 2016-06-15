@@ -56,11 +56,19 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <b><label class="col-md-5">Total Biaya</label></b>
+                                        <b><label class="col-md-5">Jumlah Transfer</label></b>
+                                        <div class="col-md-7">
+                                            <b>{{$totPrice}}</b>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <b><label class="col-md-5">Jumlah Transfer Ke Seller</label></b>
                                         <div class="col-md-7">
                                             <b>{{$totPriceSeller}}</b>
                                         </div>
                                     </div>
+
                                     <a class="btn" data-popup-open="popup-1" href="#">Bukti Pembayaran</a>
                                     <div class="popup" data-popup="popup-1">
                                         <div class="popup-inner" align="center">
@@ -150,7 +158,8 @@
                                             <th class="col-md-1" align="center">ID Produk</th>
                                             <th class="col-md-2" align="center">Nama Produk</th>
                                             <th class="col-md-1" align="center">Untuk Tanggal</th>
-                                            <th class="col-md-1" align="center">Jumlah</th>
+                                            <th class="col-md-1" align="center">Stok</th>
+                                            <th class="col-md-1" align="center">Jumlah Beli</th>
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
@@ -168,10 +177,20 @@
                                                 @else
                                                     <td>-</td>
                                                 @endif
+                                                @if($ord->cust->category_id == 3)
+                                                    <td>-</td>
+                                                @else
+                                                    <td>{{$prod->detProd->stock}}</td>
+                                                @endif
                                                     <td>{{$prod->amount}}</td>
                                                     <td>{{$prod->price}}</td>
+                                                @if($prod->detProd->category_id == 2)
+                                                    <td><font color="E87169">{{$prod->delivery_cost}}</font></td>
+                                                    <td><font color="E87169">{{$countPrice[$i]}}</font></td>
+                                                @else
                                                     <td>{{$prod->delivery_cost}}</td>
                                                     <td>{{$countPrice[$i]}}</td>
+                                                @endif
                                                     <td>
                                                         <a href="/Product/<?php echo $prod->detId; ?>" class="btn btn-info" role="button">Product</a>
                                                         <a href="/viewSellerProfile/<?php echo $prod->detProd->seller_id; ?>" class="btn btn-info" role="button">Seller</a>
@@ -184,9 +203,18 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <td colspan="3" align="right"><h4><b>Total Biaya</b></h4></td>
+                                            <td><h4><b>{{$totPrice}}</b></h4></td>
                                             <td></td>
-                                            <td><h4><b>Total Biaya</b></h4></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td colspan="3" align="right"><h4><b>Total Transfer Ke Seller</b></h4></td>
                                             <td><h4><b>{{$totPriceSeller}}</b></h4></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>

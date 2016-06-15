@@ -132,11 +132,13 @@
         }
         
 //rating
-        var ratingValue = $('#rating').rating('refresh', {
-            disabled: true, 
-            showClear: false, 
-            showCaption: true
-        }).val(); 
+        $( document ).ready(function() {
+            var ratingValue = $('#rating').rating('refresh', {
+                disabled: true, 
+                showClear: false, 
+                showCaption: true
+            }).val(); 
+        });
 
     </script>
 

@@ -28,6 +28,10 @@ use Illuminate\Support\Facades\Input as Input;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function createTani()
     {
@@ -117,6 +121,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
+
         $product = DB::table('detail_products')
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
@@ -124,6 +129,10 @@ class ProductController extends Controller
             ->select('detail_products.id as id', 'detail_products.seller_id', 'detail_products.created_at', 'detail_products.updated_at', 'products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
             ->where('detail_products.id', '=', $id)
             ->first();
+
+        if (count($product) == 0) {
+            return redirect('/');
+        }
 
         $images = DB::table('images_products')
             ->where('detail_product_id', '=', $id)
@@ -134,14 +143,8 @@ class ProductController extends Controller
             ->where('detail_product_id', '=', $id)
             ->first();
 
-        // $sold = DB::table('detail_products')        
-        //     ->join('carts', 'detail_products.id', '=', 'carts.detail_product_id')
-        //     ->where('detail_product_id', '=', $id)
-        //     ->select('carts.amount')
-        //     ->first();
-
             // echo("<pre>");
-            // var_dump($product);
+            // var_dump($sold);
             // die();
 
         $reviews = DB::table('reviews')
@@ -171,7 +174,6 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        
         $product = DB::table('detail_products')
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
@@ -179,6 +181,10 @@ class ProductController extends Controller
             ->select('detail_products.id','products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
             ->where('detail_products.id', '=', $id)
             ->first();
+
+        if (count($product) == 0) {
+            return redirect('/');
+        }
 
         $images = DB::table('images_products')
             ->where('detail_product_id', '=', $id)

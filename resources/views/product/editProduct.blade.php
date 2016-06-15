@@ -118,10 +118,10 @@
                                         <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $product->stock }}">
                                     </div>
                                     @elseif($product->category_id == 2)
-                                    <!-- <label class="col-md-4 control-label">Stok Tersedia</label>
-                                    <div class="col-md-3"> -->
-                                        <input type="hidden" class="form-control" name="stock" step="1" value="{{ $product->stock }}" readonly>
-                                    <!-- </div> -->
+                                    <label class="col-md-4 control-label">Stok Tersedia</label>
+                                    <div class="col-md-3">
+                                        <input type="number" class="form-control" name="stock" step="1" placeholder="Jumlah Sapi Tersedia" value="{{ $product->stock }}">
+                                    </div>
                                     @elseif($product->category_id == 3)
                                     <!-- <label class="col-md-4 control-label">Stok Tersedia</label>
                                     <div class="col-md-3"> -->

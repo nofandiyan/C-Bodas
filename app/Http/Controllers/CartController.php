@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Input as Input;
 class CartController extends Controller
 {
 
-     public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
     }

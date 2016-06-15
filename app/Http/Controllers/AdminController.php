@@ -16,7 +16,11 @@ use Illuminate\Support\Facades\Input as Input;
 
 class AdminController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $profiles   = DB::table('users')
@@ -65,7 +69,6 @@ class AdminController extends Controller
         }else{
             return redirect('/');
         }
-
     }
 
     public function update(Request $request, $id)
