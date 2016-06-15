@@ -60,7 +60,7 @@
                                         <b><label class="col-md-5">Total Harga</label></b>
                                         <div class="col-md-7">
                                             
-                                                <b>{{$totPriceAdminShipping}}</b>
+                                                <b>{{$totPriceSeller}}</b>
                                             
                                         </div>
                                     </div>
@@ -144,6 +144,7 @@
                                         <thead>
                                             <th class="col-md-1" align="center">ID Produk</th>
                                             <th class="col-md-2" align="center">Nama Produk</th>
+                                            <th class="col-md-1" align="center">Untuk Tanggal</th>
                                             <th class="col-md-1" align="center">Jumlah</th>
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
@@ -153,29 +154,37 @@
                                             <th class="col-md-1" align="center">Opsi</th>
                                         </thead>
                                         <tbody>
-                                        
-                                                @foreach($productAdminShipping as $prod)
+                                        <?php $i=1; ?>
+                                                @foreach($productSeller as $prod)
                                                         <tr>
                                                             <td align="center">{{$prod->detProd->detId}}</td>
                                                             <td>{{$prod->detProd->name}}</td>
+                                                            @if($prod->detProd->category_id == 3)
+                                                                <td>{{$prod->schedule}}</td>
+                                                            @else
+                                                                <td>-</td>
+                                                            @endif
                                                             <td>{{$prod->amount}}</td>
                                                             <td>{{$prod->price}}</td>
                                                             <td>{{$prod->delivery_cost}}</td>
-                                                            <td>{{$prod->countPrice}}</td>
+                                                            <td>{{$countPrice[$i]}}</td>
                                                             <td>{{$prod->updated_at}}</td>
                                                             <td>{{$prod->resi}}</td>
                                                             <td>
                                                                 <a href="/shipped/{{$ord->cust->resvId}}/{{$prod->detProd->detId}}" class="btn btn-danger" role="button">Terkirim</a>
                                                             </td>
                                                         </tr>
+                                                    <?php $i++; ?>
                                                 @endforeach
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><h4><b>Total Harga</b></h4></td>
-                                                    <td><h4><b>{{$totPriceAdminShipping}}</b></h4></td>
+                                                    
+                                                    <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
+                                                    <td><h4><b>{{$totPriceSeller}}</b></h4></td>
+                                                    <td></td>
                                                     <td></td>
                                                     <td></td>
                                                 </tr>

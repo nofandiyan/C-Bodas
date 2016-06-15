@@ -60,7 +60,7 @@
                                         <b><label class="col-md-5">Total Harga</label></b>
                                         <div class="col-md-7">
                                             
-                                                <b>{{$totPriceSellerShipping}}</b>
+                                                <b>{{$totPriceSeller}}</b>
                                             
                                         </div>
                                     </div>
@@ -150,7 +150,8 @@
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
                                             <th class="col-md-2" align="center">Tanggal Pengiriman</th>
-                                            @foreach($productSellerShipping as $prod)
+                                        <?php $i=1; ?>
+                                            @foreach($productSeller as $prod)
                                             @if($prod->detProd->category_id == 1)
                                             <th class="col-md-2" align="center">Nomor Resi Pengiriman</th>
                                             @endif
@@ -164,19 +165,20 @@
                                                             <td>{{$prod->amount}}</td>
                                                             <td>{{$prod->price}}</td>
                                                             <td>{{$prod->delivery_cost}}</td>
-                                                            <td>{{$prod->countPrice}}</td>
+                                                            <td>{{$countPrice[$i]}}</td>
                                                             <td>{{$prod->updated_at}}</td>
                                                             @if($prod->detProd->category_id == 1)
                                                             <td>{{$prod->resi}}</td>
                                                             @endif
                                                         </tr>
+                                                        <?php $i++; ?>
                                                 @endforeach
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                    <td><h4><b>{{$totPriceSellerShipping}}</b></h4></td>
+                                                    <td><h4><b>{{$totPriceSeller}}</b></h4></td>
                                                     <td></td>
                                                 </tr>
                                           

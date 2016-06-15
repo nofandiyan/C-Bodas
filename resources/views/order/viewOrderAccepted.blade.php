@@ -58,7 +58,7 @@
                                         <b><label class="col-md-5">Total Harga</label></b>
                                         <div class="col-md-7">
                                             
-                                                <b>{{$totPriceSellerAccepted}}</b>
+                                                <b>{{$totPriceSeller}}</b>
                                             
                                         </div>
                                     </div>
@@ -150,15 +150,15 @@
                                             <th class="col-md-2" align="center">Opsi</th>
                                         </thead>
                                         <tbody>
-                                        
-                                                @foreach($productSellerAccepted as $prod)
+                                            <?php $i=1; ?>
+                                                @foreach($productSeller as $prod)
                                                         <tr>
                                                             <td align="center">{{$prod->detId}}</td>
                                                             <td>{{$prod->detProd->name}}</td>
                                                             <td>{{$prod->amount}}</td>
                                                             <td>{{$prod->price}}</td>
                                                             <td>{{$prod->delivery_cost}}</td>
-                                                            <td>{{$prod->countPrice}}</td>
+                                                            <td>{{$countPrice[$i]}}</td>
                                                             <td>{{$prod->updated_at}}</td>
                                                             <td>
                                                                 @if($prod->category_id == 1)
@@ -191,17 +191,18 @@
                                                                     </div>
                                                                 </form>
                                                                 @elseif($prod->category_id == 2)
-                                                                    <a href="/shippingTernak/{{$prod->resvId}}/{{$prod->detId}}" class="btn btn-danger" role="button">Kirim Sekarang</a>
+                                                                    <a class="btn btn-info" href="/shippingTernak/{{$prod->resvId}}/{{$prod->detId}}" class="btn btn-danger" role="button">Kirim Sekarang</a>
                                                                 @endif
                                                             </td>
                                                         </tr>
+                                                    <?php $i++; ?>
                                                 @endforeach
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                    <td><h4><b>{{$totPriceSellerAccepted}}</b></h4></td>
+                                                    <td><h4><b>{{$totPriceSeller}}</b></h4></td>
                                                     <td></td>
                                                 </tr>
                                           

@@ -58,7 +58,7 @@
                                     <div class="col-md-12">
                                         <b><label class="col-md-5">Total Biaya</label></b>
                                         <div class="col-md-7">
-                                            <b>{{$totPriceAdmin}}</b>
+                                            <b>{{$totPriceSeller}}</b>
                                         </div>
                                     </div>
                                     <a class="btn" data-popup-open="popup-1" href="#">Bukti Pembayaran</a>
@@ -147,22 +147,28 @@
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
                                             <th class="col-md-1" align="center">ID Produk</th>
-                                            <th class="col-md-3" align="center">Nama Produk</th>
+                                            <th class="col-md-2" align="center">Nama Produk</th>
+                                            <th class="col-md-1" align="center">Untuk Tanggal</th>
                                             <th class="col-md-1" align="center">Jumlah</th>
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
                                         </thead>
                                         <tbody>
-                                        
-                                                @foreach($products as $prod)
+                                        <?php $i=1; ?>
+                                                @foreach($productSeller as $prod)
                                                         <tr>
                                                             <td align="center">{{$prod->detProd->detId}}</td>
                                                             <td>{{$prod->detProd->name}}</td>
+                                                            @if($prod->detProd->category_id == 3)
+                                                                <td>{{$prod->schedule}}</td>
+                                                            @else
+                                                                <td>-</td>
+                                                            @endif
                                                             <td>{{$prod->amount}}</td>
                                                             <td>{{$prod->price}}</td>
                                                             <td>{{$prod->delivery_cost}}</td>
-                                                            <td>{{$prod->countPrice}}</td>
+                                                            <td>{{$countPrice[$i]}}</td>
                                                         </tr>
                                                 @endforeach
                                                 <tr>
@@ -170,8 +176,9 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
+                                                    <td></td>
                                                     <td><h4><b>Total Biaya</b></h4></td>
-                                                    <td><h4><b>{{$totPriceAdmin}}</b></h4></td>
+                                                    <td><h4><b>{{$totPriceSeller}}</b></h4></td>
                                                 </tr>
                                     </tbody>
                                 </table>

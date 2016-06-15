@@ -58,7 +58,7 @@
                                     <div class="col-md-12">
                                         <b><label class="col-md-5">Total Biaya</label></b>
                                         <div class="col-md-7">
-                                            <b>{{$totPriceAdmin}}</b>
+                                            <b>{{$totPriceSeller}}</b>
                                         </div>
                                     </div>
                                     <a class="btn" data-popup-open="popup-1" href="#">Bukti Pembayaran</a>
@@ -140,8 +140,7 @@
                                 </div>
                             </div>
                         </div>
-                        
-
+                        @endforeach
                         <div class="col-md-12">
                             <div>
                                 <h4><label>Informasi Produk</label></h4>
@@ -158,34 +157,37 @@
                                             <th class="col-md-2" align="center">Opsi</th>
                                         </thead>
                                         <tbody>
-                        @endforeach                
-                                                @foreach($products as $prod)
-                                                        <tr>
-                                                            <td align="center">{{$prod->detProd->detId}}</td>
-                                                            <td>{{$prod->detProd->name}}</td>
-                                                        @if($prod->detProd->category_id == 3)
-                                                            <td>{{$prod->schedule}}</td>
-                                                        @else
-                                                            <td>-</td>
-                                                        @endif
-                                                            <td>{{$prod->amount}}</td>
-                                                            <td>{{$prod->price}}</td>
-                                                            <td>{{$prod->delivery_cost}}</td>
-                                                            <td>{{$prod->countPrice}}</td>
-                                                            <td>
-                                                                <a href="/Product/<?php echo $prod->detId; ?>" class="btn btn-info" role="button">Product</a>
-                                                        <a href="/viewSellerProfile/<?php echo $prod->detProd->seller_id; ?>" class="btn btn-info" role="button">Seller</a>
-                                                            </td>
-                                                        </tr>
-                                                @endforeach
+
+                                    <?php $i=1; ?>
+                                        @foreach($productSeller as $prod)
                                                 <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><h4><b>Total Biaya</b></h4></td>
-                                                    <td><h4><b>{{$totPriceAdmin}}</b></h4></td>
+                                                    <td align="center">{{$prod->detProd->detId}}</td>
+                                                    <td>{{$prod->detProd->name}}</td>
+                                                @if($prod->detProd->category_id == 3)
+                                                    <td>{{$prod->schedule}}</td>
+                                                @else
+                                                    <td>-</td>
+                                                @endif
+                                                    <td>{{$prod->amount}}</td>
+                                                    <td>{{$prod->price}}</td>
+                                                    <td>{{$prod->delivery_cost}}</td>
+                                                    <td>{{$countPrice[$i]}}</td>
+                                                    <td>
+                                                        <a href="/Product/<?php echo $prod->detId; ?>" class="btn btn-info" role="button">Product</a>
+                                                        <a href="/viewSellerProfile/<?php echo $prod->detProd->seller_id; ?>" class="btn btn-info" role="button">Seller</a>
+                                                    </td>
                                                 </tr>
+                                                <?php $i++; ?>
+                                        @endforeach
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><h4><b>Total Biaya</b></h4></td>
+                                            <td><h4><b>{{$totPriceSeller}}</b></h4></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

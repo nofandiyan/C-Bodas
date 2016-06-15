@@ -57,7 +57,7 @@ class HomeController extends Controller
                 ->select(DB::raw('DISTINCT(carts.reservation_id)'))
                 ->where('reservations.status','=','1')
                 ->get();
-            
+
             foreach ($orders as $ord) {
 
             $ord->resv = DB::table('reservations')
@@ -70,7 +70,6 @@ class HomeController extends Controller
             ->join('carts', 'carts.price_id','=', 'prices_products.id')
             ->where('carts.reservation_id','=',$ord->reservation_id)
             ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
-
             }
 
 //orderValid

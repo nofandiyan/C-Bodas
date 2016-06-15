@@ -148,22 +148,20 @@
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
-                                            
-                                            
-                                            
                                             <th class="col-md-2" align="center">Opsi</th>
                                             
                                         </thead>
                                         <tbody>
                                         
+                                        <?php $i=1; ?>
                                         @foreach($productSeller as $prod)
                                                 <tr>
                                                     <td align="center">{{$prod->detProd->detId}}</td>
                                                     <td>{{$prod->detProd->name}}</td>
                                                     <td>{{$prod->amount}}</td>
                                                     <td>{{$prod->price}}</td>
-                                                    <td>{{$prod->delivery_cost}}</td>
-                                                    <td>{{$prod->countPrice}}</td>
+                                                    <td>{{$prod->delivPrice}}</td>
+                                                    <td>{{$countPrice[$i]}}</td>
                                                     <td>
                                                         <div class="col-md-12" align="center">
                                                             <a href="/accepted/{{$prod->resvId}}/{{$prod->detId}}" class="btn btn-danger" role="button">Terima</a>
@@ -171,6 +169,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
+                                            <?php $i++; ?>
                                         @endforeach
                                         <tr>
                                             <td></td>

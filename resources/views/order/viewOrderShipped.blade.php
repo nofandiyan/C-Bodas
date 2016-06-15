@@ -60,9 +60,9 @@
                                         <b><label class="col-md-5">Total Harga</label></b>
                                         <div class="col-md-7">
                                             @if(Auth::user()->role=='admin')
-                                                <b>{{$totPriceAdminShipped}}</b>
+                                                <b>{{$totPriceAdmin}}</b>
                                             @elseif(Auth::user()->role=='seller')
-                                                <b>{{$totPriceSellerShipped}}</b>
+                                                <b>{{$totPriceSeller}}</b>
                                             @endif
                                         </div>
                                     </div>
@@ -146,26 +146,34 @@
                                         <thead>
                                             <th class="col-md-1" align="center">ID Produk</th>
                                             <th class="col-md-3" align="center">Nama Produk</th>
+                                            <th class="col-md-1" align="center">Untuk Tanggal</th>
                                             <th class="col-md-1" align="center">Jumlah</th>
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
-                                            <th class="col-md-2" align="center">Tanggal Pengiriman</th>
+                                            <th class="col-md-2" align="center">Tanggal Terkirim</th>
                                             <th class="col-md-2" align="center">Nomor Resi Pengiriman</th>
                                         </thead>
                                         <tbody>
-                                        @if(Auth::user()->role=='admin')
-                                            @foreach($productAdminShipped as $prod)
+                                        @if(Auth::user()->role=='admin')                                        
+                                        <?php $j=1; ?>
+                                            @foreach($productAdmin as $prod)
                                                     <tr>
                                                         <td align="center">{{$prod->detProd->detId}}</td>
                                                         <td>{{$prod->detProd->name}}</td>
+                                                        @if($prod->detProd->category_id == 3)
+                                                            <td>{{$prod->schedule}}</td>
+                                                        @else
+                                                            <td>-</td>
+                                                        @endif
                                                         <td>{{$prod->amount}}</td>
                                                         <td>{{$prod->price}}</td>
                                                         <td>{{$prod->delivery_cost}}</td>
-                                                        <td>{{$prod->countPrice}}</td>
+                                                        <td>{{$countPriceAdmin[$j]}}</td>
                                                         <td>{{$prod->updated_at}}</td>
                                                         <td>{{$prod->resi}}</td>
                                                     </tr>
+                                                <?php $j++; ?>
                                             @endforeach
                                             <tr>
                                                 <td></td>
@@ -174,20 +182,27 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                <td><h4><b>{{$totPriceAdminShipped}}</b></h4></td>
+                                                <td><h4><b>{{$totPriceAdmin}}</b></h4></td>
                                             </tr>
                                         @elseif(Auth::user()->role=='seller')
-                                            @foreach($productSellerShipped as $prod)
+                                            <?php $i=1; ?>
+                                            @foreach($productSeller as $prod)
                                                 <tr>
                                                     <td align="center">{{$prod->detProd->detId}}</td>
                                                     <td>{{$prod->detProd->name}}</td>
+                                                    @if($prod->detProd->category_id == 3)
+                                                        <td>{{$prod->schedule}}</td>
+                                                    @else
+                                                        <td>-</td>
+                                                    @endif
                                                     <td>{{$prod->amount}}</td>
                                                     <td>{{$prod->price}}</td>
                                                     <td>{{$prod->delivery_cost}}</td>
-                                                    <td>{{$prod->countPrice}}</td>
+                                                    <td>{{$countPrice[$i]}}</td>
                                                     <td>{{$prod->updated_at}}</td>
                                                     <td>{{$prod->resi}}</td>
                                                 </tr>
+                                                <?php $i++; ?>
                                             @endforeach
                                             <tr>
                                                 <td></td>
@@ -196,7 +211,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                <td><h4><b>{{$totPriceSellerShipped}}</b></h4></td>
+                                                <td><h4><b>{{$totPriceSeller}}</b></h4></td>
                                             </tr>
                                         @endif
                                     </tbody>

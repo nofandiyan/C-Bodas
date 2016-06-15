@@ -176,10 +176,10 @@
                                 </div>
                                 <div id="listProduct" class="panel-collapse collapse" align="center">
                                     <h4><label>List Product</label></h4>
-                                        <div id="accordion1">
+                                        <div id="accordionList">
                                             <div class="panel">
                                                 <div align="center">
-                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#productTani">
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionList" data-target="#productTani">
                                                         <h4 class="panel-title">
                                                             <a class="accordion-toggle">
                                                               Pertanian
@@ -187,7 +187,7 @@
                                                         </h4>
                                                     </button>
                                                     
-                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#productTernak">
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionList" data-target="#productTernak">
                                                         <h4 class="panel-title">
                                                             <a class="accordion-toggle">
                                                               Hewan Ternak
@@ -195,7 +195,7 @@
                                                         </h4>
                                                     </button>
 
-                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#productWisata">
+                                                    <button class="btn btn-info clickable" data-toggle="collapse" data-parent="#accordionList" data-target="#productWisata">
                                                         <h4 class="panel-title">
                                                             <a class="accordion-toggle">
                                                               Pariwisata
@@ -203,7 +203,7 @@
                                                         </h4>
                                                     </button>
 
-                                                    <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordionProduct">
+                                                    <button id="collapse-init" class="btn btn-info" data-toggle="collapse" data-parent="#accordionList">
                                                         <h4 class="panel-title">
                                                             <a class="accordion-toggle">
                                                               Semua Produk
@@ -211,7 +211,6 @@
                                                         </h4>
                                                     </button>
                                                 </div>
-
 
                                                 <br>
                                                     <div id="productTani" class="panel-collapse collapse showHideProduct" align="center">
