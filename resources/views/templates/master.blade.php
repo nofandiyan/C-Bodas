@@ -336,7 +336,8 @@
                         <ul class="dropdown-menu">
                             
                             <!-- CART ITEM - START -->
-                            <li>
+                            
+                            <!-- <li>
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <img src="assets/images/products/product-1.jpg" class="img-responsive" alt="">
@@ -348,9 +349,23 @@
                                     </div>
                                 </div>
                             </li>
-                            
+                             -->
                             <!-- CART ITEM - END -->
                             
+                            <!-- CART ITEM - START -->
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <a href="cart" class="btn btn-primary btn-block">View Cart</a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="checkout" class="btn btn-primary btn-block">Checkout</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- CART ITEM - END -->
+
+
                         </ul>
                     </li>
 
@@ -475,6 +490,7 @@
     <script src="assets/js/custom.js"></script> -->
 
     
+
     <script src="{{ URL::asset('assets/js/bootstrap.min.js') }}"></script>
     
     <script src="{{ URL::asset('assets/js/bootstrap-hover-dropdown.min.js') }}"></script>
