@@ -55,12 +55,27 @@
                                         </div>
                                     </div>
 
+                                    @if(Auth::user()->role == 'admin')
+                                    <div class="col-md-12">
+                                        <b><label class="col-md-5">Transfer Customer</label></b>
+                                        <div class="col-md-7">
+                                            <b>{{$totPrice}}</b>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <b><label class="col-md-5">Transfer Ke Seller</label></b>
+                                        <div class="col-md-7">
+                                            <b>{{$totPriceSeller}}</b>
+                                        </div>
+                                    </div>
+                                    @elseif(Auth::user()->role == 'seller')
                                     <div class="col-md-12">
                                         <b><label class="col-md-5">Total Biaya</label></b>
                                         <div class="col-md-7">
                                             <b>{{$totPriceSeller}}</b>
                                         </div>
                                     </div>
+                                    @endif
                                     <a class="btn" data-popup-open="popup-1" href="#">Bukti Pembayaran</a>
                                     <div class="popup" data-popup="popup-1">
                                         <div class="popup-inner" align="center">
@@ -84,7 +99,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="col-md-5">Nomor Telepon</label>
+                                        <label class="col-md-5">Email</label>
                                         <div class="col-md-7">
                                             {{$ord->cust->email}}
                                         </div>
@@ -132,7 +147,7 @@
                                             {{$ord->deliv->street}} <br>
                                             {{$ord->deliv->type}} {{$ord->deliv->city}} <br>
                                             {{$ord->deliv->province}} <br>
-                                            {{$ord->cust->zip_code}}
+                                            {{$ord->deliv->zip_code}}
                                         </div>
                                     </div>
                                 </div>
@@ -173,15 +188,33 @@
                                                         </tr>
                                                         <?php $i++; ?>
                                                 @endforeach
+                                                @if(Auth::user()->role == 'admin')
                                                 <tr>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
+                                                    <td colspan="2" align="right"><h4><b>Total Biaya</b></h4></td>
+                                                    <td><h4><b>{{$totPrice}}</b></h4></td>
+                                                </tr>
+                                                <tr>
                                                     <td></td>
-                                                    <td><h4><b>Total Biaya</b></h4></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td colspan="2" align="right"><h4><b>Jumlah Transfer Ke Seller</b></h4></td>
                                                     <td><h4><b>{{$totPriceSeller}}</b></h4></td>
                                                 </tr>
+                                                @elseif(Auth::user()->role == 'seller')
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td colspan="2" align="right"><h4><b>Jumlah Transfer Ke Seller</b></h4></td>
+                                                    <td><h4><b>{{$totPriceSeller}}</b></h4></td>
+                                                </tr>
+                                                @endif
                                     </tbody>
                                 </table>
                             </div>

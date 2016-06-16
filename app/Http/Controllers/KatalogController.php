@@ -19,10 +19,7 @@ class KatalogController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+   
 
     /**
      * Show the application dashboard.
@@ -37,9 +34,11 @@ class KatalogController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
+            ->join('users', 'detail_products.seller_id', '=', 'users.id')
+            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername')
             ->where('category_id', '=' , 1 )
             ->get();
+
 
         foreach ($barang as $bar) {
             $bar->image = DB::table('images_products')
@@ -64,14 +63,15 @@ class KatalogController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
+            ->join('users', 'detail_products.seller_id', '=', 'users.id')
+            ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername')
             ->where('category_id', '=' , 2 )
             ->paginate(9);
 
         foreach ($barang as $bar) {
             $bar->image = DB::table('images_products')
             ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
-            ->where('images_products.detail_product_id','=', $bar->id)
+            ->where('images_products.detail_product_id','=', $bar->detailproductid)
             ->get();
         }
 
@@ -87,15 +87,17 @@ class KatalogController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
+            ->join('users', 'detail_products.seller_id', '=', 'users.id')
+            ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername')
             ->where('type_product', '=' , 'Sayur Organik' )
             ->paginate(9);
+
 
 
         foreach ($barang as $bar) {
             $bar->image = DB::table('images_products')
             ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
-            ->where('images_products.detail_product_id','=', $bar->id)
+            ->where('images_products.detail_product_id','=', $bar->detailproductid)
             ->get();
         }
 
@@ -109,7 +111,8 @@ class KatalogController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
+            ->join('users', 'detail_products.seller_id', '=', 'users.id')
+            ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername')
             ->where('type_product', '=' , 'Sayur Anorganik' )
             ->paginate(9);
 
@@ -117,21 +120,26 @@ class KatalogController extends Controller
         foreach ($barang as $bar) {
             $bar->image = DB::table('images_products')
             ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
-            ->where('images_products.detail_product_id','=', $bar->id)
+            ->where('images_products.detail_product_id','=', $bar->detailproductid)
             ->get();
         }
-
+        /*echo "<pre>";
+        var_dump($barang);
+        die();*/
     return view('templates.katalogsayuranorganik', compact('barang')); 
     }
 
     //buah organik
      public function showBuahorganik()
     {
+      
+
         $barang = DB::table('detail_products')
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
+            ->join('users', 'detail_products.seller_id', '=', 'users.id')
+            ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername')
             ->where('type_product', '=' , 'Buah Organik' )
             ->paginate(9);
 
@@ -139,17 +147,64 @@ class KatalogController extends Controller
         foreach ($barang as $bar) {
             $bar->image = DB::table('images_products')
             ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
-            ->where('images_products.detail_product_id','=', $bar->id)
+            ->where('images_products.detail_product_id','=', $bar->detailproductid)
             ->get();
         }
 
-    return view('templates.katalogbuahorganik', compact('barang')); 
+    return view('templates.katalogbuahorganik', compact('barang','total')); 
     }
 
     //buah anorganik
      public function showBuahanorganik()
     {
-        $barang = DB::table('detail_products')
+            $barang = DB::table('detail_products')
+            ->join('products', 'detail_products.product_id', '=', 'products.id')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
+            ->join('users', 'detail_products.seller_id', '=', 'users.id')
+            ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername')
+            ->where('type_product', '=' , 'Buah Anorganik' )
+            ->paginate(9);
+
+        foreach ($barang as $bar) {
+            $bar->image = DB::table('images_products')
+            ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
+            ->where('images_products.detail_product_id','=', $bar->detailproductid)
+            ->get();
+        }
+
+
+
+    return view('templates.katalogbuahanorganik', compact('barang')); 
+    }
+
+    
+    //Pariwisata
+
+    public function showKatalogpariwisata()
+    {
+       $barang = DB::table('detail_products')
+            ->join('products', 'detail_products.product_id', '=', 'products.id')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
+            ->join('users', 'detail_products.seller_id', '=', 'users.id')
+            ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername')
+            ->where('category_id', '=' , 3 )
+            ->paginate(9);
+
+        foreach ($barang as $bar) {
+            $bar->image = DB::table('images_products')
+            ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
+            ->where('images_products.detail_product_id','=', $bar->detailproductid)
+            ->get();
+        }
+
+    return view('templates.katalogpariwisata', compact('barang')); 
+    }
+
+    public function showSingleproduct()
+    {
+         $barang = DB::table('detail_products')
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
@@ -163,77 +218,6 @@ class KatalogController extends Controller
             ->where('images_products.detail_product_id','=', $bar->id)
             ->get();
         }
-
-    return view('templates.katalogbuahanorganik', compact('barang')); 
+        return view('templates.single-product');
     }
-
-    
-
-
-    //Pariwisata
-
-    
-
-    public function showKatalogpariwisata()
-    {
-        $barang = DB::table('detail_products')
-            ->join('products', 'detail_products.product_id', '=', 'products.id')
-            ->join('category_products', 'products.category_id', '=', 'category_products.id')
-            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
-            ->where('category_id', '=' , 3 )
-            ->paginate(9);
-
-        foreach ($barang as $bar) {
-            $bar->image = DB::table('images_products')
-            ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
-            ->where('images_products.detail_product_id','=', $bar->id)
-            ->get();
-        }
-
-    return view('templates.katalogpariwisata', compact('barang')); 
-    }
-
-    /*//Sapi
-
-    public function showKatalogsapi()
-    {
-        return view('templates\katalogsapi'); 
-    }*/
-
-    
-
-    //villa
-/*
-    public function showKatalogvilla()
-    {
-    $barang = DB::table('detail_products')
-            ->join('products', 'detail_products.product_id', '=', 'products.id')
-            ->join('category_products', 'products.category_id', '=', 'category_products.id')
-            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->join('images_products','detail_products.id', '=', 'images_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','images_products.link')
-            ->where('category_id', '=' , 1 )
-            ->paginate(9);
-    
-    return view('templates.katalogvilla', compact('barang')); 
-    }   */
-
-
-
-    //OldPeternakan
-
-    /*public function showKatalogpeternakan()
-    {
-        $barang = DB::table('detail_products')
-            ->join('products', 'detail_products.product_id', '=', 'products.id')
-            ->join('category_products', 'products.category_id', '=', 'category_products.id')
-            ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->join('images_products','detail_products.id', '=', 'images_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','images_products.link')
-            ->where('category_id', '=' , 2 )
-            ->paginate(9);
-    
-    return view('templates.katalogpeternakan', compact('barang')); 
-    }*/
 }

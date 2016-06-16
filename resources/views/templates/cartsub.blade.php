@@ -44,6 +44,7 @@
                                                 <th>Harga Unit</th>
                                                 <th>Jumlah</th>
                                                 <th>Subtotal</th>
+                                                <th>Add</th>
                                                 <th>Remove</th>
                                                 
                                             </tr>
@@ -51,28 +52,19 @@
                                         <tbody>
                                         
                                         @foreach ($cart as $c)
-
-                                        
-        
                                             <tr>
-                                                <form action="{{action('CartController@jml')}}" method="post">
+                                                <form action="{{action('CartSubController@jml')}}" method="post">
                                                 <input type="hidden" name="name" value="<?php echo $c['name']; ?>">
-                                                <input type="hidden" id="harga" onkeyup="multiplyBy()" name="price" value="<?php echo $c['price']; ?>">
+                                                <input type="hidden" name="price" value="<?php echo $c['price']; ?>">
                                                
 
                            
 
                                                 <td class="col-xs-4 col-md-5 text-center"><h4><a href="single-product.html"><?php echo $c['name']; ?></h4></td>
-
                                                 <td class="col-xs-2 text-center"><span>Rp <?php echo $c['price']; ?></span></td>
-
-                                                <td class="col-xs-2 col-md-1"><div class="form-group"> <input type="number" id="jumlah" onkeyup="multiplyBy()" min="5" class="form-control" name="jumlah" value="<?php echo $c['jumlah']; ?>">
-
-                                                <td class="col-xs-2 text-center"><span>Rp </span><span id="result"><?php echo $c['jumlah']*$c['price']; ?></span></td>
-                                                
-
-
-                                               
+                                                <td class="col-xs-2 col-md-1"><div class="form-group"> <input type="text" class="form-control" name="jumlah" placeholder="1" >
+                                                <td class="col-xs-2 text-center"><span>Rp <?php echo $c['total']; ?></span></td>
+                                                <td class="col-xs-1 text-center"><input type="submit" class="btn btn-primary btn-sm add-to-cart" value="Tambah"></td>
                                                 <td class="col-xs-1 text-center"><input type="submit" class="btn btn-primary btn-sm add-to-cart" value="Hapus"></td>
                                                 </form>
                                             </tr>
@@ -113,15 +105,5 @@
     	MY ACCOUNT - END 
     =========================== -->
         
-<script type="text/javascript">
-
-function multiplyBy()
-{
-        harga = document.getElementById("harga").value;
-        jumlah = document.getElementById("jumlah").value;
-        document.getElementById("result").innerHTML = harga * jumlah;
-}
-
-</script>    
+    
 @stop
-

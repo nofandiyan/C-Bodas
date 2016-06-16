@@ -128,7 +128,7 @@
                                             {{$ord->deliv->street}} <br>
                                             {{$ord->deliv->type}} {{$ord->deliv->city}} <br>
                                             {{$ord->deliv->province}} <br>
-                                            {{$ord->cust->zip_code}}
+                                            {{$ord->deliv->zip_code}}
                                         </div>
                                     </div>
                                 </div>

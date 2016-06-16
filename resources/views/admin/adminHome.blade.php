@@ -140,7 +140,7 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="panel panel-default">
+                            <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrderClosed">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
@@ -148,7 +148,7 @@
                                         </a>
                                     </h4>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-9">

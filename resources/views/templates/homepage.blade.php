@@ -65,20 +65,7 @@
                         </div>
                         <!-- WIDGET:CATEGORIES - END -->
                         
-                        <!-- WIDGET:PRICE - START -->
-                        <div class="widget widget-price">
-                            <h3><a role="button" data-toggle="collapse" href="#widget-price-collapse" aria-expanded="true" aria-controls="widget-price-collapse">Filter Berdasarkan Harga</a></h3>
-                            <div class="collapse in" id="widget-price-collapse" aria-expanded="true" role="tabpanel">
-                                <div class="widget-body">
-                                    <div class="price-slider">  
-                                        <input type="text" class="pull-left" id="amount" readonly> 
-                                        <input type="text" class="pull-right" id="amount2" readonly>                       
-                                        <div id="slider-range"></div>  
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- WIDGET:PRICE - END -->
+                        
                         
                 	</aside>
                 </div>

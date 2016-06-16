@@ -106,6 +106,7 @@
                                 @endif
                             </div>
                         </div>
+
                         <div class="col-md-12 {{ $errors->has('stock') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Stok Tersedia</label>
                             <div class="col-md-3">
@@ -117,6 +118,7 @@
                                 @endif
                             </div>
                         </div>
+                        
                         <div class="col-md-12 {{ $errors->has('price') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Harga</label>
                             <div class="col-md-3">

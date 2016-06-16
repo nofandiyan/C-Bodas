@@ -40,10 +40,7 @@
                                                 
                         {!! csrf_field() !!}
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                        
                             <a href="/SellerProfile/{{$profile->id}}" class="btn btn-info" role="button">Lihat Profil</a>
-                        
                     </div>
                 </div>
             </div>
@@ -155,6 +152,15 @@
                                         <h4 class="panel-title">
                                             <a class="accordion-toggle">
                                               Produk Terkirim
+                                            </a>
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordionProduct" data-target="#listOrderClosed">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle">
+                                              Pesanan Ditutup
                                             </a>
                                         </h4>
                                     </div>
@@ -464,6 +470,42 @@
                                                                 <td class="short">{{$order->detProd->created_at}}</td>
                                                                 <!-- <td><a href="Order/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td> -->
                                                                  <td><a href="OrderShipped/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a></td>
+                                                              </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                  </table>
+                                                  <hr>
+                                            </div>
+                                        </div>
+                                      <hr>
+                                    </div>
+
+                                    <div id="listOrderClosed" class="panel-collapse collapse" align="center">
+                                    <h4><label>List Order Terkirim</label></h4>
+                                        <div id="accordionUser">
+                                            <div class="panel">
+                                                <br>
+                                                  <table class="table table-hover" style="table-layout: fixed;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th class="col-md-1">Kode Pemesanan</th>
+                                                        <th class="col-md-1">Cust. ID</th>
+                                                        <th class="col-md-3">Cust. Name</th>
+                                                        <th class="col-md-3">Tanggal Pemesanan</th>
+                                                        <th class="col-md-2">Opsi</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($productSellerClosed as $order)
+                                                              <tr>
+                                                                <td class="short" align="center">{{$order->reservation_id}}</td>
+                                                                <td class="short" align="center">{{$order->cust->custId}}</td>
+                                                                <td class="short" align="center">{{$order->cust->custName}}</td>
+
+                                                                <td class="short">{{$order->detProd->created_at}}</td>
+                                                                <td>
+                                                                    <a href="/OrderClosed/{{$order->reservation_id}}" class="btn btn-info" role="button">Detail</a>
+                                                                </td>
                                                               </tr>
                                                         @endforeach
                                                     </tbody>

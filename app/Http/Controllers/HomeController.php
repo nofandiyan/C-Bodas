@@ -171,7 +171,6 @@ class HomeController extends Controller
                 ->join('reservations','reservations.id','=','carts.reservation_id')
                 ->select(DB::raw('DISTINCT(carts.reservation_id)'))
                 ->where('reservations.status','=','4')
-                ->where('carts.status','=','4')
                 ->get();
             
             foreach ($orderClosed as $ord) {
@@ -306,7 +305,6 @@ class HomeController extends Controller
             }
 
 //shipping
-            
             $productSellerShipping = DB::table('carts')
             ->join('reservations','carts.reservation_id','=','reservations.id')
             ->join('detail_products','carts.detail_product_id','=','detail_products.id')
@@ -340,7 +338,6 @@ class HomeController extends Controller
             }
 
             //shipping
-            
             $productSellerShipped = DB::table('carts')
             ->join('reservations','carts.reservation_id','=','reservations.id')
             ->join('detail_products','carts.detail_product_id','=','detail_products.id')
@@ -373,7 +370,39 @@ class HomeController extends Controller
                 
             }
 
-            return view ('seller.sellerHome', compact('profile','products','orders','productSeller','productSellerAccepted','productSellerRejected','productSellerShipping','productSellerShipped'));
+            //orderClosed
+            $productSellerClosed = DB::table('carts')
+            ->join('reservations','carts.reservation_id','=','reservations.id')
+            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->where('detail_products.seller_id','=',Auth::user()->id)
+            ->where('reservations.status','=','4')
+            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            ->get();
+
+            foreach ($productSellerClosed as $prod) {
+
+                $prod->detProd = DB::table('detail_products')
+                ->join('carts','carts.detail_product_id','=','detail_products.id')
+                ->join('reservations','reservations.id','=','carts.reservation_id')
+                ->join('products','products.id','=','detail_products.product_id')
+                ->join('sellers','detail_products.seller_id','=','sellers.id')
+                ->where('carts.reservation_id','=',$prod->reservation_id)
+                ->select(
+                    'reservations.created_at',
+                    'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
+                    'products.name', 'products.category_id',
+                    'sellers.bank_name as sellerBankName','sellers.bank_account as sellerBankAccount','sellers.account_number as sellerAccountNumber')
+                ->first();
+
+                $prod->cust = DB::table('reservations')
+                ->join('users','reservations.customer_id','=','users.id')
+                ->select('users.name as custName','users.id as custId')
+                ->first();
+                
+            }
+
+            return view ('seller.sellerHome', compact('profile','products','orders','productSeller','productSellerAccepted','productSellerRejected','productSellerShipping','productSellerShipped','productSellerClosed'));
             
         }elseif(Auth::user()->role == "customer"){
             $profiles   = DB::table('users')

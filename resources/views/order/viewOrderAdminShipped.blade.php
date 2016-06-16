@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="col-md-5">Nomor Telepon</label>
+                                        <label class="col-md-5">Email</label>
                                         <div class="col-md-7">
                                             {{$ord->cust->email}}
                                         </div>
@@ -128,7 +128,7 @@
                                             {{$ord->deliv->street}} <br>
                                             {{$ord->deliv->type}} {{$ord->deliv->city}} <br>
                                             {{$ord->deliv->province}} <br>
-                                            {{$ord->cust->zip_code}}
+                                            {{$ord->deliv->zip_code}}
                                         </div>
                                     </div>
                                 </div>
@@ -148,9 +148,6 @@
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
-                                            
-                                            
-                                            
                                             <th class="col-md-2" align="center">Opsi</th>
                                             
                                         </thead>
@@ -176,9 +173,8 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
+                                            <td colspan="3" align="right"><h4><b>Total Harga</b></h4></td>
                                             <td><h4><b>{{$totPriceShipped}}</b></h4></td>
-                                            <td></td>
                                         </tr>
                                           
                                     </tbody>

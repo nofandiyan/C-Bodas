@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="col-md-5">Nomor Telepon</label>
+                                        <label class="col-md-5">Email</label>
                                         <div class="col-md-7">
                                             {{$ord->cust->email}}
                                         </div>
@@ -142,7 +142,7 @@
                                             {{$ord->deliv->street}} <br>
                                             {{$ord->deliv->type}} {{$ord->deliv->city}} <br>
                                             {{$ord->deliv->province}} <br>
-                                            {{$ord->cust->zip_code}}
+                                            {{$ord->deliv->zip_code}}
                                         </div>
                                     </div>
                                 </div>

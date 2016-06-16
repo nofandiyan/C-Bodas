@@ -78,6 +78,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('OrderRejected/{resvId}', 'OrderController@orderRejected');
     Route::get('OrderShipping/{resvId}', 'OrderController@OrderShipping');
     Route::get('OrderShipped/{resvId}', 'OrderController@OrderShipped');
+    Route::get('OrderClosed/{resvId}', 'OrderController@OrderClosed');
 
     Route::get('/invalid/{id}', 'OrderController@invalid');
     Route::get('/valid/{id}', 'OrderController@valid');
@@ -90,6 +91,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/shippingTernak/{resvId}/{detId}', 'OrderController@shippingTernak');
 
     Route::get('/shipped/{resvId}/{detId}', 'OrderController@shipped');
+
+    Route::get('/closed/{resvId}', 'OrderController@closed');
 
 
     // --------------------------------------------------------------------------
@@ -112,6 +115,21 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/katalogbuahanorganik', 'KatalogController@showBuahanorganik');
 
+   // Route::get('/addProduct/{prodId}/{prodName}/{prodPriceId}', 'CartController@addCart');
+
+    Route::get('/single-product','katalogController@showSingleproduct');
+
+    Route::post('/katalogsayuranorganik', array('uses'=>'CartController@additemsayuranorganik'));
+
+    Route::post('/katalogsayurorganik', array('uses'=>'CartController@additemsayurorganik'));
+
+    Route::post('/katalogbuahanorganik', array('uses'=>'CartController@additembuahanorganik'));
+
+    Route::post('/katalogbuahorganik', array('uses'=>'CartController@additembuahorganik'));
+
+    Route::post('/katalogpeternakan', array('uses'=>'CartController@additempeternakan'));
+
+    Route::post('/katalogpariwisata', array('uses'=>'CartController@additempariwisata'));
     //--------------------------------------------------------------------------
 
     Route::get('/searchresult', 'SearchController@cari');
@@ -119,6 +137,15 @@ Route::group(['middleware' => 'web'], function () {
     //-------------------------------------------------------------------------
 
     Route::get('/cart', 'CartController@showCart');
+
+    Route::get('/checkout', 'CartController@showCheckout');
+
+    Route::get('/cart', 'testcart@a');
+
+    Route::get('/cartsub', 'testcart@b');
+
+    Route::post('/cart', array('uses'=>'CartController@jml'));
+
 
     // -----------------------------------------------------------------------
     // Route::resource('profile', 'ProfileController@index');
@@ -155,20 +182,11 @@ Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'api'], functio
 });
 
 
-// Route::get('register/verify/{confirmationCode}', [
-//     'as' => 'confirmation_path',
-//     'uses' => 'ApiCustomerController@confirm'
-// ]);
-
 Route::post('/api/v1/request/password', [
     'as' => 'forgotpassword_path',
     'uses' => 'ApiCustomerController@requestLinkPassword'
 ]);
 
-// Route::get('reset/password/{confirmationCode}', [
-//     'as' => 'forgotpassword_path',
-//     'uses' => 'ApiCustomerController@getLinkPassword'
-// ]);
 
 Route::post('reset/password', [
     'as' => 'resetpassword_path',
