@@ -253,21 +253,43 @@ class CartController extends Controller
     }
 
     public function additempeternakan(Request $request){
-        $post=$request->all();
+       $post=$request->all();
         $v=\Validator::make($request->all(),
             ['detailproductid'=>'required',
             'pricesproductid'=>'required',
             'name'=>'required',
-            'price'=>'required'
+            'price'=>'required',
+            'jumlah'=>'required',
             ]
-        );
-        $request->session()->push('$datacart',array(
+        );                
+      
+        $cart=$request->session()->get('$datacart');
+        $flag=false;
+        $index = 0;
+        if($cart!=null)
+        foreach ($cart as $c) {
+                if($c['detail_product_id']==$post['detailproductid']){
+                    $cart[$index]['jumlah'] = $c['jumlah']+1;
+                    $request->session()->set('$datacart',$cart);
+                    $flag=true;
+                    break;
+                }
+
+                $index++;
+                
+        }
+            
+        if(!$flag) {
+            $request->session()->push('$datacart',array(
             'detail_product_id'=>$post['detailproductid'],
                 'price_id'=>$post['pricesproductid'],
                 'name'=>$post['name'],
-                'price'=>$post['price']
+                'price'=>$post['price'],
+                'jumlah'=>$post['jumlah']
                 )
             );
+
+        }
         return redirect('/katalogpeternakan');
     }
 

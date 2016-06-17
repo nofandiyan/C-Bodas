@@ -110,11 +110,9 @@
                                             <h3>{{$bar->name}}</h3>
                                             <h4>{{$bar->sellername}}</h4> 
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="jumlah" value="5">
                                             <input type="hidden" name="name" value="{{$bar->name}}"/>
                                             <input type="hidden" name="price" value="{{$bar->price}}"/>
-
-                                            <input type="hidden" name="total" value="{{$bar->total}}"/>
-                                            
                                             <input type="hidden" name="detailproductid" value="{{$bar->detailproductid}}"/>
                                             <input type="hidden" name="pricesproductid" value="{{$bar->pricesproductid}}"/>
 
