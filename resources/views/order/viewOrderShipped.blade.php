@@ -56,7 +56,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <!-- <div class="col-md-12">
                                         <b><label class="col-md-5">Total Harga</label></b>
                                         <div class="col-md-7">
                                             @if(Auth::user()->role=='admin')
@@ -65,7 +65,7 @@
                                                 <b>{{$totPriceSeller}}</b>
                                             @endif
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div>&nbsp;</div>
                             </div>
@@ -138,9 +138,10 @@
                         </div>
                         @endforeach
 
+                        @if(Auth::user()->role=='admin')
                         <div class="col-md-12">
                             <div>
-                                <h4><label>Produk Dipesan</label></h4>
+                                <h4><label>Produk Diterima</label></h4>
                                 <div class="col-md-12">
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
@@ -151,41 +152,41 @@
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
-                                            <th class="col-md-2" align="center">Tanggal Terkirim</th>
+                                            <th class="col-md-2" align="center">Tanggal Status</th>
                                             <th class="col-md-2" align="center">Status</th>
                                         </thead>
                                         <tbody>
                                         @if(Auth::user()->role=='admin')                                        
                                         <?php $j=1; ?>
                                             @foreach($productOrder as $prod)
-                                                    <tr>
-                                                        <td align="center">{{$prod->detProd->detId}}</td>
-                                                        <td>{{$prod->detProd->name}}</td>
-                                                        @if($prod->detProd->category_id == 3)
-                                                            <td>{{$prod->schedule}}</td>
-                                                        @else
-                                                            <td>-</td>
-                                                        @endif
-                                                        <td>{{$prod->amount}}</td>
-                                                        <td>{{$prod->price}}</td>
-                                                        <td>{{$prod->delivery_cost}}</td>
-                                                        <td>{{$countPriceOrder[$j]}}</td>
-                                                        <td>{{$prod->updated_at}}</td>
-                                                        @if($prod->cartStatus == 0)
+                                                <tr>
+                                                    <td align="center">{{$prod->detProd->detId}}</td>
+                                                    <td>{{$prod->detProd->name}}</td>
+                                                    @if($prod->detProd->category_id == 3)
+                                                        <td>{{$prod->schedule}}</td>
+                                                    @else
+                                                        <td>-</td>
+                                                    @endif
+                                                    <td>{{$prod->amount}}</td>
+                                                    <td>{{$prod->price}}</td>
+                                                    <td>{{$prod->delivery_cost}}</td>
+                                                    <td>{{$countPriceOrder[$j]}}</td>
+                                                    <td>{{$prod->updated_at}}</td>
+                                                    @if($prod->cartStatus == 0)
                                                         <td>Pending</td>
-                                                        @elseif($prod->cartStatus == 1)
+                                                    @elseif($prod->cartStatus == 1)
                                                         <td>Accepted</td>
-                                                        @elseif($prod->cartStatus == 2)
+                                                    @elseif($prod->cartStatus == 2)
                                                         <td>Rejected</td>
-                                                        @elseif($prod->cartStatus == 3)
+                                                    @elseif($prod->cartStatus == 3)
                                                         <td>Shipping</td>
-                                                        @elseif($prod->cartStatus == 4)
+                                                    @elseif($prod->cartStatus == 4)
                                                         <td>Shipped</td>
-                                                        @endif
-                                                    </tr>
+                                                    @endif
+                                                </tr>
                                                 <?php $j++; ?>
                                             @endforeach
-                                            <tr>
+                                            <!-- <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -194,7 +195,7 @@
                                                 <td></td>
                                                 <td><h4><b>{{$totPriceOrder}}</b></h4></td>
                                                 <td></td>
-                                            </tr>
+                                            </tr> -->
                                         @elseif(Auth::user()->role=='seller')
                                             <?php $i=1; ?>
                                             @foreach($productSeller as $prod)
@@ -211,11 +212,21 @@
                                                     <td>{{$prod->delivery_cost}}</td>
                                                     <td>{{$countPrice[$i]}}</td>
                                                     <td>{{$prod->updated_at}}</td>
-                                                    <td>{{$prod->resi}}</td>
+                                                    @if($prod->cartStatus == 0)
+                                                    <td>Pending</td>
+                                                    @elseif($prod->cartStatus == 1)
+                                                    <td>Accepted</td>
+                                                    @elseif($prod->cartStatus == 2)
+                                                    <td>Rejected</td>
+                                                    @elseif($prod->cartStatus == 3)
+                                                    <td>Shipping</td>
+                                                    @elseif($prod->cartStatus == 4)
+                                                    <td>Shipped</td>
+                                                    @endif
                                                 </tr>
                                                 <?php $i++; ?>
                                             @endforeach
-                                            <tr>
+                                            <!-- <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -223,13 +234,13 @@
                                                 <td></td>
                                                 <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
                                                 <td><h4><b>{{$totPriceSeller}}</b></h4></td>
-                                            </tr>
+                                            </tr> -->
                                         @endif
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
+                        @endif
                         <div class="col-md-12">
                             <div>
                                 <h4><label>Produk Terkirim</label></h4>
@@ -272,12 +283,20 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                <td><h4><b>{{$totPriceAdmin}}</b></h4></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                                 <td>
                                                     <a href="/closed/{{$prod->resvId}}" class="btn btn-danger" role="button">Close Order</a>
                                                 </td>
+                                                <!-- <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td> -->
+                                                <!-- <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
+                                                <td><h4><b>{{$totPriceAdmin}}</b></h4></td> -->
+                                                <!-- <td></td> -->
                                             </tr>
                                         @elseif(Auth::user()->role=='seller')
                                             <?php $i=1; ?>
@@ -299,7 +318,7 @@
                                                 </tr>
                                                 <?php $i++; ?>
                                             @endforeach
-                                            <tr>
+                                            <!-- <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -307,10 +326,11 @@
                                                 <td></td>
                                                 <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
                                                 <td><h4><b>{{$totPriceSeller}}</b></h4></td>
-                                            </tr>
+                                            </tr> -->
                                         @endif
                                     </tbody>
                                 </table>
+                            </div>
                             </div>
                         </div>
                     </div>

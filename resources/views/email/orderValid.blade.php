@@ -30,7 +30,7 @@
                             </tr>
                             <tr>
                                 <td style="width:20%" align="right">Status</td>
-                                <td style="width:20%">{{$ord['cust']['cartStatus']}}</td>
+                                <td style="width:20%">Valid</td>
                             </tr>
                             
                             <tr>

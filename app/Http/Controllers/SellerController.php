@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Input as Input;
 
 class sellerController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function index()
     {

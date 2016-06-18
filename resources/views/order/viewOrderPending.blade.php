@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="col-md-5">Nomor Telepon</label>
+                                        <label class="col-md-5">Email</label>
                                         <div class="col-md-7">
                                             {{$ord->cust->email}}
                                         </div>

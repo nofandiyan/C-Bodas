@@ -68,8 +68,8 @@
                                 </div>
                             </div>
                             <br>
-                            <h4 align="center"><label>Produk</label></h4>
-                            <div class="panel panel-default">
+                            <h4 align="center"><label>Products</label></h4>
+                            <!-- <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listCategory">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
@@ -77,7 +77,7 @@
                                         </a>
                                     </h4>
                                 </div>
-                            </div>
+                            </div> -->
                             
                             <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listProduct">
@@ -408,7 +408,7 @@
                                                         <th class="col-md-1">Cust. ID</th>
                                                         <th class="col-md-3">Cust. Name</th>
                                                         <th class="col-md-2">Total Biaya</th>
-                                                        <th class="col-md-3">Tanggal Pemeesanan</th>
+                                                        <th class="col-md-3">Tanggal Pemesanan</th>
                                                         <th class="col-md-2">Opsi</th>
                                                       </tr>
                                                     </thead>
@@ -444,7 +444,7 @@
                                                         <th class="col-md-1">Cust. ID</th>
                                                         <th class="col-md-3">Cust. Name</th>
                                                         <th class="col-md-2">Total Biaya</th>
-                                                        <th class="col-md-3">Tanggal Pemeesanan</th>
+                                                        <th class="col-md-3">Tanggal Pemesanan</th>
                                                         <th class="col-md-2">Opsi</th>
                                                       </tr>
                                                     </thead>
@@ -480,7 +480,7 @@
                                                         <th class="col-md-1">Cust. ID</th>
                                                         <th class="col-md-3">Cust. Name</th>
                                                         <th class="col-md-2">Total Biaya</th>
-                                                        <th class="col-md-3">Tanggal Pemeesanan</th>
+                                                        <th class="col-md-3">Tanggal Pemesanan</th>
                                                         <th class="col-md-2">Opsi</th>
                                                       </tr>
                                                     </thead>

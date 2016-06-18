@@ -16,21 +16,10 @@ use Illuminate\Support\Facades\Input as Input;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
-    public function index()
-    {
-        $profiles   = DB::table('users')
-            ->join('cities','cities.id','=','users.city_id')
-            ->join('provinces','provinces.id','=','cities.province_id')
-            ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code')
-            ->where('users.id', '=', Auth::user()->id)
-            ->first();
-            return view ('admin.AdminProfile', compact('profiles'));
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function showSignUp()
     {
@@ -44,6 +33,17 @@ class AdminController extends Controller
             ->get();
 
         return view ('admin.AdminSignUp', compact('province','cities'));
+    }
+
+    public function index()
+    {
+        $profiles   = DB::table('users')
+            ->join('cities','cities.id','=','users.city_id')
+            ->join('provinces','provinces.id','=','cities.province_id')
+            ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code')
+            ->where('users.id', '=', Auth::user()->id)
+            ->first();
+            return view ('admin.AdminProfile', compact('profiles'));
     }
 
     public function edit()

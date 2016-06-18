@@ -143,14 +143,14 @@
                                 <div class="col-md-12">
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
-                                            <th class="col-md-1" align="center">ID Produk</th>
-                                            <th class="col-md-2" align="center">Nama Produk</th>
-                                            <th class="col-md-1" align="center">Jumlah</th>
-                                            <th class="col-md-1" align="center">Harga</th>
-                                            <th class="col-md-1" align="center">Biaya Pengiriman</th>
-                                            <th class="col-md-1" align="center">Jumlah Harga</th>
-                                            <th class="col-md-2" align="center">Tanggal Pengiriman</th>
-                                            <th class="col-md-2" align="center">Nomor Resi Pengiriman</th>
+                                            <th class="col-md-1">ID Produk</th>
+                                            <th class="col-md-2">Nama Produk</th>
+                                            <th class="col-md-1">Jumlah</th>
+                                            <th class="col-md-1">Harga</th>
+                                            <th class="col-md-1">Biaya Pengiriman</th>
+                                            <th class="col-md-1">Jumlah Harga</th>
+                                            <th class="col-md-2">Tanggal Pengiriman</th>
+                                            <th class="col-md-2">Nomor Resi Pengiriman</th>
                                             
                                         </thead>
                                         <tbody>
@@ -159,13 +159,13 @@
                                             <tr>
                                                 <td align="center">{{$prod->detProd->detId}}</td>
                                                 <td>{{$prod->detProd->name}}</td>
-                                                <td>{{$prod->amount}}</td>
+                                                <td align="center">{{$prod->amount}}</td>
                                                 <td>{{$prod->price}}</td>
                                                 <td>{{$prod->delivery_cost}}</td>
                                                 <td>{{$countPrice[$i]}}</td>
-                                                <td>{{$prod->updated_at}}</td>
+                                                <td align="center">{{$prod->updated_at}}</td>
                                                 @if($prod->detProd->category_id == 1)
-                                                <td>{{$prod->resi}}</td>
+                                                <td align="center">{{$prod->resi}}</td>
                                                 @else
                                                 <td>-</td>
                                                 @endif

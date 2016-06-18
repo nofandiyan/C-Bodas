@@ -26,7 +26,7 @@
                     
                         @foreach($order as $ord)
                             
-                        <div align="center"><h2><label>Produk <font color="E87169">Diterima</font></label></h2></div>
+                        <div align="center"><h2><label>Order <font color="E87169">Request</font></label></h2></div>
                             
                         <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
 
@@ -177,7 +177,7 @@
                                                 @else
                                                     <td>-</td>
                                                 @endif
-                                                @if($ord->cust->category_id == 3)
+                                                @if($prod->detProd->category_id == 3)
                                                     <td>-</td>
                                                 @else
                                                     <td>{{$prod->detProd->stock}}</td>
