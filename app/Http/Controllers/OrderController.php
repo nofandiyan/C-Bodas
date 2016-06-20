@@ -1208,7 +1208,7 @@ class OrderController extends Controller
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
             ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule')
+                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule','carts.transfer')
             ->get();
 
         $totPriceOrder = 0;
@@ -1296,7 +1296,7 @@ class OrderController extends Controller
             ->where('reservations.id','=',$resvId)
             ->where('carts.status','=','4')
             ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule')
+                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule','carts.transfer')
             ->get();
 
         $totPriceAdmin = 0;
@@ -1388,7 +1388,7 @@ class OrderController extends Controller
             // ->where('reservations.status','=','2')
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule')
+                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule','carts.transfer')
             ->get();
 
         $totPriceSeller = 0;
@@ -2123,6 +2123,6 @@ class OrderController extends Controller
                 'transfer'    => 1
                 ]);
 
-        return redirect('/OrderClosed/'.$resvId);
+        return redirect('/OrderShipped/'.$resvId);
     }
 }

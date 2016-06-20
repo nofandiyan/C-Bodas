@@ -212,7 +212,7 @@
                                         </thead>
                                         <tbody>
                                         @if(Auth::user()->role=='admin')
-                                        <?php $j=0; ?>
+                                        <?php $j=1; ?>
                                             @foreach($productOrder as $prod)
                                                     <tr>
                                                         <td align="center">{{$prod->detProd->detId}}</td>
@@ -242,9 +242,7 @@
                                                         <td>{{$prod->updated_at}}</td>
 
                                                         @if($prod->transfer == 0)
-                                                        <td>
-                                                            <a href="/transfer/{{$prod->resvId}}/{{$prod->detId}}" class="btn btn-info" role="button">Transfer</a>
-                                                        </td>                                                        
+                                                        <td>Pending</td>
                                                         @else
                                                         <td>Transfered</td>
                                                         @endif
@@ -320,8 +318,6 @@
                                 </table>
                             </div>
                         </div>
-
-                        
                     </div>
                 </div>
             </div>

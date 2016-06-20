@@ -246,22 +246,23 @@
                             </div>
                         </div>
                         @endif
-                        <div class="col-md-12">
+                        <div class="col-md-13">
                             <div>
                                 <h4><label>Produk Terkirim</label></h4>
-                                <div class="col-md-12">
+                                <div class="col-md-13">
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
-                                            <th class="col-md-1" align="center">ID Produk</th>
-                                            <th class="col-md-2" align="center">Nama Produk</th>
-                                            <th class="col-md-1" align="center">Untuk Tanggal</th>
-                                            <th class="col-md-1" align="center">Jumlah</th>
-                                            <th class="col-md-1" align="center">Harga</th>
-                                            <th class="col-md-1" align="center">Potong 5%</th>
-                                            <th class="col-md-1" align="center">Biaya Pengiriman</th>
-                                            <th class="col-md-1" align="center">Jumlah Harga</th>
-                                            <th class="col-md-2" align="center">Tanggal Terkirim</th>
-                                            <th class="col-md-1" align="center">Nomor Resi Pengiriman</th>
+                                            <th class="col-md-1">ID Produk</th>
+                                            <th class="col-md-2">Nama Produk</th>
+                                            <th class="col-md-1">Untuk Tanggal</th>
+                                            <th class="col-md-1">Jumlah</th>
+                                            <th class="col-md-1">Harga</th>
+                                            <th class="col-md-1">Potong 5%</th>
+                                            <th class="col-md-1">Biaya Pengiriman</th>
+                                            <th class="col-md-1">Jumlah Harga</th>
+                                            <th class="col-md-2">Tanggal Terkirim</th>
+                                            <th class="col-md-1">Nomor Resi Pengiriman</th>
+                                            <th class="col-md-2">Transfer</th>
                                         </thead>
                                         <tbody>
                                         @if(Auth::user()->role=='admin')                                        
@@ -282,10 +283,19 @@
                                                         <td>{{$countPriceAdmin[$j]}}</td>
                                                         <td>{{$prod->updated_at}}</td>
                                                         <td>{{$prod->resi}}</td>
+                                                        @if($prod->transfer == 0)
+                                                        <td>
+                                                            <a href="/transfer/{{$prod->resvId}}/{{$prod->detId}}" class="btn btn-info" role="button">Transfer</a>
+                                                        </td>                                                        
+                                                        @else
+                                                        <td>Transfered</td>
+                                                        @endif
                                                     </tr>
                                                 <?php $j++; ?>
                                             @endforeach
                                             <tr>
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
