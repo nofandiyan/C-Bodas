@@ -55,17 +55,37 @@
                                                 Rejected
                                         </div>
                                     </div>
+                                </div>
+                                <div>&nbsp;</div>
+                                <div>
+                                    <h4><label>Rincian</label></h4>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah + Harga</label>
+                                        <div class="col-md-7">
+                                            {{$prices}}    
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Potongan 5%</label>
+                                        <div class="col-md-7">
+                                            {{$countProfit}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Biaya Pengiriman</label>
+                                        <div class="col-md-7">
+                                            {{$priceDeliv}}
+                                        </div>
+                                    </div>
 
                                     <div class="col-md-12">
-                                        <b><label class="col-md-5">Total Harga</label></b>
+                                        <b><label class="col-md-5">Jumlah Pemasukan</label></b>
                                         <div class="col-md-7">
-                                            
-                                                <b>{{$totPriceSeller}}</b>
-                                            
+                                            <b>{{$totPriceSeller}}</b>
                                         </div>
                                     </div>
                                 </div>
-                                <div>&nbsp;</div>
                             </div>
                         </div>
 
@@ -142,36 +162,40 @@
                                 <div class="col-md-12">
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
-                                            <th class="col-md-1" align="center">ID Produk</th>
-                                            <th class="col-md-3" align="center">Nama Produk</th>
-                                            <th class="col-md-1" align="center">Jumlah</th>
-                                            <th class="col-md-1" align="center">Harga</th>
-                                            <th class="col-md-1" align="center">Biaya Pengiriman</th>
-                                            <th class="col-md-1" align="center">Jumlah Harga</th>
-                                            <th class="col-md-2" align="center">Tanggal Di Tolak</th>
+                                            <th class="col-md-1" >ID Produk</th>
+                                            <th class="col-md-2" >Nama Produk</th>
+                                            <th class="col-md-1" >Jumlah</th>
+                                            <th class="col-md-1" >Harga</th>
+                                            <th class="col-md-1" >Potong 5%</th>
+                                            <th class="col-md-1" >Biaya Pengiriman</th>
+                                            <th class="col-md-1" >Jumlah Harga</th>
+                                            <th class="col-md-2" >Tanggal Di Tolak</th>
                                         </thead>
                                         <tbody>
                                         <?php $i=1; ?>
-                                                @foreach($productSeller as $prod)
-                                                        <tr>
-                                                            <td align="center">{{$prod->detProd->detId}}</td>
-                                                            <td>{{$prod->detProd->name}}</td>
-                                                            <td>{{$prod->amount}}</td>
-                                                            <td>{{$prod->price}}</td>
-                                                            <td>{{$prod->delivery_cost}}</td>
-                                                            <td>{{$countPrice[$i]}}</td>
-                                                            <td>{{$prod->updated_at}}</td>
-                                                        </tr>
-                                                @endforeach
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                    <td><h4><b>{{$totPriceSeller}}</b></h4></td>
-                                                    <td></td>
-                                                </tr>
-                                          
+                                            @foreach($productSeller as $prod)
+                                                    <tr>
+                                                        <td align="center">{{$prod->detProd->detId}}</td>
+                                                        <td>{{$prod->detProd->name}}</td>
+                                                        <td>{{$prod->amount}}</td>
+                                                        <td>{{$prod->price}}</td>
+                                                        <td>{{$prod->profit[$i]}}</td>
+                                                        <td>{{$prod->delivPrice}}</td>
+                                                        <td>{{$countPrice[$i]}}</td>
+                                                        <td>{{$prod->updated_at}}</td>
+                                                    </tr>
+                                                <?php $i++; ?>
+                                            @endforeach
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><h4><b>{{$totPriceSeller}}</b></h4></td>
+                                                <td></td>
+                                            </tr>
                                     </tbody>
                                 </table>
                             </div>

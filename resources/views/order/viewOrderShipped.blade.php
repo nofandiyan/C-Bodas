@@ -55,19 +55,69 @@
                                                 Shipped
                                         </div>
                                     </div>
-
-                                    <!-- <div class="col-md-12">
-                                        <b><label class="col-md-5">Total Harga</label></b>
-                                        <div class="col-md-7">
-                                            @if(Auth::user()->role=='admin')
-                                                <b>{{$totPriceAdmin}}</b>
-                                            @elseif(Auth::user()->role=='seller')
-                                                <b>{{$totPriceSeller}}</b>
-                                            @endif
-                                        </div>
-                                    </div> -->
                                 </div>
                                 <div>&nbsp;</div>
+                                @if(Auth::user()->role == 'seller')
+                                <div>
+                                    <h4><label>Rincian</label></h4>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah + Harga</label>
+                                        <div class="col-md-7">
+                                            {{$prices}}    
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Potongan 5%</label>
+                                        <div class="col-md-7">
+                                            {{$countProfit}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Biaya Pengiriman</label>
+                                        <div class="col-md-7">
+                                            {{$priceDeliv}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <b><label class="col-md-5">Jumlah Pemasukan</label></b>
+                                        <div class="col-md-7">
+                                            <b>{{$totPriceSeller}}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                                @elseif(Auth::user()->role == 'admin')
+                                <div>
+                                    <h4><label>Rincian</label></h4>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah + Harga</label>
+                                        <div class="col-md-7">
+                                            {{$pricesAdmin}}    
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Potongan 5%</label>
+                                        <div class="col-md-7">
+                                            {{$countProfitAdmin}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Biaya Pengiriman</label>
+                                        <div class="col-md-7">
+                                            {{$priceDelivAdmin}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <b><label class="col-md-5">Jumlah Transfer Ke Seller</label></b>
+                                        <div class="col-md-7">
+                                            <b>{{$totPriceAdmin}}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
 
@@ -146,17 +196,18 @@
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
                                             <th class="col-md-1" align="center">ID Produk</th>
-                                            <th class="col-md-3" align="center">Nama Produk</th>
+                                            <th class="col-md-2" align="center">Nama Produk</th>
                                             <th class="col-md-1" align="center">Untuk Tanggal</th>
                                             <th class="col-md-1" align="center">Jumlah</th>
                                             <th class="col-md-1" align="center">Harga</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
                                             <th class="col-md-2" align="center">Tanggal Status</th>
-                                            <th class="col-md-2" align="center">Status</th>
+                                            <th class="col-md-1" align="center">Status</th>
+                                            <th class="col-md-3" align="center">Opsi</th>
                                         </thead>
                                         <tbody>
-                                        @if(Auth::user()->role=='admin')                                        
+                                                                             
                                         <?php $j=1; ?>
                                             @foreach($productOrder as $prod)
                                                 <tr>
@@ -183,59 +234,13 @@
                                                     @elseif($prod->cartStatus == 4)
                                                         <td>Shipped</td>
                                                     @endif
+                                                    <td align="center">
+                                                        <a href="/Product/<?php echo $prod->detId; ?>" class="btn btn-info" role="button">Product</a>
+                                                        <a href="/viewSellerProfile/<?php echo $prod->detProd->seller_id; ?>" class="btn btn-info" role="button">Seller</a>
+                                                    </td>
                                                 </tr>
                                                 <?php $j++; ?>
                                             @endforeach
-                                            <!-- <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                <td></td>
-                                                <td><h4><b>{{$totPriceOrder}}</b></h4></td>
-                                                <td></td>
-                                            </tr> -->
-                                        @elseif(Auth::user()->role=='seller')
-                                            <?php $i=1; ?>
-                                            @foreach($productSeller as $prod)
-                                                <tr>
-                                                    <td align="center">{{$prod->detProd->detId}}</td>
-                                                    <td>{{$prod->detProd->name}}</td>
-                                                    @if($prod->detProd->category_id == 3)
-                                                        <td>{{$prod->schedule}}</td>
-                                                    @else
-                                                        <td>-</td>
-                                                    @endif
-                                                    <td>{{$prod->amount}}</td>
-                                                    <td>{{$prod->price}}</td>
-                                                    <td>{{$prod->delivery_cost}}</td>
-                                                    <td>{{$countPrice[$i]}}</td>
-                                                    <td>{{$prod->updated_at}}</td>
-                                                    @if($prod->cartStatus == 0)
-                                                    <td>Pending</td>
-                                                    @elseif($prod->cartStatus == 1)
-                                                    <td>Accepted</td>
-                                                    @elseif($prod->cartStatus == 2)
-                                                    <td>Rejected</td>
-                                                    @elseif($prod->cartStatus == 3)
-                                                    <td>Shipping</td>
-                                                    @elseif($prod->cartStatus == 4)
-                                                    <td>Shipped</td>
-                                                    @endif
-                                                </tr>
-                                                <?php $i++; ?>
-                                            @endforeach
-                                            <!-- <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                <td><h4><b>{{$totPriceSeller}}</b></h4></td>
-                                            </tr> -->
-                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -248,14 +253,15 @@
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
                                             <th class="col-md-1" align="center">ID Produk</th>
-                                            <th class="col-md-3" align="center">Nama Produk</th>
+                                            <th class="col-md-2" align="center">Nama Produk</th>
                                             <th class="col-md-1" align="center">Untuk Tanggal</th>
                                             <th class="col-md-1" align="center">Jumlah</th>
                                             <th class="col-md-1" align="center">Harga</th>
+                                            <th class="col-md-1" align="center">Potong 5%</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
                                             <th class="col-md-2" align="center">Tanggal Terkirim</th>
-                                            <th class="col-md-2" align="center">Nomor Resi Pengiriman</th>
+                                            <th class="col-md-1" align="center">Nomor Resi Pengiriman</th>
                                         </thead>
                                         <tbody>
                                         @if(Auth::user()->role=='admin')                                        
@@ -271,6 +277,7 @@
                                                         @endif
                                                         <td>{{$prod->amount}}</td>
                                                         <td>{{$prod->price}}</td>
+                                                        <td>{{$prod->profitAdmin[$j]}}</td>
                                                         <td>{{$prod->delivery_cost}}</td>
                                                         <td>{{$countPriceAdmin[$j]}}</td>
                                                         <td>{{$prod->updated_at}}</td>
@@ -290,13 +297,6 @@
                                                 <td>
                                                     <a href="/closed/{{$prod->resvId}}" class="btn btn-danger" role="button">Close Order</a>
                                                 </td>
-                                                <!-- <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td> -->
-                                                <!-- <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
-                                                <td><h4><b>{{$totPriceAdmin}}</b></h4></td> -->
-                                                <!-- <td></td> -->
                                             </tr>
                                         @elseif(Auth::user()->role=='seller')
                                             <?php $i=1; ?>
@@ -311,6 +311,7 @@
                                                     @endif
                                                     <td>{{$prod->amount}}</td>
                                                     <td>{{$prod->price}}</td>
+                                                    <td>{{$prod->profit[$i]}}</td>
                                                     <td>{{$prod->delivery_cost}}</td>
                                                     <td>{{$countPrice[$i]}}</td>
                                                     <td>{{$prod->updated_at}}</td>
@@ -318,15 +319,16 @@
                                                 </tr>
                                                 <?php $i++; ?>
                                             @endforeach
-                                            <!-- <tr>
+                                            <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td><h4><b>{{$totPriceSeller}}</b></h4></td>
-                                            </tr> -->
+                                            </tr>
                                         @endif
                                     </tbody>
                                 </table>

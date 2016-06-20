@@ -66,6 +66,28 @@
                                     </div>
                                 </div>
                                 <div>&nbsp;</div>
+                                 <div>
+                                    <h4><label>Rincian</label></h4>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah + Harga</label>
+                                        <div class="col-md-7">
+                                            {{$prices}}    
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Potongan 5%</label>
+                                        <div class="col-md-7">
+                                            {{$countProfit}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Biaya Pengiriman</label>
+                                        <div class="col-md-7">
+                                            {{$priceDeliv}}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -147,6 +169,7 @@
                                             <th class="col-md-2">Nama Produk</th>
                                             <th class="col-md-1">Jumlah</th>
                                             <th class="col-md-1">Harga</th>
+                                            <th class="col-md-1" >Potong 5%</th>
                                             <th class="col-md-1">Biaya Pengiriman</th>
                                             <th class="col-md-1">Jumlah Harga</th>
                                             <th class="col-md-2">Tanggal Pengiriman</th>
@@ -161,6 +184,7 @@
                                                 <td>{{$prod->detProd->name}}</td>
                                                 <td align="center">{{$prod->amount}}</td>
                                                 <td>{{$prod->price}}</td>
+                                                <td>{{$prod->profit[$i]}}</td>
                                                 <td>{{$prod->delivery_cost}}</td>
                                                 <td>{{$countPrice[$i]}}</td>
                                                 <td align="center">{{$prod->updated_at}}</td>
@@ -176,7 +200,9 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td colspan="2" align="right"><h4><b>Total Harga</b></h4></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td><h4><b>{{$totPriceSeller}}</b></h4></td>
                                             <td></td>
                                             <td></td>

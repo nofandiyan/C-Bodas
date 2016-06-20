@@ -40,6 +40,7 @@
                                             {{$ord->cust->resvId}}                
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-12">
                                         <label class="col-md-5">Tanggal Pemesanan</label>
                                         <div class="col-md-7">
@@ -56,16 +57,9 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <b><label class="col-md-5">Jumlah Transfer</label></b>
+                                        <label class="col-md-5">Jumlah Buyer Transfer</label>
                                         <div class="col-md-7">
-                                            <b>{{$totPrice}}</b>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <b><label class="col-md-5">Jumlah Transfer Ke Seller</label></b>
-                                        <div class="col-md-7">
-                                            <b>{{$totPriceSeller}}</b>
+                                            {{$buyerTransfer}}
                                         </div>
                                     </div>
 
@@ -80,6 +74,37 @@
                                     </div>
                                 </div>
                                 <div>&nbsp;</div>
+
+                                <div>
+                                    <h4><label>Rincian</label></h4>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah + Harga</label>
+                                        <div class="col-md-7">
+                                            {{$prices}}    
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Profit 5%</label>
+                                        <div class="col-md-7">
+                                            {{$countProfit}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Biaya Pengiriman</label>
+                                        <div class="col-md-7">
+                                            {{$priceDeliv}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <b><label class="col-md-5">Jumlah Transfer Ke Seller</label></b>
+                                        <div class="col-md-7">
+                                            <b>{{$totPriceSeller}}</b>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -149,21 +174,22 @@
                             </div>
                         </div>
                         @endforeach
-                        <div class="col-md-12">
+                        <div class="col-md-13">
                             <div>
                                 <h4><label>Informasi Produk</label></h4>
-                                <div class="col-md-12">
+                                <div class="col-md-13">
                                     <table class="table table-hover" style="table-layout: fixed;">
                                         <thead>
-                                            <th class="col-md-1" align="center">ID Produk</th>
-                                            <th class="col-md-2" align="center">Nama Produk</th>
-                                            <th class="col-md-1" align="center">Untuk Tanggal</th>
-                                            <th class="col-md-1" align="center">Stok</th>
-                                            <th class="col-md-1" align="center">Jumlah Beli</th>
-                                            <th class="col-md-1" align="center">Harga</th>
-                                            <th class="col-md-1" align="center">Biaya Pengiriman</th>
-                                            <th class="col-md-1" align="center">Jumlah Harga</th>
-                                            <th class="col-md-2" align="center">Opsi</th>
+                                            <th class="col-md-1">ID Produk</th>
+                                            <th class="col-md-2">Nama Produk</th>
+                                            <th class="col-md-1">Untuk Tanggal</th>
+                                            <th class="col-md-1">Stok</th>
+                                            <th class="col-md-1">Jumlah Beli</th>
+                                            <th class="col-md-1">Harga</th>
+                                            <th class="col-md-1">Potong 5%</th>
+                                            <th class="col-md-1">Biaya Pengiriman</th>
+                                            <th class="col-md-1">Jumlah Harga</th>
+                                            <th class="col-md-3">Opsi</th>
                                         </thead>
                                         <tbody>
 
@@ -184,14 +210,15 @@
                                                 @endif
                                                     <td>{{$prod->amount}}</td>
                                                     <td>{{$prod->price}}</td>
+                                                    <td>{{$prod->profit[$i]}}</td>
                                                 @if($prod->detProd->category_id == 2)
-                                                    <td><font color="E87169">{{$prod->delivery_cost}}</font></td>
-                                                    <td><font color="E87169">{{$countPrice[$i]}}</font></td>
+                                                    <td>{{$prod->delivery_cost}}</td>
+                                                    <td>{{$countPrice[$i]}}</td>
                                                 @else
                                                     <td>{{$prod->delivery_cost}}</td>
                                                     <td>{{$countPrice[$i]}}</td>
                                                 @endif
-                                                    <td>
+                                                    <td align="center">
                                                         <a href="/Product/<?php echo $prod->detId; ?>" class="btn btn-info" role="button">Product</a>
                                                         <a href="/viewSellerProfile/<?php echo $prod->detProd->seller_id; ?>" class="btn btn-info" role="button">Seller</a>
                                                     </td>
@@ -203,16 +230,10 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td colspan="3" align="right"><h4><b>Total Biaya</b></h4></td>
-                                            <td><h4><b>{{$totPrice}}</b></h4></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td colspan="3" align="right"><h4><b>Total Transfer Ke Seller</b></h4></td>
                                             <td><h4><b>{{$totPriceSeller}}</b></h4></td>
                                             <td></td>
                                         </tr>

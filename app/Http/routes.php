@@ -94,6 +94,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/closed/{resvId}', 'OrderController@closed');
 
+    Route::get('/transfer/{resvId}/{detId}', 'OrderController@transfer');
 
     // --------------------------------------------------------------------------
 

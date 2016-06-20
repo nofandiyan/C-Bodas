@@ -56,9 +56,9 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <b><label class="col-md-5">Total Biaya</label></b>
+                                        <b><label class="col-md-5">Jumlah Buyer Transfer</label></b>
                                         <div class="col-md-7">
-                                            <b>{{$totPriceSeller}}</b>
+                                            <b>{{$buyerTransfer}}</b>
                                         </div>
                                     </div>
                                     <a class="btn" data-popup-open="popup-1" href="#">Bukti Pembayaran</a>
@@ -70,6 +70,36 @@
                                     </div>
                                 </div>
                                 <div>&nbsp;</div>
+                                <div>
+                                    <h4><label>Rincian</label></h4>
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah + Harga</label>
+                                        <div class="col-md-7">
+                                            {{$prices}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Profit 5%</label>
+                                        <div class="col-md-7">
+                                            {{$countProfit}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <label class="col-md-5">Jumlah Biaya Pengiriman</label>
+                                        <div class="col-md-7">
+                                            {{$priceDeliv}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <b><label class="col-md-5">Jumlah Transfer Ke Seller</label></b>
+                                        <div class="col-md-7">
+                                            <b>{{$totPriceSeller}}</b>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -151,6 +181,7 @@
                                             <th class="col-md-1" align="center">Untuk Tanggal</th>
                                             <th class="col-md-1" align="center">Jumlah</th>
                                             <th class="col-md-1" align="center">Harga</th>
+                                            <th class="col-md-1" >Potong 5%</th>
                                             <th class="col-md-1" align="center">Biaya Pengiriman</th>
                                             <th class="col-md-1" align="center">Jumlah Harga</th>
                                         </thead>
@@ -167,9 +198,11 @@
                                                             @endif
                                                             <td>{{$prod->amount}}</td>
                                                             <td>{{$prod->price}}</td>
+                                                            <td>{{$prod->profit[$i]}}</td>
                                                             <td>{{$prod->delivery_cost}}</td>
                                                             <td>{{$countPrice[$i]}}</td>
                                                         </tr>
+                                                        <?php $i++; ?>
                                                 @endforeach
                                                 <tr>
                                                     <td></td>
@@ -177,7 +210,8 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td><h4><b>Total Biaya</b></h4></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td><h4><b>{{$totPriceSeller}}</b></h4></td>
                                                 </tr>
                                     </tbody>

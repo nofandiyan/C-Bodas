@@ -28,10 +28,10 @@ use Illuminate\Support\Facades\Input as Input;
 
 class ProductController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function createTani()
     {
