@@ -653,6 +653,7 @@ class OrderController extends Controller
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
                 'carts.detail_product_id as detId','carts.reservation_id as resvId')
+            ->orderBy('cartStatus', 'asc')
             ->get();
 
         $totPriceSeller = 0;
@@ -731,9 +732,16 @@ class OrderController extends Controller
 
             $totPriceSeller += $countPrice[$i];
             $i++;
-        }       
-        
-        return view ('order.viewOrderPending', compact('products','order','productSeller','totPriceSeller','countPrice','countProfit','prices','priceDeliv'));
+
+        }
+
+        foreach ($productSeller as $ps) {
+            if ($ps->cartStatus == 4) {
+                return redirect ('/');
+            }else{
+                return view ('order.viewOrderPending', compact('products','order','productSeller','totPriceSeller','countPrice','countProfit','prices','priceDeliv'));
+            }
+        }
     }
 
     public function orderAccepted($resvId)
@@ -794,6 +802,7 @@ class OrderController extends Controller
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
                 'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id')
+            ->orderBy('cartStatus', 'asc')
             ->get();
 
         $totPriceSeller = 0;
@@ -874,7 +883,13 @@ class OrderController extends Controller
             $i++;
         }       
         
-        return view ('order.viewOrderAccepted', compact('products','order','productSeller','totPriceSeller','countPrice','countProfit','prices','priceDeliv'));
+        foreach ($productSeller as $ps) {
+            if ($ps->cartStatus == 4) {
+                return redirect ('/');
+            }else{
+                return view ('order.viewOrderAccepted', compact('products','order','productSeller','totPriceSeller','countPrice','countProfit','prices','priceDeliv'));
+            }
+        }
         
     }
 
@@ -1693,6 +1708,8 @@ class OrderController extends Controller
 
             }
 
+            if ($prod->cartStatus == 4) {
+
             $priceDeliv += $prod->delivPrice;
 
             $prices += $prod->sumPrice;
@@ -1700,6 +1717,8 @@ class OrderController extends Controller
             $countProfit += $prod->profit[$i];
 
             $totPriceSeller += $countPrice[$i];
+
+            }
             $i++;
         }        
         
@@ -2020,7 +2039,7 @@ class OrderController extends Controller
                 'updated_at'=>$now
                 ]);
 
-            return redirect('/');
+            return redirect('/OrderPending/'.$resvId);
     }
 
     public function rejected($resvId, $detId)
@@ -2038,7 +2057,7 @@ class OrderController extends Controller
                 'updated_at'=>$now
                 ]);
 
-            return redirect('/');
+            return redirect('/OrderPending/'.$resvId);
     }
 
     public function shipping(Request $request, $resvId, $detId)

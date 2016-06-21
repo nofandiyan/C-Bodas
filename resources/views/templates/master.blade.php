@@ -333,6 +333,7 @@
                     </li>
                 @endif    
                 
+                @if(Auth::guest() || Auth::user()->role == 'customer')
                     <li class="dropdown navbar-cart hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" data-close-others="true"><i class="fa fa-shopping-cart"></i></a>
                         <ul class="dropdown-menu">
@@ -374,7 +375,7 @@
                     <!-- Searching start -->
 
 
-
+                    
                     <li class="dropdown navbar-search hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
                         <ul class="dropdown-menu">
@@ -390,6 +391,7 @@
                             </li>
                         </ul>
                     </li>
+                @endif
 
 
 

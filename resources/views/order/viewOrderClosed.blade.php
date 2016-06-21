@@ -242,7 +242,7 @@
                                                         <td>{{$prod->updated_at}}</td>
 
                                                         @if($prod->transfer == 0)
-                                                        <td>Pending</td>
+                                                        <td>-</td>
                                                         @else
                                                         <td>Transfered</td>
                                                         @endif
@@ -295,7 +295,7 @@
                                                         <td>{{$prod->updated_at}}</td>
                                                         @if($prod->transfer == 0)
                                                         <td>
-                                                            Pending
+                                                        -
                                                         </td>                                                        
                                                         @else
                                                         <td>Transfered</td>
