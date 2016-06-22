@@ -12,8 +12,23 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
-
+use PushNotification; 
+use App\Http\Controllers\Notification;
+use App\Http\Controllers\ReservationsChecker;
 class ApiCustomerController extends Controller{
+
+    use Notification, ReservationsChecker;
+
+    public function testNotif(){
+        
+            // $deviceToken = 'none';
+            $message = '1-We have successfully sent a push notification!';
+            // $this->sendNotification($message);
+            return $this->reservationsExpired();
+            // return $this->expReservationsNotification();
+            // var_dump(Carbon::now()->subMinutes(10));
+    }
+    
     public function store(Request $request)
     {        
         $model = DB::table('users')
@@ -92,6 +107,30 @@ class ApiCustomerController extends Controller{
         // echo $user->email;
         // return $user;
     }
+
+    public function changePassword(Request $request){
+        $email = $request->input('email');
+        $old_password = $request->input('old_password');
+        $new_password = bcrypt($request->input('new_password'));
+
+        $auth = auth()->guard('web'); 
+
+        if($auth->attempt(['email' => $email, 'password' => $old_password])){
+            $model = DB::table('users')
+            ->where('email', $email)
+            ->update([
+                'password' => $new_password
+                ]);
+            if($model==1){
+                $resp['Response']= true;
+                return $resp;
+            }
+        }else{
+            $resp['Response']= false;
+            return $resp;
+        }
+    }
+
     public function getLogin(Request $request){
         $email = $request->input('email');
         $password = $request->input('password');
@@ -126,13 +165,24 @@ class ApiCustomerController extends Controller{
     }
 
     public function maintainLogin(Request $request){
+        $auth = auth()->guard('api'); 
+        if (!$auth->check()) {
+            return response('Unauthorized.', 401);
+        }else{
+            $id_customer = $request->input('id_customer');
+            // $deviceToken = $request->input('device_token');
+            // var_dump($deviceToken);
+            // DB::table('customers')
+            // ->where('id',  $id_customer)
+            // ->update(['device_token' => $deviceToken]);
+
             $customer=DB::table('users')
             ->join('customers', 'users.id', '=', 'customers.id')
             ->select('users.ID', 'users.EMAIL','users.NAME', 'users.STREET', 'users.CITY_ID',
                 'users.ZIP_CODE', 'users.PHONE', 'users.STATUS', 'users.CONFIRMATION_CODE', 
                 'users.API_TOKEN', 'users.ROLE', 'users.ROLE', 'users.CREATED_AT', 'users.UPDATED_AT', 
                 'customers.id as ID_CUSTOMER', 'users.GENDER')
-            ->where('customers.id', $request->input('id_customer'))
+            ->where('customers.id', $id_customer)
             // ->where('password', $password)
             ->get();
             foreach ($customer as $model) {
@@ -144,10 +194,43 @@ class ApiCustomerController extends Controller{
                     'cities.type', 'cities.city', 'cities.province_id', 'provinces.province')
                 ->where('customer_id', $model->ID_CUSTOMER)
                 ->get();
-
             }
+            // $deviceToken = 'csSX0uIDzaY:APA91bFibhimymgb_GMIl6uF-y3u7PzNIohnYkPMiAHxqlG8bfz3ud5PUbjVjjP7wfXCNk7avnXe7MnSatFVZB9C7ZMoDzYMakt-V45lW8vgCvQI8dbnWETPiXhRYSkch6L-jQATnEDP';
+            // $deviceToken = 'none';
+            // $message = '21-We have successfully sent a push notification!';
+            // $collection = PushNotification::app('appNameAndroid')
+            // ->to($deviceToken);
+            // $collection->adapter->setAdapterParameters(['sslverifypeer' => false]);
+            // $collection->send($message);
+            // var_dump($collection);
             return $customer;
+        }
     }
+
+    public function updateDeviceToken(){
+        $auth = auth()->guard('api'); 
+        if (!$auth->check()) {
+            return response('Unauthorized.', 401);
+        }else{
+            $deviceToken = $request->input('device_token');
+            // var_dump($deviceToken);
+            $model = DB::table('customers')
+            ->where('id',  $id_customer)
+            ->update(['device_token' => $deviceToken]);
+            if($model==1){
+                file_put_contents($path, $decoded);
+                // $decoded->move($path, $)
+                $response['Response']=true; 
+            }else{
+                $response['Response']=false;
+            }       
+            return $response;
+        }
+            
+
+    }
+
+
     
     public function requestLinkPassword(Request $request){
         $check=DB::table('users')
@@ -240,7 +323,6 @@ class ApiCustomerController extends Controller{
         ->where('province_id', $request->input('province_id'))
         ->get();
         return $model;
-
     }
   
 }

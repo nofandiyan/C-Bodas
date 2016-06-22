@@ -110,8 +110,11 @@ Route::group(['prefix' => '/api/v1/customers', 'middleware' => 'api'], function 
     Route::post('/maintainLogin','ApiCustomerController@maintainLogin');
     Route::post('/updateAddress','ApiCustomerController@updateAddress');
     Route::post('/insertAddress', 'ApiCustomerController@insertDelivAddress');
+    Route::post('/updatePassword', 'ApiCustomerController@changePassword');
     Route::get('/getProvinces', 'ApiCustomerController@getProvinces');
     Route::get('/getCities', 'ApiCustomerController@getCities');
+    Route::post('/updateDeviceToken', 'ApiCustomerController@updateDeviceToken');
+    Route::post('/notif', 'ApiCustomerController@testNotif');
 });
 
 Route::group(['prefix' => '/api/v1/products', 'middleware' => 'api'], function () {

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-
+use PushNotification; 
 class ApiProductsController extends Controller
 {
     public function getCatalog(Request $request){
@@ -88,6 +88,8 @@ class ApiProductsController extends Controller
             ->where('reviews.detail_product_id', $user->id_detail_product)
             ->avg('rating');
         }
+            
+
         return $first;
     }
 
@@ -99,28 +101,37 @@ class ApiProductsController extends Controller
             return response('Unauthorized.', 401);
         }else{
             $name=$request->input('find');
-            $first = DB::table('detail_products')
-            ->join('products', 'detail_products.product_id', '=', 'products.id')
-            ->join('category_products', 'products.category_id', '=', 'category_products.id')
-            ->join('prices_products', 'prices_products.detail_product_id', '=', 'detail_products.id')
-            ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.type_product',
-            'products.category_id as id_category', 'category_products.category_name', 
-            'prices_products.id as id_price', 'prices_products.price')
-            ->where('products.name', 'like', '%'.$name.'%')
-            ->orWhere('category_products.category_name', 'like', '%'.$name.'%')
-            ->where('prices_products.updated_at', DB::raw("(select max(t2.updated_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
-            ->groupBy('detail_products.id')
-            ->get();
-            foreach ($first as $user) {
-                $user->links=DB::table('images_products')
-                ->select('images_products.link')
-                ->where('images_products.detail_product_id', "=", $user->id_detail_product)
-                ->get();
-                $user->rating = DB::table('reviews')
-                ->where('reviews.detail_product_id', $user->id_detail_product)
-                ->avg('rating');
+            $searchs = explode(' ', $name);
+            foreach ($searchs as $search) {
+
+                $first = DB::table('detail_products')
+                ->join('products', 'detail_products.product_id', '=', 'products.id')
+                ->join('category_products', 'products.category_id', '=', 'category_products.id')
+                ->join('prices_products', 'prices_products.detail_product_id', '=', 'detail_products.id')
+                ->select(DB::raw('DISTINCT(detail_products.id) as id_detail_product'), 'products.name as product_name', 'detail_products.type_product',
+                'products.category_id as id_category', 'category_products.category_name', 
+                'prices_products.id as id_price', 'prices_products.price')
+                ->where('products.name', 'like', '%'.$search.'%')    
+                // ->where('products.name', 'like', $search.'%')    
+                // ->whereIn('products.name', $searchs) 
+                // ->orWhereIn('type_product', $searchs) 
+                ->orwhere('detail_products.type_product', '=', $search)
+                ->where('prices_products.updated_at', DB::raw("(select max(t2.updated_at) from prices_products t2 where t2.detail_product_id=detail_products.id)"))
+                ->groupBy('detail_products.id');
+
             }
-            return $first;
+                $model = $first->get();
+                foreach ($model as $user) {
+                    $user->links=DB::table('images_products')
+                    ->select('images_products.link')
+                    ->where('images_products.detail_product_id', "=", $user->id_detail_product)
+                    ->get();
+                    $user->rating = DB::table('reviews')
+                    ->where('reviews.detail_product_id', $user->id_detail_product)
+                    ->avg('rating');
+                }
+
+            return $model;
         }
     }
 
@@ -161,6 +172,7 @@ class ApiProductsController extends Controller
                 ->take(3)
                 ->get();
             }
+
 
             return $first;
         }
@@ -213,6 +225,7 @@ class ApiProductsController extends Controller
             ->join('users', 'users.id', '=', 'customers.id')
             ->select('reviews.*', 'users.name as customer_name')
             ->where('reviews.detail_product_id', $id_detail)
+            ->orderBy('reviews.created_at', 'desc')
             ->skip($offset)
             ->take(5)
             ->get();
