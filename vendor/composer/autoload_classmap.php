@@ -3047,7 +3047,7 @@ return array(
     'Zend\\Validator\\ValidatorPluginManagerFactory' => $vendorDir . '/zendframework/zend-validator/src/ValidatorPluginManagerFactory.php',
     'Zend\\Validator\\ValidatorProviderInterface' => $vendorDir . '/zendframework/zend-validator/src/ValidatorProviderInterface.php',
     'category_productsSeeder' => $baseDir . '/database/seeds/category_productsSeeder.php',
-<<<<<<< HEAD
+
     'phpDocumentor\\Reflection\\DocBlock' => $vendorDir . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
     'phpDocumentor\\Reflection\\DocBlockFactory' => $vendorDir . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
     'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => $vendorDir . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',
@@ -3109,6 +3109,5 @@ return array(
     'phpDocumentor\\Reflection\\Types\\String_' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/String_.php',
     'phpDocumentor\\Reflection\\Types\\This' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/This.php',
     'phpDocumentor\\Reflection\\Types\\Void_' => $vendorDir . '/phpdocumentor/type-resolver/src/Types/Void_.php',
-=======
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
+
 );
