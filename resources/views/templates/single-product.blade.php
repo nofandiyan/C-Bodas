@@ -14,10 +14,8 @@
                 </div>
                 <div class="col-xs-6">
                     <ol class="breadcrumb">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="products.html">Peternakan</a></li>
-                        <li><a href="products.html">Sapi</a></li>
-                        <li class="active">Sapi Limosin Silang Simmental</li>
+                        <li><a href="/">Home</a></li>
+                        <li class="active">Detail Produk</li>
                     </ol>
                 </div>
             </div>
@@ -34,21 +32,25 @@
         <div class="container">
         	<article class="product-item product-single">
                 <div class="row">
+                 @foreach($barang as $bara)
+                        <?php $count = 4; ?>
+                        <?php $counts = count($barang); ?>
+                    @for($i=0; $i<$counts; $i++)
+                    @if($bara->image[$i]->idDetProdIm == $bara->id)                       
                     <div class="col-xs-4">
                         <div class="product-carousel-wrapper">
                             <div id="product-carousel">
-                                <div class="item"><img style="border:0px; width:400px; height:300px;" src="assets/images/products/Peternakan/sapi_1.jpg" class="img-responsive" alt=""></div>
-                                <div class="item"><img style="border:0px; width:400px; height:300px;" src="assets/images/products/Peternakan/sapi_2.jpg" class="img-responsive" alt=""></div>
+                                <div class="item"><img style="border:0px; width:400px; height:300px;" src="{{url($bara->image[$i]->link)}}" class="img-responsive" alt=""></div>
                                 
                             </div>
                         </div>
+                    @endif
+                    @endfor    
                     </div>
                     <div class="col-xs-8">
                     	<div class="product-body">
                             <h3>Sapi Limosin Silang Simmental</h3>
                             <div class="product-labels">
-                                
-                                <span class="label label-danger">sale</span>
                             </div>
                             <div class="product-rating">
                                 <i class="fa fa-star"></i>
@@ -93,7 +95,9 @@
                             </ul>
                         </div>
                     </div>
+                @endforeach
                 </div>
+
             </article>
             
             <div class="tabs product-tabs">

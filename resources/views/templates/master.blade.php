@@ -33,6 +33,8 @@
     <link href="assets/css/custom.css" rel="stylesheet" type="text/css">
     <link href="assets/css/color/red.css" id="main-color" rel="stylesheet" type="text/css"> -->
 
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+
     <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
     <link href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -42,6 +44,10 @@
     <link href="{{ URL::asset('assets/css/color-switcher.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::asset('assets/css/color/red.css') }}" id="main-color" rel="stylesheet" type="text/css">
+
+    <link href="{{ URL::asset('assets/css/star-rating.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ URL::asset('assets/css/theme-krajee-svg.css') }}" media="all" rel="stylesheet" type="text/css" />
+    
     
     <!-- ==========================
         JS 
@@ -78,6 +84,11 @@
     
 
     <script type="text/javascript">
+
+        function goBack() {
+            window.history.back();
+        }
+
         $(function () {
 
             var active = true;
@@ -113,13 +124,22 @@
             $("."+provid).attr("disabled", false);
         }
 //input numeric
-            function numeric(ob) {
-              var invalidChars = /[^0-9]/gi
-              if(invalidChars.test(ob.value)) {
-                        ob.value = ob.value.replace(invalidChars,"");
-                  }
-            }
+        function numeric(ob) {
+          var invalidChars = /[^0-9]/gi
+          if(invalidChars.test(ob.value)) {
+                    ob.value = ob.value.replace(invalidChars,"");
+              }
+        }
         
+//rating
+        $( document ).ready(function() {
+            var ratingValue = $('#rating').rating('refresh', {
+                disabled: true, 
+                showClear: false, 
+                showCaption: true
+            }).val(); 
+        });
+
     </script>
 
     <style type="text/css">
@@ -166,7 +186,85 @@
             background-color:#DDDDDD;
         }
     </style>
-    
+    <!-- popup -->
+    <style type="text/css">
+
+    /* Outer */
+    .popup {
+        width:100%;
+        height:100%;
+        overflow:auto;
+        display:none;
+        position:fixed;
+        top:0px;
+        left:0px;
+        background:rgba(0,0,0,0.75);
+    }
+     
+    /* Inner */
+    .popup-inner {
+        max-width:30%;
+        width:70%;
+        padding:10px;
+        position:absolute;
+        top:50%;
+        left:50%;
+        -webkit-transform:translate(-50%, -50%);
+        transform:translate(-50%, -50%);
+        box-shadow:0px 2px 6px rgba(0,0,0,1);
+        border-radius:8px;
+        background:#fff;
+    }
+     
+    /* Close Button */
+    .popup-close {
+        width:30px;
+        height:30px;
+        padding-top:4px;
+        display:inline-block;
+        position:absolute;
+        top:0px;
+        right:0px;
+        transition:ease 0.25s all;
+        -webkit-transform:translate(50%, -50%);
+        transform:translate(50%, -50%);
+        border-radius:1000px;
+        background:rgba(0,0,0,0.8);
+        font-family:Arial, Sans-Serif;
+        font-size:20px;
+        text-align:center;
+        line-height:100%;
+        color:#fff;
+    }
+     
+    .popup-close:hover {
+        -webkit-transform:translate(50%, -50%) rotate(180deg);
+        transform:translate(50%, -50%) rotate(180deg);
+        background:rgba(0,0,0,1);
+        text-decoration:none;
+    }
+    </style>
+    <script type="text/javascript">
+        $(function() {
+        //----- OPEN
+        $('[data-popup-open]').on('click', function(e)  {
+            var targeted_popup_class = jQuery(this).attr('data-popup-open');
+            $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350).css('z-index', 9999).css('top',(($(window).height()-popup_height)/2)).css('left',(($(window).width()-popup_width)/2));
+            e.preventDefault();
+        });
+     
+        //----- CLOSE
+        $('[data-popup-close]').on('click', function(e)  {
+            var targeted_popup_class = jQuery(this).attr('data-popup-close');
+            $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
+     
+            e.preventDefault();
+        });
+    });
+    </script>
+
+
+
 </head>
 <body>
     
@@ -234,12 +332,15 @@
                         <a href="/">Home</a>
                     </li>
                 @endif    
+                
+                @if(Auth::guest() || Auth::user()->role == 'customer')
                     <li class="dropdown navbar-cart hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" data-close-others="true"><i class="fa fa-shopping-cart"></i></a>
                         <ul class="dropdown-menu">
                             
                             <!-- CART ITEM - START -->
-                            <li>
+                            
+                            <!-- <li>
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <img src="assets/images/products/product-1.jpg" class="img-responsive" alt="">
@@ -251,33 +352,46 @@
                                     </div>
                                 </div>
                             </li>
-                            
+                             -->
                             <!-- CART ITEM - END -->
                             
+                            <!-- CART ITEM - START -->
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <a href="cart" class="btn btn-primary btn-block">View Cart</a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="checkout" class="btn btn-primary btn-block">Checkout</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- CART ITEM - END -->
+
+
                         </ul>
                     </li>
 
                     <!-- Searching start -->
 
 
-
+                    
                     <li class="dropdown navbar-search hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i></a>
                         <ul class="dropdown-menu">
                             <li>
-                               
- 
                                     <div class="input-group input-group-lg">
-                                     <form>
-                                        <input type="text" class="form-control" placeholder="Cari...">
+                                     {!! Form::open(['method'=>'GET','url'=>'searchresult','class'=>'navbar-form navbar-left','role'=>'search'])  !!}
+                                        <input type="text" class="form-control" name="search" placeholder="Cari...">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button">Cari</button>
+                                            <button class="btn btn-primary" type="submit">Cari</button>
                                         </span>
+                                    {!! Form::close() !!}
                                     </div>
-                                    </form>
                             </li>
                         </ul>
                     </li>
+                @endif
 
 
 
@@ -380,6 +494,7 @@
     <script src="assets/js/custom.js"></script> -->
 
     
+
     <script src="{{ URL::asset('assets/js/bootstrap.min.js') }}"></script>
     
     <script src="{{ URL::asset('assets/js/bootstrap-hover-dropdown.min.js') }}"></script>
@@ -399,6 +514,8 @@
     <script src="{{ URL::asset('assets/js/color-switcher.js') }}"></script>
 
     <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
+
+    <script src="{{ URL::asset('assets/js/star-rating.js') }}"></script>
 
 <!-- Mirrored from demos.pixelized.cz/C-Bodas/v1.1/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Apr 2016 15:38:50 GMT -->
 </html>

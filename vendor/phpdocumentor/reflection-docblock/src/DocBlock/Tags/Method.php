@@ -17,7 +17,11 @@ use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
+<<<<<<< HEAD
 use phpDocumentor\Reflection\Types\Void_;
+=======
+use phpDocumentor\Reflection\Types\Void;
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
 use Webmozart\Assert\Assert;
 
 /**
@@ -50,7 +54,11 @@ final class Method extends BaseTag implements Factory\StaticMethod
         Assert::boolean($static);
 
         if ($returnType === null) {
+<<<<<<< HEAD
             $returnType = new Void_();
+=======
+            $returnType = new Void();
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
         }
 
         $this->methodName  = $methodName;
@@ -130,7 +138,11 @@ final class Method extends BaseTag implements Factory\StaticMethod
                 $argument = explode(' ', trim($argument));
                 if ($argument[0][0] === '$') {
                     $argumentName = substr($argument[0], 1);
+<<<<<<< HEAD
                     $argumentType = new Void_();
+=======
+                    $argumentType = new Void();
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
                 } else {
                     $argumentType = $typeResolver->resolve($argument[0], $context);
                     $argumentName = '';
@@ -205,7 +217,11 @@ final class Method extends BaseTag implements Factory\StaticMethod
                 $argument = [ 'name' => $argument ];
             }
             if (! isset($argument['type'])) {
+<<<<<<< HEAD
                 $argument['type'] = new Void_();
+=======
+                $argument['type'] = new Void();
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
             }
             $keys = array_keys($argument);
             if ($keys !== [ 'name', 'type' ]) {

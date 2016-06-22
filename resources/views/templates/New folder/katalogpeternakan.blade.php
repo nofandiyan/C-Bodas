@@ -1,4 +1,4 @@
-@extends('templates\master')
+@extends('templates\master',['url'=>'barang','link'=>'barang'])
 
 @section('konten')
 
@@ -34,27 +34,30 @@
                 <div class="col-sm-3">
                     <aside class="sidebar">
                         
-                        <!-- WIDGET:CATEGORIES - START -->
+                         <!-- WIDGET:CATEGORIES - START -->
                         <div class="widget widget-categories">
                             <h3><a role="button" data-toggle="collapse" href="#widget-categories-collapse" aria-expanded="true" aria-controls="widget-categories-collapse">Kategori</a></h3>
                             <div class="collapse in" id="widget-categories-collapse" aria-expanded="true" role="tabpanel">
                                 <div class="widget-body">
                                     <ul class="list-unstyled" id="categories" role="tablist" aria-multiselectable="true">
-                                        <li class="panel"><a role="button" data-parent="#categories" href="katalogpertanian">Pertanian<span></span></a>
-                                           
+                                       <li class="panel"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#categories" href="#parent-1" aria-expanded="false" aria-controls="parent-1">Pertanian<span>[4]</span></a>
+                                            <ul id="parent-1" class="list-unstyled panel-collapse collapse" role="menu">
+                                                <li><a href="katalogsayurorganik">Sayur Organik</a></li>
+                                                <li><a href="katalogsayuranorganik">Sayur Anorganik</a></li>
+                                                <li><a href="katalogbuahorganik">Buah Organik</a></li>
+                                                <li><a href="katalogbuahanorganik">Buah Anorganik</a></li>
+                                               
+                                            </ul>
                                         </li>
 
-                                        <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpeternakan">Peternakan<span>[2]</span></a>
+                                        <li class="panel"><a role="button" data-parent="#categories" href="katalogpeternakan">Peternakan<span></span></a>
                                            
                                         </li>
 
                                         
                                         <li class="panel"><a class="collapsed" role="button" data-parent="#categories" href="katalogpariwisata">Pariwisata</a>
-                                            <ul id="parent-4" class="list-unstyled panel-collapse collapse" role="menu">
-                                                
-                                            </ul>
+                               
                                         </li>
-                                        
                                     </ul>
                                 </div>
                             </div>
@@ -83,8 +86,11 @@
                         
 
                         <!-- PRODUCT KATALOG -->
+                        
                         @foreach ($barang as $bar)
+
                         <div class="col-sm-4 col-xs-6">
+                         <form action="{{action('CartController@additempeternakan')}}" method="post">
                             <article class="product-item">
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -100,10 +106,16 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <div class="product-body">
+                                       
                                             <h3>{{$bar->name}}</h3>
+                                            <h4>{{$bar->sellername}}</h4> 
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="name" value="{{$bar->name}}"/>
+                                            <input type="hidden" name="price" value="{{$bar->price}}"/>
+                                            <input type="hidden" name="detailproductid" value="{{$bar->detailproductid}}"/>
+                                            <input type="hidden" name="pricesproductid" value="{{$bar->pricesproductid}}"/>
+
                                             <div class="product-labels">
-                                               
-                                              
                                             </div>
                                             <div class="product-rating">
                                                 <i class="fa fa-star"></i>
@@ -113,29 +125,27 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
                                             <span class="price">
-                                              
-                                                <span class="amount">{{$bar->price}}</span>
+                                                <span class="amount">Rp {{$bar->price}}</span>
                                             </span>
                                             <p>{{$bar->description}}</p>
                                             <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+                                                
+                                                <input type="submit" class="btn btn-primary btn-sm add-to-cart" value="Tambahkan ke Keranjang">
+                                                
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </article>
+                            </form>
                         </div>
-                   
-             
-
                         @endforeach
                         
                          
     <!-- PRODUCT - END -->
                     </div>  
-                                           
+                    <center>{!! $barang->links() !!}</center>                      
                 </div>
             </div>
         </div>
@@ -163,7 +173,7 @@
                                             <?php $counts = count($barang); ?>
                                         
                                             @for($i=0; $i<$counts; $i++)
-                                                    @if($bara->image[$i]->idDetProdIm == $bara->id)
+                                                    @if($bara->image[$i]->idDetProdIm == $bara->detailproductid)
                                                     <div class="item"><img src="{{url($bara->image[$i]->link)}}" class="img-responsive" alt=""></div>
                                                     @endif
                                             @endfor

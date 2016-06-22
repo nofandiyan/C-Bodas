@@ -109,7 +109,17 @@
                                 </div>
                             </div>
                                   
-                            <input type="hidden" class="form-control" name="stock" step="1" value="1">
+                            <div class="form-group{{ $errors->has('stock') ? ' has-error' : '' }}">
+                                <label class="col-md-4 control-label">Stok</label>
+                                <div class="col-md-3">
+                                    <input type="number" class="form-control" name="stock" step="1" placeholder="Jumlah Sapi Tersedia" maxlength="10" min="1">
+                                    @if ($errors->has('stock'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('stock') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
 
                             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">Harga</label>

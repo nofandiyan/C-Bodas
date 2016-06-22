@@ -4,6 +4,7 @@ php:
   - 5.6
   - 7.0
   - hhvm
+<<<<<<< HEAD
   - nightly
 
 matrix:
@@ -12,6 +13,13 @@ matrix:
       - hhvm
       - nightly
 
+=======
+
+matrix:
+  allow_failures:
+    - php: hhvm
+    
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
 cache:
   directories:
     - $HOME/.composer/cache

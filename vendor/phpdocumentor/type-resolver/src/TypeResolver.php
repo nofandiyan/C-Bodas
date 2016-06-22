@@ -38,7 +38,11 @@ final class TypeResolver
         'mixed' => 'phpDocumentor\Reflection\Types\Mixed',
         'array' => 'phpDocumentor\Reflection\Types\Array_',
         'resource' => 'phpDocumentor\Reflection\Types\Resource',
+<<<<<<< HEAD
         'void' => 'phpDocumentor\Reflection\Types\Void_',
+=======
+        'void' => 'phpDocumentor\Reflection\Types\Void',
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
         'null' => 'phpDocumentor\Reflection\Types\Null_',
         'scalar' => 'phpDocumentor\Reflection\Types\Scalar',
         'callback' => 'phpDocumentor\Reflection\Types\Callable_',

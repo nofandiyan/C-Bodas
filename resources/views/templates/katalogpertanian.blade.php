@@ -1,4 +1,4 @@
-@extends('templates\master')
+@extends('templates\master',['url'=>'barang','link'=>'barang'])
 
 @section('konten')
 
@@ -118,8 +118,7 @@
                                             </span>
                                             <p>{{$bar->description}}</p>
                                             <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="templates.cart" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
                                             </div>
                                         </div>

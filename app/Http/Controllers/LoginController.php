@@ -34,15 +34,15 @@ class LoginController extends Controller
 	    }
 	
 	    $credentials = [
-	        'email' => Input::get('email'),
-	        'password' => Input::get('password'),
-	        'status' => 1
+	    	'status' 	=> 1,
+	        'email' 	=> Input::get('email'),
+	        'password' 	=> Input::get('password')
 	    ];
 	
 	    if ( ! Auth::attempt($credentials))
 	    {
 	      Session::flash('alert-class', 'alert-danger');
-	      Session::flash('message', 'Email belum di konfirmasi, Silahkan cek email anda!');
+	      Session::flash('message', 'Email belum di konfirmasi, silahkan cek email anda! Atau kombinasi email dan password tidak sesuai!');
 	      return Redirect::to('login');
 	    }
 	

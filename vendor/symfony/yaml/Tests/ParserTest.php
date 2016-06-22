@@ -693,6 +693,7 @@ EOT;
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
 
+<<<<<<< HEAD
     public function testSequenceFollowedByCommentEmbeddedInMapping()
     {
         $yaml = <<<EOT
@@ -712,6 +713,8 @@ EOT;
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
 
+=======
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
@@ -1262,6 +1265,7 @@ EOT;
 
         $this->assertEquals(array('date' => $expectedDate), $this->parser->parse($yaml, Yaml::PARSE_DATETIME));
     }
+<<<<<<< HEAD
 
     /**
      * @param $lineNumber
@@ -1330,6 +1334,8 @@ YAML
             ),
         );
     }
+=======
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
 }
 
 class B

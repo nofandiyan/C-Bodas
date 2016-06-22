@@ -277,6 +277,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Not quoting a scalar starting with the "%" indicator character is deprecated since Symfony 3.1 and will throw a ParseException in 4.0.', $deprecations[0]);
     }
 
+<<<<<<< HEAD
     /**
      * @dataProvider getDataForIsHash
      */
@@ -295,6 +296,8 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+=======
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
     public function getTestsForParse()
     {
         return array(
@@ -503,6 +506,95 @@ class InlineTest extends \PHPUnit_Framework_TestCase
             array('[foo, \'@foo.baz\', { \'%foo%\': \'foo is %foo%\', bar: \'%foo%\' }, true, \'@service_container\']', array('foo', '@foo.baz', array('%foo%' => 'foo is %foo%', 'bar' => '%foo%'), true, '@service_container')),
 
             array('{ foo: { bar: { 1: 2, baz: 3 } } }', array('foo' => array('bar' => array(1 => 2, 'baz' => 3)))),
+        );
+    }
+
+    /**
+     * @dataProvider getTimestampTests
+     */
+    public function testParseTimestampAsUnixTimestampByDefault($yaml, $year, $month, $day, $hour, $minute, $second)
+    {
+        $this->assertSame(gmmktime($hour, $minute, $second, $month, $day, $year), Inline::parse($yaml));
+    }
+
+    /**
+     * @dataProvider getTimestampTests
+     */
+    public function testParseTimestampAsDateTimeObject($yaml, $year, $month, $day, $hour, $minute, $second)
+    {
+        $expected = new \DateTime($yaml);
+        $expected->setTimeZone(new \DateTimeZone('UTC'));
+        $expected->setDate($year, $month, $day);
+        $expected->setTime($hour, $minute, $second);
+
+        $this->assertEquals($expected, Inline::parse($yaml, Yaml::PARSE_DATETIME));
+    }
+
+    public function getTimestampTests()
+    {
+        return array(
+            'canonical' => array('2001-12-15T02:59:43.1Z', 2001, 12, 15, 2, 59, 43),
+            'ISO-8601' => array('2001-12-15t21:59:43.10-05:00', 2001, 12, 16, 2, 59, 43),
+            'spaced' => array('2001-12-15 21:59:43.10 -5', 2001, 12, 16, 2, 59, 43),
+            'date' => array('2001-12-15', 2001, 12, 15, 0, 0, 0),
+        );
+    }
+
+    /**
+     * @dataProvider getDateTimeDumpTests
+     */
+    public function testDumpDateTime($dateTime, $expected)
+    {
+        $this->assertSame($expected, Inline::dump($dateTime));
+    }
+
+    public function getDateTimeDumpTests()
+    {
+        $tests = array();
+
+        $dateTime = new \DateTime('2001-12-15 21:59:43', new \DateTimeZone('UTC'));
+        $tests['date-time-utc'] = array($dateTime, '2001-12-15T21:59:43+00:00');
+
+        $dateTime = new \DateTimeImmutable('2001-07-15 21:59:43', new \DateTimeZone('Europe/Berlin'));
+        $tests['immutable-date-time-europe-berlin'] = array($dateTime, '2001-07-15T21:59:43+02:00');
+
+        return $tests;
+    }
+
+    /**
+     * @dataProvider getBinaryData
+     */
+    public function testParseBinaryData($data)
+    {
+        $this->assertSame('Hello world', Inline::parse($data));
+    }
+
+    public function getBinaryData()
+    {
+        return array(
+            'enclosed with double quotes' => array('!!binary "SGVsbG8gd29ybGQ="'),
+            'enclosed with single quotes' => array("!!binary 'SGVsbG8gd29ybGQ='"),
+            'containing spaces' => array('!!binary  "SGVs bG8gd 29ybGQ="'),
+        );
+    }
+
+    /**
+     * @dataProvider getInvalidBinaryData
+     */
+    public function testParseInvalidBinaryData($data, $expectedMessage)
+    {
+        $this->setExpectedExceptionRegExp('\Symfony\Component\Yaml\Exception\ParseException', $expectedMessage);
+
+        Inline::parse($data);
+    }
+
+    public function getInvalidBinaryData()
+    {
+        return array(
+            'length not a multiple of four' => array('!!binary "SGVsbG8d29ybGQ="', '/The normalized base64 encoded data \(data without whitespace characters\) length must be a multiple of four \(\d+ bytes given\)/'),
+            'invalid characters' => array('!!binary "SGVsbG8#d29ybGQ="', '/The base64 encoded data \(.*\) contains invalid characters/'),
+            'too many equals characters' => array('!!binary "SGVsbG8gd29yb==="', '/The base64 encoded data \(.*\) contains invalid characters/'),
+            'misplaced equals character' => array('!!binary "SGVsbG8gd29ybG=Q"', '/The base64 encoded data \(.*\) contains invalid characters/'),
         );
     }
 

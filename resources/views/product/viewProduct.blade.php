@@ -127,6 +127,13 @@
                                     @endif
 		                        </div>
 
+                                <div class="col-md-12">
+                                    <div class="col-md-3" align="right"><label>Reputasi</label></div>
+                                    <div class="col-md-9">
+                                    <input id="rating" name="input-name" type="number" class="rating" min=0 max=5 step=0.01 data-rtl="false" value="{{$avgRat}}" data-size="xs">
+                                    </div>
+                                </div>
+
                         		@if(Auth::user()->role == 'seller')
                                 <div class="col-md-12">
                                 	<div class="col-md-3" align="right">
@@ -142,15 +149,38 @@
                                 @else
                                 <div class="col-md-7">
                                     <div class="col-md-3" align="right">
-                                        <a href="/" class="btn btn-primary" role="button">Kembali</a>
+                                        <a href="" onclick="goBack()" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
                                 </div>
                                 @endif
                         	</div>
                         </div>
-                        
                     </form>
+                    <br>
                 </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div align="center">
+                    <h3><label>Rating dan Review</label></h3>
+                    <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />
+                </div>
+                @foreach($reviews as $rev)
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="col-md-7">
+                                <input id="rating" name="input-name" type="number" class="rating" min=0 max=5 step=0.01 data-rtl="false" value="{{$rev->rating}}" data-size="xs" disabled>
+                            </div>
+                            <div class="col-md-5" align="right">
+                                {{$rev->created_at}}
+                            </div>
+                        </div>
+                        <div class="col-md-12">{{$rev->review}}</div>
+                        <div class="col-md-12"><h6>Oleh <label>{{$rev->custName}}</label></h6></div>
+                    </div>
+                    <hr style="height:1px;color:#777777;background-color:#777777;" />
+                @endforeach
             </div>
         </div>
     </div>

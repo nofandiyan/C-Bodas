@@ -37,6 +37,7 @@ class Parser
      *
      * @param int      $offset             The offset of YAML document (used for line numbers in error messages)
      * @param int|null $totalNumberOfLines The overall number of lines being parsed
+<<<<<<< HEAD
      * @param int[]    $skippedLineNumbers Number of comment lines that have been skipped by the parser
      */
     public function __construct($offset = 0, $totalNumberOfLines = null, array $skippedLineNumbers = array())
@@ -44,6 +45,13 @@ class Parser
         $this->offset = $offset;
         $this->totalNumberOfLines = $totalNumberOfLines;
         $this->skippedLineNumbers = $skippedLineNumbers;
+=======
+     */
+    public function __construct($offset = 0, $totalNumberOfLines = null)
+    {
+        $this->offset = $offset;
+        $this->totalNumberOfLines = $totalNumberOfLines;
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
     }
 
     /**
@@ -128,18 +136,36 @@ class Parser
 
                 // array
                 if (!isset($values['value']) || '' == trim($values['value'], ' ') || 0 === strpos(ltrim($values['value'], ' '), '#')) {
+<<<<<<< HEAD
                     $data[] = $this->parseBlock($this->getRealCurrentLineNb() + 1, $this->getNextEmbedBlock(null, true), $flags);
+=======
+                    $c = $this->getRealCurrentLineNb() + 1;
+                    $parser = new self($c, $this->totalNumberOfLines);
+                    $parser->refs = &$this->refs;
+                    $data[] = $parser->parse($this->getNextEmbedBlock(null, true), $flags);
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
                 } else {
                     if (isset($values['leadspaces'])
                         && preg_match('#^(?P<key>'.Inline::REGEX_QUOTED_STRING.'|[^ \'"\{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches)
                     ) {
                         // this is a compact notation element, add to next block and parse
+<<<<<<< HEAD
+=======
+                        $c = $this->getRealCurrentLineNb();
+                        $parser = new self($c, $this->totalNumberOfLines);
+                        $parser->refs = &$this->refs;
+
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
                         $block = $values['value'];
                         if ($this->isNextLineIndented()) {
                             $block .= "\n".$this->getNextEmbedBlock($this->getCurrentLineIndentation() + strlen($values['leadspaces']) + 1);
                         }
 
+<<<<<<< HEAD
                         $data[] = $this->parseBlock($this->getRealCurrentLineNb(), $block, $flags);
+=======
+                        $data[] = $parser->parse($block, $flags);
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
                     } else {
                         $data[] = $this->parseValue($values['value'], $flags, $context);
                     }
@@ -195,7 +221,14 @@ class Parser
                         } else {
                             $value = $this->getNextEmbedBlock();
                         }
+<<<<<<< HEAD
                         $parsed = $this->parseBlock($this->getRealCurrentLineNb() + 1, $value, $flags);
+=======
+                        $c = $this->getRealCurrentLineNb() + 1;
+                        $parser = new self($c, $this->totalNumberOfLines);
+                        $parser->refs = &$this->refs;
+                        $parsed = $parser->parse($value, $flags);
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
 
                         if (!is_array($parsed)) {
                             throw new ParseException('YAML merge keys used with a scalar value instead of an array.', $this->getRealCurrentLineNb() + 1, $this->currentLine);
@@ -243,7 +276,14 @@ class Parser
                             $data[$key] = null;
                         }
                     } else {
+<<<<<<< HEAD
                         $value = $this->parseBlock($this->getRealCurrentLineNb() + 1, $this->getNextEmbedBlock(), $flags);
+=======
+                        $c = $this->getRealCurrentLineNb() + 1;
+                        $parser = new self($c, $this->totalNumberOfLines);
+                        $parser->refs = &$this->refs;
+                        $value = $parser->parse($this->getNextEmbedBlock(), $flags);
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
                         // Spec: Keys MUST be unique; first one wins.
                         // But overwriting is allowed when a merge node is used in current block.
                         if ($allowOverwrite || !isset($data[$key])) {

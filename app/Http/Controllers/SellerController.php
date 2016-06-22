@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Input as Input;
 
 class sellerController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+
     public function index()
     {
         $profiles   = DB::table('users')
@@ -29,6 +34,7 @@ class sellerController extends Controller
             })
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
             ->first();
+
             return view ('seller.SellerProfile', compact('profiles'));
     }
 
@@ -50,6 +56,10 @@ class sellerController extends Controller
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
             ->where('sellers.id','=', $id)
             ->first();
+
+            if (count($profiles) == 0) {
+            return redirect('/');
+        }
 
             return view ('seller.sellerProfile', compact('profiles'));
     }
@@ -74,7 +84,12 @@ class sellerController extends Controller
             })
             ->select('users.id','users.email','users.name','users.gender','users.phone','users.street', 'users.city_id','cities.city','cities.type','provinces.province','users.zip_code','sellers.prof_pic','sellers.type_id','sellers.no_id','sellers.bank_name','sellers.bank_account','sellers.account_number')
             ->first();
+
+        if (Auth::user()->role=='seller') {
             return view ('seller.sellerProfileEdit', compact('profiles','province','cities'));
+        }else{
+            return redirect('/');
+        }
     }
 
     public function update(Request $request, $id)
@@ -126,7 +141,12 @@ class sellerController extends Controller
                 'prof_pic'      => $prof_pic
                 ]);
 
-        return redirect('/SellerProfile');
+        if (Auth::user()->role=='seller') {
+            return redirect('/SellerProfile');
+        }else{
+            return redirect('/');
+        }
+        
     }
 
     public function destroy($id)

@@ -1,4 +1,4 @@
-@extends('templates\master')
+@extends('templates\master',['url'=>'barang','link'=>'barang'])
 
 @section('konten')
 
@@ -85,9 +85,10 @@
                     <div class="row grid" id="products">
                         
 
-                        <!-- PRODUCT KATALOG -->
-                        @foreach ($barang as $bar)
+                         @foreach ($barang as $bar)
+
                         <div class="col-sm-4 col-xs-6">
+                         <form action="{{action('CartController@additemsayurorganik')}}" method="post">
                             <article class="product-item">
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -103,10 +104,17 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <div class="product-body">
+                                       
                                             <h3>{{$bar->name}}</h3>
+                                            <h4>{{$bar->sellername}}</h4> 
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="jumlah" value="5">
+                                            <input type="hidden" name="name" value="{{$bar->name}}"/>
+                                            <input type="hidden" name="price" value="{{$bar->price}}"/>
+                                            <input type="hidden" name="detailproductid" value="{{$bar->detailproductid}}"/>
+                                            <input type="hidden" name="pricesproductid" value="{{$bar->pricesproductid}}"/>
+
                                             <div class="product-labels">
-                                               
-                                              
                                             </div>
                                             <div class="product-rating">
                                                 <i class="fa fa-star"></i>
@@ -116,29 +124,27 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
                                             <span class="price">
-                                              
-                                                <span class="amount">{{$bar->price}}</span>
+                                                <span class="amount">Rp {{$bar->price}}</span>
                                             </span>
                                             <p>{{$bar->description}}</p>
                                             <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+                                                
+                                                <input type="submit" class="btn btn-primary btn-sm add-to-cart" value="Tambahkan ke Keranjang">
+                                                
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </article>
+                            </form>
                         </div>
-                   
-             
-
                         @endforeach
                         
                          
     <!-- PRODUCT - END -->
                     </div>  
-                    <center>{!! $barang->links() !!}</center>                       
+                    <center>{!! $barang->links() !!}</center>                        
                 </div>
             </div>
         </div>
@@ -166,7 +172,7 @@
                                             <?php $counts = count($barang); ?>
                                         
                                             @for($i=0; $i<$counts; $i++)
-                                                    @if($bara->image[$i]->idDetProdIm == $bara->id)
+                                                    @if($bara->image[$i]->idDetProdIm == $bara->detailproductid)
                                                     <div class="item"><img src="{{url($bara->image[$i]->link)}}" class="img-responsive" alt=""></div>
                                                     @endif
                                             @endfor

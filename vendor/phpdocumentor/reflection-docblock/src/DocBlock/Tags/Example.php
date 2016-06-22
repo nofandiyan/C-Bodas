@@ -135,6 +135,7 @@ final class Example extends BaseTag
     }
 
     /**
+<<<<<<< HEAD
      * Returns a string representation for this tag.
      *
      * @return string
@@ -145,6 +146,8 @@ final class Example extends BaseTag
     }
 
     /**
+=======
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
      * Returns true if the provided URI is relative or contains a complete scheme (and thus is absolute).
      *
      * @param string $uri

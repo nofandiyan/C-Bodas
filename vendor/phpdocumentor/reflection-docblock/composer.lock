@@ -4,8 +4,13 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "9dfabded4193c3fd2ec85874de3b2e3c",
     "content-hash": "69f6ae6608b8524fa04ddb0264bbf091",
+=======
+    "hash": "bb0e430e32d40dd98ae89d0744edf864",
+    "content-hash": "a97035b9599fe2a0c23169d91b7b1936",
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
     "packages": [
         {
             "name": "phpdocumentor/reflection-common",
@@ -17,7 +22,11 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/9969bd1c9661a73fdab104df7dbf132639d5c4d8",
+=======
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/144c307535e82c8fdcaacbcfc1d6d8eeb896687c",
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
                 "reference": "9969bd1c9661a73fdab104df7dbf132639d5c4d8",
                 "shasum": ""
             },
@@ -63,6 +72,7 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
+<<<<<<< HEAD
             "version": "0.2",
             "source": {
                 "type": "git",
@@ -73,15 +83,35 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/b39c7a5b194f9ed7bd0dd345c751007a41862443",
                 "reference": "b39c7a5b194f9ed7bd0dd345c751007a41862443",
+=======
+            "version": "0.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/TypeResolver.git",
+                "reference": "83e31258fb03b9a27884a83b81501cb4cb297a81"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/83e31258fb03b9a27884a83b81501cb4cb297a81",
+                "reference": "83e31258fb03b9a27884a83b81501cb4cb297a81",
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5",
+<<<<<<< HEAD
                 "phpdocumentor/reflection-common": "^1.0"
             },
             "require-dev": {
                 "mockery/mockery": "^0.9.4",
                 "phpunit/phpunit": "^5.2||^4.8.24"
+=======
+                "phpdocumentor/reflection-common": "^1.0@dev"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^4.6"
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
             },
             "type": "library",
             "extra": {
@@ -106,7 +136,11 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
+<<<<<<< HEAD
             "time": "2016-06-10 07:14:17"
+=======
+            "time": "2015-07-18 13:58:32"
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
         },
         {
             "name": "webmozart/assert",
@@ -294,7 +328,11 @@
             ],
             "authors": [
                 {
+<<<<<<< HEAD
                     "name": "Pádraic Brady",
+=======
+                    "name": "Padraic Brady",
+>>>>>>> 019be12074db53f0325327492a5cf9f777403583
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 },

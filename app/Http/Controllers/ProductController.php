@@ -28,18 +28,34 @@ use Illuminate\Support\Facades\Input as Input;
 
 class ProductController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function createTani()
     {
-        return view('product.createTani');
+        if (Auth::user()->role=='seller') {
+            return view('product.createTani');
+        }else{
+            return redirect('/');
+        }
     }
     public function createTernak()
     {
-        return view('product.createTernak');
+        if (Auth::user()->role=='seller') {
+            return view('product.createTernak');
+        }else{
+            return redirect('/');
+        }
     }
     public function createWisata()
     {
-        return view('product.createWisata');
+        if (Auth::user()->role=='seller') {
+            return view('product.createWisata');
+        }else{
+            return redirect('/');
+        }
     }
 
     public function store(Request $request)
@@ -105,6 +121,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
+
         $product = DB::table('detail_products')
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
@@ -112,6 +129,10 @@ class ProductController extends Controller
             ->select('detail_products.id as id', 'detail_products.seller_id', 'detail_products.created_at', 'detail_products.updated_at', 'products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
             ->where('detail_products.id', '=', $id)
             ->first();
+
+        if (count($product) == 0) {
+            return redirect('/');
+        }
 
         $images = DB::table('images_products')
             ->where('detail_product_id', '=', $id)
@@ -122,23 +143,37 @@ class ProductController extends Controller
             ->where('detail_product_id', '=', $id)
             ->first();
 
-        // $sold = DB::table('detail_products')        
-        //     ->join('carts', 'detail_products.id', '=', 'carts.detail_product_id')
-        //     ->where('detail_product_id', '=', $id)
-        //     ->select('carts.amount')
-        //     ->first();
-
             // echo("<pre>");
-            // var_dump($product);
+            // var_dump($sold);
             // die();
 
-        return view('product.viewProduct', compact('product','images','price'));
+        $reviews = DB::table('reviews')
+            ->join('users','users.id','=','reviews.customer_id')
+            ->join('detail_products','reviews.detail_product_id','=','detail_products.id')
+            ->where('reviews.detail_product_id',$id)
+            ->select('reviews.id as idRev','users.name as custName','reviews.detail_product_id as detId','reviews.rating','reviews.review','reviews.created_at')
+            ->get();
+
+        $i=0;
+        $sumRat=0;
+        foreach ($reviews as $rev) {
+            $sumRat += $rev->rating;
+            $i++;
+        }
+
+        if ($i == 0) {
+            $avgRat = $sumRat;
+        }else{
+            $avgRat = $sumRat/$i;
+        }
+        
+
+        return view('product.viewProduct', compact('product','images','price','reviews','avgRat'));
         
     }
 
     public function edit($id)
     {
-        
         $product = DB::table('detail_products')
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
@@ -146,6 +181,10 @@ class ProductController extends Controller
             ->select('detail_products.id','products.name','products.category_id','detail_products.description','detail_products.stock','prices_products.price','detail_products.type_product')
             ->where('detail_products.id', '=', $id)
             ->first();
+
+        if (count($product) == 0) {
+            return redirect('/');
+        }
 
         $images = DB::table('images_products')
             ->where('detail_product_id', '=', $id)
@@ -156,7 +195,11 @@ class ProductController extends Controller
             ->where('detail_product_id', '=', $id)
             ->first();
         
-        return view('product.editProduct', compact('product', 'images', 'prices'));
+        if (Auth::user()->role=='seller') {
+            return view('product.editProduct', compact('product', 'images', 'prices'));
+        }else{
+            return redirect('/');
+        }
     }
 
     public function update(Request $request, $id)
@@ -260,6 +303,8 @@ class ProductController extends Controller
         }
         return redirect('/');
     }
+
+
 
     public function destroy($id)
     {

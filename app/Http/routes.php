@@ -67,6 +67,35 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('Order', 'OrderController');
 
+    Route::get('OrderAdmin/{resvId}', 'OrderController@OrderAdmin');
+    Route::get('OrderValid/{resvId}', 'OrderController@OrderValid');
+    Route::get('OrderInvalid/{resvId}', 'OrderController@OrderInvalid');
+    Route::get('OrderAdminShipping/{resvId}', 'OrderController@OrderAdminShipping');
+
+
+    Route::get('OrderPending/{resvId}', 'OrderController@orderPending');
+    Route::get('OrderAccepted/{resvId}', 'OrderController@orderAccepted');
+    Route::get('OrderRejected/{resvId}', 'OrderController@orderRejected');
+    Route::get('OrderShipping/{resvId}', 'OrderController@OrderShipping');
+    Route::get('OrderShipped/{resvId}', 'OrderController@OrderShipped');
+    Route::get('OrderClosed/{resvId}', 'OrderController@OrderClosed');
+
+    Route::get('/invalid/{id}', 'OrderController@invalid');
+    Route::get('/valid/{id}', 'OrderController@valid');
+
+    Route::get('/accepted/{resvId}/{detId}', 'OrderController@accepted');
+    Route::get('/rejected/{resvId}/{detId}', 'OrderController@rejected');
+
+    Route::post('/shipping/{resvId}/{detId}', 'OrderController@shipping');
+
+    Route::get('/shippingTernak/{resvId}/{detId}', 'OrderController@shippingTernak');
+
+    Route::get('/shipped/{resvId}/{detId}', 'OrderController@shipped');
+
+    Route::get('/closed/{resvId}', 'OrderController@closed');
+
+    Route::get('/transfer/{resvId}/{detId}', 'OrderController@transfer');
+
     // --------------------------------------------------------------------------
 
     Route::get('/single-product', 'SingleproductController@showSingleproduct');
@@ -87,13 +116,37 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/katalogbuahanorganik', 'KatalogController@showBuahanorganik');
 
+   // Route::get('/addProduct/{prodId}/{prodName}/{prodPriceId}', 'CartController@addCart');
+
+    Route::get('/single-product','katalogController@showSingleproduct');
+
+    Route::post('/katalogsayuranorganik', array('uses'=>'CartController@additemsayuranorganik'));
+
+    Route::post('/katalogsayurorganik', array('uses'=>'CartController@additemsayurorganik'));
+
+    Route::post('/katalogbuahanorganik', array('uses'=>'CartController@additembuahanorganik'));
+
+    Route::post('/katalogbuahorganik', array('uses'=>'CartController@additembuahorganik'));
+
+    Route::post('/katalogpeternakan', array('uses'=>'CartController@additempeternakan'));
+
+    Route::post('/katalogpariwisata', array('uses'=>'CartController@additempariwisata'));
     //--------------------------------------------------------------------------
 
-    Route::get('/homepage', 'SearchController@search');
+    Route::get('/searchresult', 'SearchController@cari');
 
     //-------------------------------------------------------------------------
 
     Route::get('/cart', 'CartController@showCart');
+
+    Route::get('/checkout', 'CartController@showCheckout');
+
+    Route::get('/cart', 'testcart@a');
+
+    Route::get('/cartsub', 'testcart@b');
+
+    Route::post('/cart', array('uses'=>'CartController@jml'));
+
 
     // -----------------------------------------------------------------------
     // Route::resource('profile', 'ProfileController@index');
@@ -133,20 +186,11 @@ Route::group(['prefix' => '/api/v1/reservation', 'middleware' => 'api'], functio
 });
 
 
-// Route::get('register/verify/{confirmationCode}', [
-//     'as' => 'confirmation_path',
-//     'uses' => 'ApiCustomerController@confirm'
-// ]);
-
 Route::post('/api/v1/request/password', [
     'as' => 'forgotpassword_path',
     'uses' => 'ApiCustomerController@requestLinkPassword'
 ]);
 
-// Route::get('reset/password/{confirmationCode}', [
-//     'as' => 'forgotpassword_path',
-//     'uses' => 'ApiCustomerController@getLinkPassword'
-// ]);
 
 Route::post('reset/password', [
     'as' => 'resetpassword_path',
