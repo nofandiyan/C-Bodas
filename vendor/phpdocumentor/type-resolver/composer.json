@@ -16,11 +16,7 @@
         "psr-4": {"phpDocumentor\\Reflection\\": ["tests/unit"]}
     },
     "require-dev": {
-<<<<<<< HEAD
         "phpunit/phpunit": "^5.2||^4.8.24",
-=======
-        "phpunit/phpunit": "^5.2",
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
         "mockery/mockery": "^0.9.4"
     },
     "extra": {

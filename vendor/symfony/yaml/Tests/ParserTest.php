@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the Symfony package.
  *
@@ -8,78 +7,78 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Yaml\Tests;
-
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Parser;
-
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
     protected $parser;
-
     protected function setUp()
     {
         $this->parser = new Parser();
     }
-
     protected function tearDown()
     {
         $this->parser = null;
     }
-
     /**
      * @dataProvider getDataFormSpecifications
      */
-    public function testSpecifications($file, $expected, $yaml, $comment)
+    public function testSpecifications($file, $expected, $yaml, $comment, $deprecated)
     {
+        $deprecations = array();
+        if ($deprecated) {
+            set_error_handler(function ($type, $msg) use (&$deprecations) {
+                if (E_USER_DEPRECATED !== $type) {
+                    restore_error_handler();
+                    return call_user_func_array('PHPUnit_Util_ErrorHandler::handleError', func_get_args());
+                }
+                $deprecations[] = $msg;
+            });
+        }
         $this->assertEquals($expected, var_export($this->parser->parse($yaml), true), $comment);
+        if ($deprecated) {
+            restore_error_handler();
+            $this->assertCount(1, $deprecations);
+            $this->assertContains('Using the comma as a group separator for floats is deprecated since version 3.2 and will be removed in 4.0.', $deprecations[0]);
+        }
     }
-
     public function getDataFormSpecifications()
     {
         $parser = new Parser();
         $path = __DIR__.'/Fixtures';
-
         $tests = array();
         $files = $parser->parse(file_get_contents($path.'/index.yml'));
         foreach ($files as $file) {
             $yamls = file_get_contents($path.'/'.$file.'.yml');
-
             // split YAMLs documents
             foreach (preg_split('/^---( %YAML\:1\.0)?/m', $yamls) as $yaml) {
                 if (!$yaml) {
                     continue;
                 }
-
                 $test = $parser->parse($yaml);
                 if (isset($test['todo']) && $test['todo']) {
                     // TODO
                 } else {
                     eval('$expected = '.trim($test['php']).';');
-
-                    $tests[] = array($file, var_export($expected, true), $test['yaml'], $test['test']);
+                    $tests[] = array($file, var_export($expected, true), $test['yaml'], $test['test'], isset($test['deprecated']) ? $test['deprecated'] : false);
                 }
             }
         }
-
         return $tests;
     }
-
     public function testTabsInYaml()
     {
         // test tabs in YAML
         $yamls = array(
-            "foo:\n	bar",
-            "foo:\n 	bar",
-            "foo:\n	 bar",
-            "foo:\n 	 bar",
+            "foo:\n bar",
+            "foo:\n     bar",
+            "foo:\n  bar",
+            "foo:\n      bar",
         );
-
         foreach ($yamls as $yaml) {
             try {
                 $content = $this->parser->parse($yaml);
-
                 $this->fail('YAML files must not contain tabs');
             } catch (\Exception $e) {
                 $this->assertInstanceOf('\Exception', $e, 'YAML files must not contain tabs');
@@ -87,7 +86,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
-
     public function testEndOfTheDocumentMarker()
     {
         $yaml = <<<'EOF'
@@ -95,14 +93,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 foo
 ...
 EOF;
-
         $this->assertEquals('foo', $this->parser->parse($yaml));
     }
-
     public function getBlockChompingTests()
     {
         $tests = array();
-
         $yaml = <<<'EOF'
 foo: |-
     one
@@ -110,39 +105,30 @@ foo: |-
 bar: |-
     one
     two
-
 EOF;
         $expected = array(
             'foo' => "one\ntwo",
             'bar' => "one\ntwo",
         );
         $tests['Literal block chomping strip with single trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: |-
     one
     two
-
 bar: |-
     one
     two
-
-
 EOF;
         $expected = array(
             'foo' => "one\ntwo",
             'bar' => "one\ntwo",
         );
         $tests['Literal block chomping strip with multiple trailing newlines'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 {}
-
-
 EOF;
         $expected = array();
         $tests['Literal block chomping strip with multiple trailing newlines after a 1-liner'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: |-
     one
@@ -156,7 +142,6 @@ EOF;
             'bar' => "one\ntwo",
         );
         $tests['Literal block chomping strip without trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: |
     one
@@ -164,31 +149,25 @@ foo: |
 bar: |
     one
     two
-
 EOF;
         $expected = array(
             'foo' => "one\ntwo\n",
             'bar' => "one\ntwo\n",
         );
         $tests['Literal block chomping clip with single trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: |
     one
     two
-
 bar: |
     one
     two
-
-
 EOF;
         $expected = array(
             'foo' => "one\ntwo\n",
             'bar' => "one\ntwo\n",
         );
         $tests['Literal block chomping clip with multiple trailing newlines'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: |
     one
@@ -202,7 +181,6 @@ EOF;
             'bar' => "one\ntwo",
         );
         $tests['Literal block chomping clip without trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: |+
     one
@@ -210,31 +188,25 @@ foo: |+
 bar: |+
     one
     two
-
 EOF;
         $expected = array(
             'foo' => "one\ntwo\n",
             'bar' => "one\ntwo\n",
         );
         $tests['Literal block chomping keep with single trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: |+
     one
     two
-
 bar: |+
     one
     two
-
-
 EOF;
         $expected = array(
             'foo' => "one\ntwo\n\n",
             'bar' => "one\ntwo\n\n",
         );
         $tests['Literal block chomping keep with multiple trailing newlines'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: |+
     one
@@ -248,7 +220,6 @@ EOF;
             'bar' => "one\ntwo",
         );
         $tests['Literal block chomping keep without trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >-
     one
@@ -256,31 +227,25 @@ foo: >-
 bar: >-
     one
     two
-
 EOF;
         $expected = array(
             'foo' => 'one two',
             'bar' => 'one two',
         );
         $tests['Folded block chomping strip with single trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >-
     one
     two
-
 bar: >-
     one
     two
-
-
 EOF;
         $expected = array(
             'foo' => 'one two',
             'bar' => 'one two',
         );
         $tests['Folded block chomping strip with multiple trailing newlines'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >-
     one
@@ -294,7 +259,6 @@ EOF;
             'bar' => 'one two',
         );
         $tests['Folded block chomping strip without trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >
     one
@@ -302,31 +266,25 @@ foo: >
 bar: >
     one
     two
-
 EOF;
         $expected = array(
             'foo' => "one two\n",
             'bar' => "one two\n",
         );
         $tests['Folded block chomping clip with single trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >
     one
     two
-
 bar: >
     one
     two
-
-
 EOF;
         $expected = array(
             'foo' => "one two\n",
             'bar' => "one two\n",
         );
         $tests['Folded block chomping clip with multiple trailing newlines'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >
     one
@@ -340,7 +298,6 @@ EOF;
             'bar' => 'one two',
         );
         $tests['Folded block chomping clip without trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >+
     one
@@ -348,31 +305,25 @@ foo: >+
 bar: >+
     one
     two
-
 EOF;
         $expected = array(
             'foo' => "one two\n",
             'bar' => "one two\n",
         );
         $tests['Folded block chomping keep with single trailing newline'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >+
     one
     two
-
 bar: >+
     one
     two
-
-
 EOF;
         $expected = array(
             'foo' => "one two\n\n",
             'bar' => "one two\n\n",
         );
         $tests['Folded block chomping keep with multiple trailing newlines'] = array($expected, $yaml);
-
         $yaml = <<<'EOF'
 foo: >+
     one
@@ -386,10 +337,8 @@ EOF;
             'bar' => 'one two',
         );
         $tests['Folded block chomping keep without trailing newline'] = array($expected, $yaml);
-
         return $tests;
     }
-
     /**
      * @dataProvider getBlockChompingTests
      */
@@ -397,7 +346,6 @@ EOF;
     {
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
-
     /**
      * Regression test for issue #7989.
      *
@@ -407,18 +355,13 @@ EOF;
     {
         $yaml = <<<'EOF'
 foo: |-
-
-
     bar
-
 EOF;
         $expected = array(
             'foo' => "\n\nbar",
         );
-
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
-
     public function testObjectSupportEnabled()
     {
         $input = <<<EOF
@@ -427,7 +370,6 @@ bar: 1
 EOF;
         $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, Yaml::PARSE_OBJECT), '->parse() is able to parse objects');
     }
-
     /**
      * @group legacy
      */
@@ -439,7 +381,6 @@ bar: 1
 EOF;
         $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, false, true), '->parse() is able to parse objects');
     }
-
     /**
      * @group legacy
      */
@@ -451,7 +392,6 @@ bar: 1
 EOF;
         $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, Yaml::PARSE_OBJECT), '->parse() is able to parse objects');
     }
-
     /**
      * @dataProvider invalidDumpedObjectProvider
      */
@@ -459,7 +399,6 @@ EOF;
     {
         $this->assertEquals(array('foo' => null, 'bar' => 1), $this->parser->parse($input), '->parse() does not parse objects');
     }
-
     /**
      * @dataProvider getObjectForMapTests
      */
@@ -467,7 +406,6 @@ EOF;
     {
         $this->assertEquals($expected, $this->parser->parse($yaml, Yaml::PARSE_OBJECT_FOR_MAP));
     }
-
     /**
      * @group legacy
      * @dataProvider getObjectForMapTests
@@ -476,11 +414,9 @@ EOF;
     {
         $this->assertEquals($expected, $this->parser->parse($yaml, false, false, true));
     }
-
     public function getObjectForMapTests()
     {
         $tests = array();
-
         $yaml = <<<EOF
 foo:
     fiz: [cat]
@@ -489,19 +425,16 @@ EOF;
         $expected->foo = new \stdClass();
         $expected->foo->fiz = array('cat');
         $tests['mapping'] = array($yaml, $expected);
-
         $yaml = '{ "foo": "bar", "fiz": "cat" }';
         $expected = new \stdClass();
         $expected->foo = 'bar';
         $expected->fiz = 'cat';
         $tests['inline-mapping'] = array($yaml, $expected);
-
         $yaml = "foo: bar\nbaz: foobar";
         $expected = new \stdClass();
         $expected->foo = 'bar';
         $expected->baz = 'foobar';
         $tests['object-for-map-is-applied-after-parsing'] = array($yaml, $expected);
-
         $yaml = <<<EOT
 array:
   - key: one
@@ -514,7 +447,6 @@ EOT;
         $expected->array[1] = new \stdClass();
         $expected->array[1]->key = 'two';
         $tests['nest-map-and-sequence'] = array($yaml, $expected);
-
         $yaml = <<<YAML
 map:
   1: one
@@ -525,7 +457,6 @@ YAML;
         $expected->map->{1} = 'one';
         $expected->map->{2} = 'two';
         $tests['numeric-keys'] = array($yaml, $expected);
-
         $yaml = <<<YAML
 map:
   0: one
@@ -536,10 +467,8 @@ YAML;
         $expected->map->{0} = 'one';
         $expected->map->{1} = 'two';
         $tests['zero-indexed-numeric-keys'] = array($yaml, $expected);
-
         return $tests;
     }
-
     /**
      * @dataProvider invalidDumpedObjectProvider
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
@@ -548,7 +477,6 @@ YAML;
     {
         $this->parser->parse($yaml, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
     }
-
     /**
      * @group legacy
      * @dataProvider invalidDumpedObjectProvider
@@ -558,7 +486,6 @@ YAML;
     {
         $this->parser->parse($yaml, true);
     }
-
     public function invalidDumpedObjectProvider()
     {
         $yamlTag = <<<EOF
@@ -569,13 +496,11 @@ EOF;
 foo: !php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}
 bar: 1
 EOF;
-
         return array(
             'yaml-tag' => array($yamlTag),
             'local-tag' => array($localTag),
         );
     }
-
     /**
      * @requires extension iconv
      */
@@ -586,51 +511,40 @@ EOF;
             iconv('UTF-8', 'ISO-8859-15', "euro: '€'"),
             iconv('UTF-8', 'CP1252', "cp1252: '©ÉÇáñ'"),
         );
-
         foreach ($yamls as $yaml) {
             try {
                 $this->parser->parse($yaml);
-
                 $this->fail('charsets other than UTF-8 are rejected.');
             } catch (\Exception $e) {
                 $this->assertInstanceOf('Symfony\Component\Yaml\Exception\ParseException', $e, 'charsets other than UTF-8 are rejected.');
             }
         }
     }
-
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
     public function testUnindentedCollectionException()
     {
         $yaml = <<<'EOF'
-
 collection:
 -item1
 -item2
 -item3
-
 EOF;
-
         $this->parser->parse($yaml);
     }
-
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
     public function testShortcutKeyUnindentedCollectionException()
     {
         $yaml = <<<'EOF'
-
 collection:
 -  key: foo
   foo: bar
-
 EOF;
-
         $this->parser->parse($yaml);
     }
-
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      * @expectedExceptionMessageRegExp /^Multiple documents are not supported.+/
@@ -643,7 +557,6 @@ EOF;
 - Mark McGwire
 - Sammy Sosa
 - Ken Griffey
-
 # Team ranking
 ---
 - Chicago Cubs
@@ -651,7 +564,6 @@ EOF;
 EOL
         );
     }
-
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
@@ -664,7 +576,6 @@ yaml:
 EOF
         );
     }
-
     public function testSequenceInMappingStartedBySingleDashLine()
     {
         $yaml = <<<EOT
@@ -689,11 +600,8 @@ EOT;
             ),
             'd' => 'e',
         );
-
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
-
-<<<<<<< HEAD
     public function testSequenceFollowedByCommentEmbeddedInMapping()
     {
         $yaml = <<<EOT
@@ -709,12 +617,8 @@ EOT;
                 'd' => 'e',
             ),
         );
-
         $this->assertSame($expected, $this->parser->parse($yaml));
     }
-
-=======
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
@@ -727,7 +631,6 @@ yaml:
 EOF
         );
     }
-
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      * @expectedExceptionMessage missing colon
@@ -742,7 +645,6 @@ foo:
 EOF
         );
     }
-
     /**
      * > It is an error for two equal keys to appear in the same mapping node.
      * > In such a case the YAML processor may continue, ignoring the second
@@ -770,7 +672,6 @@ EOD;
         );
         $this->assertSame($expected, Yaml::parse($input));
     }
-
     public function testMappingDuplicateKeyFlow()
     {
         $input = <<<EOD
@@ -784,16 +685,13 @@ EOD;
         );
         $this->assertSame($expected, Yaml::parse($input));
     }
-
     public function testEmptyValue()
     {
         $input = <<<'EOF'
 hash:
 EOF;
-
         $this->assertEquals(array('hash' => null), Yaml::parse($input));
     }
-
     public function testCommentAtTheRootIndent()
     {
         $this->assertEquals(array(
@@ -819,46 +717,38 @@ services:
 EOF
         ));
     }
-
     public function testStringBlockWithComments()
     {
         $this->assertEquals(array('content' => <<<'EOT'
 # comment 1
 header
-
     # comment 2
     <body>
         <h1>title</h1>
     </body>
-
 footer # comment3
 EOT
         ), Yaml::parse(<<<'EOF'
 content: |
     # comment 1
     header
-
         # comment 2
         <body>
             <h1>title</h1>
         </body>
-
     footer # comment3
 EOF
         ));
     }
-
     public function testFoldedStringBlockWithComments()
     {
         $this->assertEquals(array(array('content' => <<<'EOT'
 # comment 1
 header
-
     # comment 2
     <body>
         <h1>title</h1>
     </body>
-
 footer # comment3
 EOT
         )), Yaml::parse(<<<'EOF'
@@ -866,17 +756,14 @@ EOT
     content: |
         # comment 1
         header
-
             # comment 2
             <body>
                 <h1>title</h1>
             </body>
-
         footer # comment3
 EOF
         ));
     }
-
     public function testNestedFoldedStringBlockWithComments()
     {
         $this->assertEquals(array(array(
@@ -884,12 +771,10 @@ EOF
             'content' => <<<'EOT'
 # comment 1
 header
-
     # comment 2
     <body>
         <h1>title</h1>
     </body>
-
 footer # comment3
 EOT
         )), Yaml::parse(<<<'EOF'
@@ -898,17 +783,14 @@ EOT
     content: |
         # comment 1
         header
-
             # comment 2
             <body>
                 <h1>title</h1>
             </body>
-
         footer # comment3
 EOF
         ));
     }
-
     public function testReferenceResolvingInInlineStrings()
     {
         $this->assertEquals(array(
@@ -934,7 +816,6 @@ map_in_map: { foo: { bar: *var } }
 EOF
         ));
     }
-
     public function testYamlDirective()
     {
         $yaml = <<<'EOF'
@@ -945,7 +826,6 @@ bar: 2
 EOF;
         $this->assertEquals(array('foo' => 1, 'bar' => 2), $this->parser->parse($yaml));
     }
-
     public function testFloatKeys()
     {
         $yaml = <<<'EOF'
@@ -953,17 +833,14 @@ foo:
     1.2: "bar"
     1.3: "baz"
 EOF;
-
         $expected = array(
             'foo' => array(
                 '1.2' => 'bar',
                 '1.3' => 'baz',
             ),
         );
-
         $this->assertEquals($expected, $this->parser->parse($yaml));
     }
-
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      * @expectedExceptionMessage A colon cannot be used in an unquoted mapping value
@@ -973,20 +850,16 @@ EOF;
         $yaml = <<<EOF
 foo: bar: baz
 EOF;
-
         $this->parser->parse($yaml);
     }
-
     public function testColonInMappingValueExceptionNotTriggeredByColonInComment()
     {
         $yaml = <<<EOT
 foo:
     bar: foobar # Note: a comment after a colon
 EOT;
-
         $this->assertSame(array('foo' => array('bar' => 'foobar')), $this->parser->parse($yaml));
     }
-
     /**
      * @dataProvider getCommentLikeStringInScalarBlockData
      */
@@ -994,11 +867,9 @@ EOT;
     {
         $this->assertSame($expectedParserResult, $this->parser->parse($yaml));
     }
-
     public function getCommentLikeStringInScalarBlockData()
     {
         $tests = array();
-
         $yaml = <<<'EOT'
 pages:
     -
@@ -1006,12 +877,10 @@ pages:
         content: |
             # comment 1
             header
-
                 # comment 2
                 <body>
                     <h1>title</h1>
                 </body>
-
             footer # comment3
 EOT;
         $expected = array(
@@ -1021,12 +890,10 @@ EOT;
                     'content' => <<<'EOT'
 # comment 1
 header
-
     # comment 2
     <body>
         <h1>title</h1>
     </body>
-
 footer # comment3
 EOT
                     ,
@@ -1034,7 +901,6 @@ EOT
             ),
         );
         $tests[] = array($yaml, $expected);
-
         $yaml = <<<'EOT'
 test: |
     foo
@@ -1055,7 +921,6 @@ EOT;
 foo
 # bar
 baz
-
 EOT
             ,
             'collection' => array(
@@ -1064,7 +929,6 @@ EOT
 foo
 # bar
 baz
-
 EOT
                     ,
                 ),
@@ -1079,7 +943,6 @@ EOT
             ),
         );
         $tests[] = array($yaml, $expected);
-
         $yaml = <<<EOT
 foo:
   bar:
@@ -1101,7 +964,6 @@ EOT;
             ),
         );
         $tests[] = array($yaml, $expected);
-
         $yaml = <<<'EOT'
 a:
     b: hello
@@ -1117,22 +979,18 @@ EOT;
             ),
         );
         $tests[] = array($yaml, $expected);
-
         return $tests;
     }
-
     public function testBlankLinesAreParsedAsNewLinesInFoldedBlocks()
     {
         $yaml = <<<EOT
 test: >
     <h2>A heading</h2>
-
     <ul>
     <li>a list</li>
     <li>may be a good example</li>
     </ul>
 EOT;
-
         $this->assertSame(
             array(
                 'test' => <<<EOT
@@ -1144,19 +1002,16 @@ EOT
             $this->parser->parse($yaml)
         );
     }
-
     public function testAdditionallyIndentedLinesAreParsedAsNewLinesInFoldedBlocks()
     {
         $yaml = <<<EOT
 test: >
     <h2>A heading</h2>
-
     <ul>
       <li>a list</li>
       <li>may be a good example</li>
     </ul>
 EOT;
-
         $this->assertSame(
             array(
                 'test' => <<<EOT
@@ -1171,7 +1026,6 @@ EOT
             $this->parser->parse($yaml)
         );
     }
-
     /**
      * @dataProvider getBinaryData
      */
@@ -1179,7 +1033,6 @@ EOT
     {
         $this->assertSame(array('data' => 'Hello world'), $this->parser->parse($data));
     }
-
     public function getBinaryData()
     {
         return array(
@@ -1200,17 +1053,14 @@ EOT
     ),
         );
     }
-
     /**
      * @dataProvider getInvalidBinaryData
      */
     public function testParseInvalidBinaryData($data, $expectedMessage)
     {
         $this->setExpectedExceptionRegExp('\Symfony\Component\Yaml\Exception\ParseException', $expectedMessage);
-
         $this->parser->parse($data);
     }
-
     public function getInvalidBinaryData()
     {
         return array(
@@ -1252,7 +1102,6 @@ EOT
             ),
         );
     }
-
     public function testParseDateAsMappingValue()
     {
         $yaml = <<<EOT
@@ -1262,11 +1111,8 @@ EOT;
         $expectedDate->setTimeZone(new \DateTimeZone('UTC'));
         $expectedDate->setDate(2002, 12, 14);
         $expectedDate->setTime(0, 0, 0);
-
         $this->assertEquals(array('date' => $expectedDate), $this->parser->parse($yaml, Yaml::PARSE_DATETIME));
     }
-<<<<<<< HEAD
-
     /**
      * @param $lineNumber
      * @param $yaml
@@ -1278,10 +1124,8 @@ EOT;
             '\Symfony\Component\Yaml\Exception\ParseException',
             sprintf('Unexpected characters near "," at line %d (near "bar: "123",").', $lineNumber)
         );
-
         $this->parser->parse($yaml);
     }
-
     public function parserThrowsExceptionWithCorrectLineNumberProvider()
     {
         return array(
@@ -1334,10 +1178,7 @@ YAML
             ),
         );
     }
-=======
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
 }
-
 class B
 {
     public $b = 'foo';

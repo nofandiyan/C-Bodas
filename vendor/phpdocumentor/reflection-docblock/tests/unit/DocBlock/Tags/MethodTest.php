@@ -9,9 +9,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection\DocBlock\Tags;
-
 use Mockery as m;
 use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
@@ -22,12 +20,7 @@ use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
-<<<<<<< HEAD
 use phpDocumentor\Reflection\Types\Void_;
-=======
-use phpDocumentor\Reflection\Types\Void;
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
-
 /**
  * @coversDefaultClass \phpDocumentor\Reflection\DocBlock\Tags\Method
  * @covers ::<private>
@@ -41,10 +34,8 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     public function testIfCorrectTagNameIsReturned()
     {
         $fixture = new Method('myMethod');
-
         $this->assertSame('method', $fixture->getName());
     }
-
     /**
      * @uses   \phpDocumentor\Reflection\DocBlock\Tags\Method::__construct
      * @uses   \phpDocumentor\Reflection\DocBlock\Tags\Method::isStatic
@@ -60,18 +51,12 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             ['name' => 'argument1', 'type' => new String_()],
             ['name' => 'argument2', 'type' => new Object_()]
         ];
-<<<<<<< HEAD
         $fixture = new Method('myMethod', $arguments, new Void_(), true, new Description('My Description'));
-=======
-        $fixture = new Method('myMethod', $arguments, new Void(), true, new Description('My Description'));
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
-
         $this->assertSame(
             '@method static void myMethod(string $argument1, object $argument2) My Description',
             $fixture->render()
         );
     }
-
     /**
      * @uses   \phpDocumentor\Reflection\DocBlock\Tags\Method::__construct
      * @uses   \phpDocumentor\Reflection\DocBlock\Description
@@ -80,13 +65,10 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     public function testIfTagCanBeRenderedUsingSpecificFormatter()
     {
         $fixture = new Method('myMethod');
-
         $formatter = m::mock(Formatter::class);
         $formatter->shouldReceive('format')->with($fixture)->andReturn('Rendered output');
-
         $this->assertSame('Rendered output', $fixture->render($formatter));
     }
-
     /**
      * @covers ::__construct
      * @covers ::getMethodName
@@ -94,12 +76,9 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     public function testHasMethodName()
     {
         $expected = 'myMethod';
-
         $fixture = new Method($expected);
-
         $this->assertSame($expected, $fixture->getMethodName());
     }
-
     /**
      * @covers ::__construct
      * @covers ::getArguments
@@ -109,12 +88,9 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             [ 'name' => 'argument1', 'type' => new String_() ]
         ];
-
         $fixture = new Method('myMethod', $arguments);
-
         $this->assertSame($arguments, $fixture->getArguments());
     }
-
     /**
      * @covers ::__construct
      * @covers ::getArguments
@@ -123,18 +99,11 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         $arguments = ['argument1'];
         $expected = [
-<<<<<<< HEAD
             [ 'name' => $arguments[0], 'type' => new Void_() ]
-=======
-            [ 'name' => $arguments[0], 'type' => new Void() ]
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
         ];
-
         $fixture = new Method('myMethod', $arguments);
-
         $this->assertEquals($expected, $fixture->getArguments());
     }
-
     /**
      * @covers ::__construct
      * @covers ::getArguments
@@ -143,18 +112,11 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         $arguments = [ [ 'name' => 'argument1' ] ];
         $expected = [
-<<<<<<< HEAD
             [ 'name' => $arguments[0]['name'], 'type' => new Void_() ]
-=======
-            [ 'name' => $arguments[0]['name'], 'type' => new Void() ]
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
         ];
-
         $fixture = new Method('myMethod', $arguments);
-
         $this->assertEquals($expected, $fixture->getArguments());
     }
-
     /**
      * @covers ::__construct
      * @covers ::getReturnType
@@ -162,12 +124,9 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     public function testHasReturnType()
     {
         $expected = new String_();
-
         $fixture = new Method('myMethod', [], $expected);
-
         $this->assertSame($expected, $fixture->getReturnType());
     }
-
     /**
      * @covers ::__construct
      * @covers ::getReturnType
@@ -175,14 +134,8 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     public function testReturnTypeCanBeInferredAsVoid()
     {
         $fixture = new Method('myMethod', []);
-
-<<<<<<< HEAD
         $this->assertEquals(new Void_(), $fixture->getReturnType());
-=======
-        $this->assertEquals(new Void(), $fixture->getReturnType());
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
     }
-
     /**
      * @covers ::__construct
      * @covers ::isStatic
@@ -192,12 +145,10 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $expected = false;
         $fixture = new Method('myMethod', [], null, $expected);
         $this->assertSame($expected, $fixture->isStatic());
-
         $expected = true;
         $fixture = new Method('myMethod', [], null, $expected);
         $this->assertSame($expected, $fixture->isStatic());
     }
-
     /**
      * @covers ::__construct
      * @covers \phpDocumentor\Reflection\DocBlock\Tags\BaseTag::getDescription
@@ -206,12 +157,9 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     public function testHasDescription()
     {
         $expected = new Description('Description');
-
         $fixture = new Method('myMethod', [], null, false, $expected);
-
         $this->assertSame($expected, $fixture->getDescription());
     }
-
     /**
      * @covers ::__construct
      * @covers ::__toString
@@ -224,18 +172,12 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             ['name' => 'argument1', 'type' => new String_()],
             ['name' => 'argument2', 'type' => new Object_()]
         ];
-<<<<<<< HEAD
         $fixture = new Method('myMethod', $arguments, new Void_(), true, new Description('My Description'));
-=======
-        $fixture = new Method('myMethod', $arguments, new Void(), true, new Description('My Description'));
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
-
         $this->assertSame(
             'static void myMethod(string $argument1, object $argument2) My Description',
             (string)$fixture
         );
     }
-
     /**
      * @covers ::create
      * @uses \phpDocumentor\Reflection\DocBlock\Tags\Method::<public>
@@ -250,37 +192,24 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $descriptionFactory = m::mock(DescriptionFactory::class);
         $resolver           = new TypeResolver();
         $context            = new Context('');
-
         $description  = new Description('My Description');
         $expectedArguments = [
             [ 'name' => 'argument1', 'type' => new String_() ],
-<<<<<<< HEAD
             [ 'name' => 'argument2', 'type' => new Void_() ]
-=======
-            [ 'name' => 'argument2', 'type' => new Void() ]
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
         ];
-
         $descriptionFactory->shouldReceive('create')->with('My Description', $context)->andReturn($description);
-
         $fixture = Method::create(
             'static void myMethod(string $argument1, $argument2) My Description',
             $resolver,
             $descriptionFactory,
             $context
         );
-
         $this->assertSame('static void myMethod(string $argument1, void $argument2) My Description', (string)$fixture);
         $this->assertSame('myMethod', $fixture->getMethodName());
         $this->assertEquals($expectedArguments, $fixture->getArguments());
-<<<<<<< HEAD
         $this->assertInstanceOf(Void_::class, $fixture->getReturnType());
-=======
-        $this->assertInstanceOf(Void::class, $fixture->getReturnType());
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
         $this->assertSame($description, $fixture->getDescription());
     }
-
     public function collectionReturnTypesProvider()
     {
         return [
@@ -290,7 +219,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             ['array[]',  Array_::class, Array_::class,  Compound::class],
         ];
     }
-
     /**
      * @dataProvider collectionReturnTypesProvider
      * @covers ::create
@@ -315,17 +243,14 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     ) { $resolver           = new TypeResolver();
         $descriptionFactory = m::mock(DescriptionFactory::class);
         $descriptionFactory->shouldReceive('create')->with('', null)->andReturn(new Description(''));
-
         $fixture = Method::create("$returnType myMethod(\$arg)", $resolver, $descriptionFactory);
         $returnType = $fixture->getReturnType();
         $this->assertInstanceOf($expectedType, $returnType);
-
         if ($returnType instanceof Array_) {
             $this->assertInstanceOf($expectedValueType, $returnType->getValueType());
             $this->assertInstanceOf($expectedKeyType, $returnType->getKeyType());
         }
     }
-
     /**
      * @covers ::create
      * @expectedException \InvalidArgumentException
@@ -334,7 +259,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         Method::create([]);
     }
-
     /**
      * @covers ::create
      * @expectedException \InvalidArgumentException
@@ -343,7 +267,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         Method::create('');
     }
-
     /**
      * @covers ::create
      * @expectedException \InvalidArgumentException
@@ -352,7 +275,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull(Method::create('body('));
     }
-
     /**
      * @covers ::create
      * @expectedException \InvalidArgumentException
@@ -361,7 +283,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         Method::create('body');
     }
-
     /**
      * @covers ::create
      * @expectedException \InvalidArgumentException
@@ -370,7 +291,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         Method::create('body', new TypeResolver());
     }
-
     /**
      * @covers ::__construct
      * @expectedException \InvalidArgumentException
@@ -379,7 +299,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         new Method([]);
     }
-
     /**
      * @covers ::__construct
      * @expectedException \InvalidArgumentException
@@ -388,7 +307,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         new Method('');
     }
-
     /**
      * @covers ::__construct
      * @expectedException \InvalidArgumentException
@@ -397,7 +315,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         new Method('body', [], null, []);
     }
-
     /**
      * @covers ::__construct
      * @expectedException \InvalidArgumentException
@@ -406,7 +323,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     {
         new Method('body', [ [ 'name' => 'myName', 'unknown' => 'nah' ] ]);
     }
-
     /**
      * @covers ::create
      * @uses \phpDocumentor\Reflection\DocBlock\Tags\Method::<public>
@@ -421,26 +337,18 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $descriptionFactory = m::mock(DescriptionFactory::class);
         $resolver           = new TypeResolver();
         $context            = new Context('');
-
         $description  = new Description('My Description');
-
         $descriptionFactory->shouldReceive('create')->with('My Description', $context)->andReturn($description);
-
         $fixture = Method::create(
             'static void myMethod My Description',
             $resolver,
             $descriptionFactory,
             $context
         );
-
         $this->assertSame('static void myMethod() My Description', (string)$fixture);
         $this->assertSame('myMethod', $fixture->getMethodName());
         $this->assertEquals([], $fixture->getArguments());
-<<<<<<< HEAD
         $this->assertInstanceOf(Void_::class, $fixture->getReturnType());
-=======
-        $this->assertInstanceOf(Void::class, $fixture->getReturnType());
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
         $this->assertSame($description, $fixture->getDescription());
     }
 }

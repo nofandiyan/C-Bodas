@@ -106,9 +106,6 @@
                                     <input type="file" name="foto4" id="foto4">
                                     *maksimum 1MB
                                 </div>
-                            
-                           
-
                         
                             <div class="col-md-12 {{ $errors->has('stock') ? ' has-error' : '' }}">
 

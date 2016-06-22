@@ -22,11 +22,17 @@ use Carbon\Carbon;
 
 use Mail;
 
+use App\Http\Controllers\Notification;
+use App\Http\Controllers\ReservationsChecker;
+
 class OrderController extends Controller
 {
+    use Notification, ReservationsChecker;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->reservationsExpired();
+        $this->expReservationsNotification();
     }
     
     public function orderAdmin($resvId)
@@ -51,7 +57,7 @@ class OrderController extends Controller
             ->join('products','products.id','=','detail_products.product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId',
                 'products.category_id')
@@ -70,7 +76,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }   
@@ -193,7 +199,7 @@ class OrderController extends Controller
             ->join('products','products.id','=','detail_products.product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId',
                 'products.category_id')
@@ -212,7 +218,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }   
@@ -333,7 +339,7 @@ class OrderController extends Controller
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
             ->first();
@@ -351,7 +357,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }   
@@ -472,7 +478,7 @@ class OrderController extends Controller
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
             ->first();
@@ -490,7 +496,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }
@@ -611,7 +617,7 @@ class OrderController extends Controller
             ->join('products','detail_products.product_id','=','products.id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId','products.category_id')
             ->first();
@@ -629,7 +635,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }
@@ -765,7 +771,7 @@ class OrderController extends Controller
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId','carts.updated_at')
             ->first();
@@ -783,7 +789,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }
@@ -914,7 +920,7 @@ class OrderController extends Controller
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
             ->first();
@@ -932,7 +938,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }
@@ -1053,7 +1059,7 @@ class OrderController extends Controller
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
             ->first();
@@ -1071,7 +1077,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }
@@ -1192,7 +1198,7 @@ class OrderController extends Controller
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
             ->first();
@@ -1210,7 +1216,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }
@@ -1510,7 +1516,7 @@ class OrderController extends Controller
             ->join('detail_products','detail_products.id','=','carts.detail_product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
             ->first();
@@ -1528,7 +1534,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }
@@ -1794,7 +1800,7 @@ class OrderController extends Controller
             ->join('products','products.id','=','detail_products.product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId', 'carts.reservation_id',
                 'products.category_id')
@@ -1813,7 +1819,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }   
@@ -1888,6 +1894,9 @@ class OrderController extends Controller
 
                 $m->to($ord->cust->email)->subject('Order Valid');
             });
+            $message = $resvId.'-Pembayaran Telah Diterima. Terima Kasih';
+            $this->sendNotification($message);
+            
         
 
         return redirect('/');
@@ -1926,7 +1935,7 @@ class OrderController extends Controller
             ->join('products','products.id','=','detail_products.product_id')
             ->where('carts.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
-                'reservations.id as resvId','reservations.delivery_address_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
+                'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
                 'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId', 'carts.reservation_id',
                 'products.category_id')
@@ -1945,7 +1954,7 @@ class OrderController extends Controller
             $ord->deliv = DB::table('delivery_address')
             ->join('cities','delivery_address.city_id','=','cities.id')
             ->join('provinces','cities.province_id','=','provinces.id')
-            ->where('delivery_address.id','=', $ord->cust->delivery_address_id)
+            ->where('delivery_address.id','=', $ord->cust->delivery_id)
             ->select('delivery_address.name','delivery_address.phone','delivery_address.street','delivery_address.zip_code','cities.city','cities.type','provinces.province')
             ->first();
         }   
@@ -2020,6 +2029,9 @@ class OrderController extends Controller
 
                 $m->to($ord->cust->email)->subject('Order Invalid');
             });
+
+            $message = $resvId.'-Bukti Pembayaran Tidak Valid';
+            $this->sendNotification($message);
 
         return redirect('/');
     }

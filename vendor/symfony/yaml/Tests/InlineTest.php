@@ -277,7 +277,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('Not quoting a scalar starting with the "%" indicator character is deprecated since Symfony 3.1 and will throw a ParseException in 4.0.', $deprecations[0]);
     }
 
-<<<<<<< HEAD
+
     /**
      * @dataProvider getDataForIsHash
      */
@@ -296,8 +296,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-=======
->>>>>>> 019be12074db53f0325327492a5cf9f777403583
+
     public function getTestsForParse()
     {
         return array(

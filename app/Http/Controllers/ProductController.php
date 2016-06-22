@@ -33,6 +33,13 @@ class ProductController extends Controller
     //     $this->middleware('auth');
     // }
 
+    public function index()
+    {
+        
+            return redirect('/');
+        
+    }
+
     public function createTani()
     {
         if (Auth::user()->role=='seller') {
@@ -301,7 +308,7 @@ class ProductController extends Controller
                     ]);
             }
         }
-        return redirect('/');
+        return redirect('/Product/'.$id);
     }
 
 
