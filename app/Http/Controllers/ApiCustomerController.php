@@ -19,12 +19,18 @@ class ApiCustomerController extends Controller{
 
     use Notification, ReservationsChecker;
 
+    public function __construct(){
+        $this->reservationsExpired();
+        $this->expReservationsNotification();
+    }
+
     public function testNotif(){
         
             // $deviceToken = 'none';
             $message = '1-We have successfully sent a push notification!';
-            // $this->sendNotification($message);
-            return $this->reservationsExpired();
+            // var_dump();
+            return $this->sendNotification($message);
+            // return $this->reservationsExpired();
             // return $this->expReservationsNotification();
             // var_dump(Carbon::now()->subMinutes(10));
     }
@@ -207,18 +213,19 @@ class ApiCustomerController extends Controller{
         }
     }
 
-    public function updateDeviceToken(){
+    public function updateDeviceToken(Request $request){
         $auth = auth()->guard('api'); 
         if (!$auth->check()) {
             return response('Unauthorized.', 401);
         }else{
             $deviceToken = $request->input('device_token');
+            $id_customer = $request->input('id_customer');
             // var_dump($deviceToken);
             $model = DB::table('customers')
             ->where('id',  $id_customer)
             ->update(['device_token' => $deviceToken]);
             if($model==1){
-                file_put_contents($path, $decoded);
+                // file_put_contents($path, $decoded);
                 // $decoded->move($path, $)
                 $response['Response']=true; 
             }else{

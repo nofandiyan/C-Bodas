@@ -9,9 +9,16 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
+use App\Http\Controllers\Notification;
+use App\Http\Controllers\ReservationsChecker;
 
 class ApiReservationsController extends Controller{
+    use Notification, ReservationsChecker;
 
+    public function __construct(){
+        $this->reservationsExpired();
+        $this->expReservationsNotification();
+    }
 	public function store(Request $request){
 		$auth = auth()->guard('api');
 		if (!$auth->check()){
@@ -36,7 +43,7 @@ class ApiReservationsController extends Controller{
 			
 			$products = count($request->input('products'));
 			for($x=0; $x < $products; $x++){
-				DB::table('carts')->insert([
+				DB::table('detail_reservations')->insert([
 					'reservation_id' => $id, 'detail_product_id' => $request->input('products.'.$x.'.id_detail_product'), 
 					'delivery_cost' => $request->input('products.'.$x.'.delivery_cost'), 'price_id' => $request->input('products.'.$x.'.id_price'), 
 					'amount' => $request->input('products.'.$x.'.amount'), 'schedule' => $request->input('products.'.$x.'.schedule')
@@ -86,9 +93,9 @@ class ApiReservationsController extends Controller{
 			 ->get();
 
 			 foreach ($models as $model) {
-			 	$model->carts= DB::table('carts')
-			 	->join('prices_products', 'carts.price_id', '=', 'prices_products.id')
-			 	->select('carts.detail_product_id as ID_DETAIL_PRODUCT', 'price_id as ID_PRICE', 'prices_products.PRICE',
+			 	$model->carts= DB::table('detail_reservations')
+			 	->join('prices_products', 'detail_reservations.price_id', '=', 'prices_products.id')
+			 	->select('detail_reservations.detail_product_id as ID_DETAIL_PRODUCT', 'price_id as ID_PRICE', 'prices_products.PRICE',
 			 		'AMOUNT', 'SCHEDULE' ,'DELIVERY_COST', 'STATUS')
 			 	->where('reservation_id', $model->id_reservation)
 			 	// ->where('prices_products.id', $object->ID_PRICE)

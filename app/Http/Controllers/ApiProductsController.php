@@ -9,8 +9,18 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use PushNotification; 
+use App\Http\Controllers\Notification;
+use App\Http\Controllers\ReservationsChecker;
+
 class ApiProductsController extends Controller
 {
+    use Notification, ReservationsChecker;
+
+    public function __construct(){
+        $this->reservationsExpired();
+        $this->expReservationsNotification();
+    }
+
     public function getCatalog(Request $request){
         // var_dump(Auth::guard('api')->user());
         // Auth::guard('api')->user();
@@ -189,10 +199,10 @@ class ApiProductsController extends Controller
             $review = $request->input('review');
 
             $model = DB::table('reservations')
-            ->join('carts', 'carts.reservation_id', '=', 'reservations.id')
-            ->select(DB::raw('DISTINCT(carts.detail_product_id) as id_detail_product'))
+            ->join('detail_reservations', 'detail_reservations.reservation_id', '=', 'reservations.id')
+            ->select(DB::raw('DISTINCT(detail_reservations.detail_product_id) as id_detail_product'))
             ->where('reservations.customer_id', $id_customer)
-            ->where('carts.detail_product_id', $id_detail)
+            ->where('detail_reservations.detail_product_id', $id_detail)
             ->where('reservations.status', '2')
             ->get();
 
