@@ -71,21 +71,25 @@ class ProductController extends Controller
         $this->validate($request, [
             'name'          => 'required',
             'description'   => 'required',
-            'foto0'         => 'required|mimes:jpeg,png',
-            'foto1'         => 'required|mimes:jpeg,png',
-            'foto2'         => 'required|mimes:jpeg,png',
-            'foto3'         => 'required|mimes:jpeg,png',
+            'foto0'         => 'required|mimes:jpeg,png|max:1000',
+            'foto1'         => 'required|mimes:jpeg,png|max:1000',
+            'foto2'         => 'required|mimes:jpeg,png|max:1000',
+            'foto3'         => 'required|mimes:jpeg,png|max:1000',
             'stock'         => 'required',
             'price'         => 'required'
 
         ]);
 
-        $product = new ProductsModel;
-        $product->category_id   = $request->category_id;
-        $product->name          = $request->name;
+        
 
-
-        $product->save();
+        if (ProductsModel::where('name', '=', $request->name)->exists()) {
+           $product = ProductsModel::where('name','=',$request->name)->first();
+        }else{
+            $product = new ProductsModel;
+            $product->category_id   = $request->category_id;
+            $product->name          = $request->name;
+            $product->save();
+        }
 
         $seller = DB::table('sellers')->where('id', Auth::user()->id)->value('id');
 
@@ -218,7 +222,11 @@ class ProductController extends Controller
             'name'          => 'required',
             'description'   => 'required',
             'stock'         => 'required',
-            'price'         => 'required'
+            'price'         => 'required',
+            'foto0'         => 'mimes:jpeg,png|max:1000',
+            'foto1'         => 'mimes:jpeg,png|max:1000',
+            'foto2'         => 'mimes:jpeg,png|max:1000',
+            'foto3'         => 'mimes:jpeg,png|max:1000',
         ]);
 
         $detail = Detail_ProductsModel::find($id);

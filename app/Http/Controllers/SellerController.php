@@ -104,7 +104,8 @@ class sellerController extends Controller
             'zip_code'      => 'required',
             'bank_name'     => 'required',
             'account_number'=> 'required',
-            'bank_account'  => 'required'
+            'bank_account'  => 'required',
+            'prof_pic'      => 'mimes:jpeg,png|max:1000'
         ]);
         
         DB::table('users')

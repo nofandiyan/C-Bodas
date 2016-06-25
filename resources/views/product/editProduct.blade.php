@@ -79,32 +79,60 @@
 
                         <label class="col-md-4 control-label">Foto Produk</label>
                             
-                                <div class="col-md-6 col-md-offset-4">
-                                    <input type="hidden" name="idImage0" id="idImage0" value="{{$images[0]->id}}">
-                                    <img src="{{ url($images[0]->link) }}" class="img-thumbnail" height="300" width="300">
-                                    <input type="file" name="foto0" id="foto0">
-                                    *maksimum 1MB
+                                <div class="{{ $errors->has('foto0') ? ' has-error' : '' }}">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <input type="hidden" name="idImage0" id="idImage0" value="{{$images[0]->id}}">
+                                        <img src="{{ url($images[0]->link) }}" class="img-thumbnail" height="300" width="300">
+                                        <input type="file" name="foto0" id="foto0">
+                                        *maksimum 1MB
+                                        @if ($errors->has('foto0'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('foto0') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                                 
-                                <div class="col-md-6 col-md-offset-4">
-                                    <input type="hidden" name="idImage1" id="idImage1" value="{{$images[1]->id}}">
-                                    <img src="{{ url($images[1]->link) }}" class="img-thumbnail" height="300" width="300">
-                                    <input type="file" name="foto1" id="foto1">
-                                    *maksimum 1MB
+                                <div class="{{ $errors->has('foto1') ? ' has-error' : '' }}">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <input type="hidden" name="idImage1" id="idImage1" value="{{$images[1]->id}}">
+                                        <img src="{{ url($images[1]->link) }}" class="img-thumbnail" height="300" width="300">
+                                        <input type="file" name="foto1" id="foto1">
+                                        *maksimum 1MB
+                                        @if ($errors->has('foto1'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('foto1') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
 
-                                <div class="col-md-6 col-md-offset-4">
-                                    <input type="hidden" name="idImage2" id="idImage2" value="{{$images[2]->id}}">
-                                    <img src="{{ url($images[2]->link) }}" class="img-thumbnail" height="300" width="300">
-                                    <input type="file" name="foto2" id="foto2">
-                                    *maksimum 1MB
+                                <div class="{{ $errors->has('foto2') ? ' has-error' : '' }}">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <input type="hidden" name="idImage2" id="idImage2" value="{{$images[2]->id}}">
+                                        <img src="{{ url($images[2]->link) }}" class="img-thumbnail" height="300" width="300">
+                                        <input type="file" name="foto2" id="foto2">
+                                        *maksimum 1MB
+                                        @if ($errors->has('foto2'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('foto2') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
 
-                                <div class="col-md-6 col-md-offset-4">
-                                    <input type="hidden" name="idImage3" id="idImage3" value="{{$images[3]->id}}">
-                                    <img src="{{ url($images[3]->link) }}" class="img-thumbnail" height="300" width="300">
-                                    <input type="file" name="foto3" id="foto3">
-                                    *maksimum 1MB
+                                <div class="{{ $errors->has('foto3') ? ' has-error' : '' }}">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <input type="hidden" name="idImage3" id="idImage3" value="{{$images[3]->id}}">
+                                        <img src="{{ url($images[3]->link) }}" class="img-thumbnail" height="300" width="300">
+                                        <input type="file" name="foto3" id="foto3">
+                                        *maksimum 1MB
+                                        @if ($errors->has('foto3'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('foto3') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                         
                             <div class="col-md-12 {{ $errors->has('stock') ? ' has-error' : '' }}">

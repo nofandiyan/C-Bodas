@@ -101,7 +101,7 @@ class RegistrationController extends Controller
           'city_id'         => 'required',
           'zip_code'        => 'required',
           
-          'prof_pic'        => 'required',
+          'prof_pic'        => 'required|mimes:jpeg,png|max:1000',
           'type_id'         => 'required',
           'no_id'           => 'required',
           'bank_account'    => 'required',
