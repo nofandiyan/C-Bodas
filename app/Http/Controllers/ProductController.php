@@ -71,8 +71,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'name'          => 'required',
             'description'   => 'required',
-            
-            'foto1'         => 'required|mimes:jpeg,png',
+            'foto1'         => 'required|mimes:jpeg,png|size',
             'foto2'         => 'required|mimes:jpeg,png',
             'foto3'         => 'required|mimes:jpeg,png',
             'foto4'         => 'required|mimes:jpeg,png',
@@ -251,62 +250,28 @@ class ProductController extends Controller
                 ]);
         }
 
-        $files = [];
-        if ($request->file('foto1')) $files[] = $request->file('foto1');
-        if ($request->file('foto2')) $files[] = $request->file('foto2');
-        if ($request->file('foto3')) $files[] = $request->file('foto3');
-        if ($request->file('foto4')) $files[] = $request->file('foto4');
-
         $category = DB::table('detail_products')
             ->where('detail_products.id','=',$detail->id)
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->select('products.category_id','category_products.category_name')
-            ->get();
+            // ->get();
+            ->first();
 
-        foreach ($files as $file)
-        {
-            if ($request->hasFile('foto1')) {
-                $filename=$detail->id.'-'.$category[0]->category_id.'-'.$file->getClientOriginalName();
-                    
-                $file->move(base_path().'/public/images/product/', $filename);
+        for ($i=0; $i < 4; $i++) { 
+            if ($request->hasFile('foto'.$i)) {
+                $file = $request->file('foto'.$i);
+                $filename=$detail->id.'-'.$category->category_id.'-'.$file->getClientOriginalName();
 
+                $inputId = 'idImage'.$i;
                 $images = DB::table('images_products')
-                    ->where('images_products.id','=', $request->idImage1)
+                    ->where('images_products.id','=', $request->$inputId)
                     ->update([
                         'link' => 'images/product/'.$filename
                     ]);
-            }elseif ($request->hasFile('foto2')) {
-                $filename=$detail->id.'-'.$category[0]->category_id.'-'.$file->getClientOriginalName();
-                    
-                $file->move(base_path().'/public/images/product/', $filename);
 
-                $images = DB::table('images_products')
-                    ->where('images_products.id','=', $request->idImage2)
-                    ->update([
-                        'link' => 'images/product/'.$filename
-                    ]);
-            }elseif ($request->hasFile('foto3')) {
-                $filename=$detail->id.'-'.$category[0]->category_id.'-'.$file->getClientOriginalName();
-                    
                 $file->move(base_path().'/public/images/product/', $filename);
-
-                $images = DB::table('images_products')
-                    ->where('images_products.id','=', $request->idImage3)
-                    ->update([
-                        'link' => 'images/product/'.$filename
-                    ]);
-            }elseif ($request->hasFile('foto4')) {
-                $filename=$detail->id.'-'.$category[0]->category_id.'-'.$file->getClientOriginalName();
-                    
-                $file->move(base_path().'/public/images/product/', $filename);
-
-                $images = DB::table('images_products')
-                    ->where('images_products.id','=', $request->idImage4)
-                    ->update([
-                        'link' => 'images/product/'.$filename
-                    ]);
-            }
+            } 
         }
         return redirect('/Product/'.$id);
     }
