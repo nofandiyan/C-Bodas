@@ -71,10 +71,10 @@ class ProductController extends Controller
         $this->validate($request, [
             'name'          => 'required',
             'description'   => 'required',
-            'foto1'         => 'required|mimes:jpeg,png|size',
+            'foto0'         => 'required|mimes:jpeg,png',
+            'foto1'         => 'required|mimes:jpeg,png',
             'foto2'         => 'required|mimes:jpeg,png',
             'foto3'         => 'required|mimes:jpeg,png',
-            'foto4'         => 'required|mimes:jpeg,png',
             'stock'         => 'required',
             'price'         => 'required'
 
@@ -103,10 +103,10 @@ class ProductController extends Controller
         $price->save();
 
         $files = [];
+        if ($request->file('foto0')) $files[] = $request->file('foto0');
         if ($request->file('foto1')) $files[] = $request->file('foto1');
         if ($request->file('foto2')) $files[] = $request->file('foto2');
         if ($request->file('foto3')) $files[] = $request->file('foto3');
-        if ($request->file('foto4')) $files[] = $request->file('foto4');
 
         foreach ($files as $file)
         {

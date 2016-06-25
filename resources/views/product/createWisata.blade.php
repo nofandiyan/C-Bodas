@@ -53,6 +53,20 @@
 <!-- Tani -->           
                         <label class="col-md-4 control-label">Foto Pariwisata</label>
                             
+                            <div class="form-group{{ $errors->has('foto0') ? ' has-error' : '' }}">
+                                 <div class="col-md-6 col-md-offset-4">
+                                    <input type="file" name="foto0" id="foto0">
+                                    
+                                    *maksimum 1MB
+
+                                    @if ($errors->has('foto0'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('foto0') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('foto1') ? ' has-error' : '' }}">
                                  <div class="col-md-6 col-md-offset-4">
                                     <input type="file" name="foto1" id="foto1">
@@ -90,20 +104,6 @@
                                     @if ($errors->has('foto3'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('foto3') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group{{ $errors->has('foto4') ? ' has-error' : '' }}">
-                                 <div class="col-md-6 col-md-offset-4">
-                                    <input type="file" name="foto4" id="foto4">
-                                    
-                                    *maksimum 1MB
-
-                                    @if ($errors->has('foto4'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('foto4') }}</strong>
                                         </span>
                                     @endif
                                 </div>
