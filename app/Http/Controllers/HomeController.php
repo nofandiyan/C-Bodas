@@ -52,9 +52,9 @@ class HomeController extends Controller
                 ->get();
 
 //OrderPending
-            $orders = DB::table('carts')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
-                ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            $orders = DB::table('detail_reservations')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
+                ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
                 ->where('reservations.status','=','1')
                 ->get();
 
@@ -67,15 +67,15 @@ class HomeController extends Controller
             ->first();
 
              $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$ord->reservation_id)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
             }
 
 //orderValid
-            $orderValid = DB::table('carts')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
-                ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            $orderValid = DB::table('detail_reservations')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
+                ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
                 ->where('reservations.status','=','2')
                 ->get();
             
@@ -87,16 +87,16 @@ class HomeController extends Controller
             ->first();
 
              $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$ord->reservation_id)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
             }
 
 //orderInvalid
-            $orderInvalid = DB::table('carts')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
-                ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            $orderInvalid = DB::table('detail_reservations')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
+                ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
                 ->where('reservations.status','=','3')
                 ->get();
             
@@ -109,29 +109,29 @@ class HomeController extends Controller
             ->first();
 
              $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$ord->reservation_id)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
             }
 
-            $orderAdminShipping= DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            $orderAdminShipping= DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('reservations.status','=','2')
-            ->where('carts.status','=','3')
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            ->where('detail_reservations.status','=','3')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
             foreach ($orderAdminShipping as $prodShip) {
 
                 $prodShip->prod = DB::table('detail_products')
-                ->join('carts','carts.detail_product_id','=','detail_products.id')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
                 ->join('sellers','detail_products.seller_id','=','sellers.id')
-                ->where('carts.reservation_id','=',$prodShip->reservation_id)
+                ->where('detail_reservations.reservation_id','=',$prodShip->reservation_id)
                 
-                ->select('carts.updated_at')
+                ->select('detail_reservations.updated_at')
                 ->first();
 
                 $prodShip->cust = DB::table('reservations')
@@ -141,23 +141,23 @@ class HomeController extends Controller
             }
 
 //Shipped
-            $orderAdminShipped = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            $orderAdminShipped = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('reservations.status','=','2')
-            ->where('carts.status','=','4')
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            ->where('detail_reservations.status','=','4')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
             foreach ($orderAdminShipped as $prodShip) {
 
                 $prodShip->prod = DB::table('detail_products')
-                ->join('carts','carts.detail_product_id','=','detail_products.id')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
                 ->join('sellers','detail_products.seller_id','=','sellers.id')
-                ->where('carts.reservation_id','=',$prodShip->reservation_id)
+                ->where('detail_reservations.reservation_id','=',$prodShip->reservation_id)
                 
-                ->select('carts.updated_at')
+                ->select('detail_reservations.updated_at')
                 ->first();
 
                 $prodShip->cust = DB::table('reservations')
@@ -167,9 +167,9 @@ class HomeController extends Controller
             }
 
 //orderClosed
-            $orderClosed = DB::table('carts')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
-                ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            $orderClosed = DB::table('detail_reservations')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
+                ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
                 ->where('reservations.status','=','4')
                 ->get();
             
@@ -182,9 +182,9 @@ class HomeController extends Controller
             ->first();
 
              $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$ord->reservation_id)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
             }
 
@@ -206,24 +206,24 @@ class HomeController extends Controller
             ->get();
 
 //pending
-            $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->where('reservations.status','=','2')
-            ->where('carts.status','=','0')
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            ->where('detail_reservations.status','=','0')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
             foreach ($productSeller as $prod) {
 
                 $prod->detProd = DB::table('detail_products')
-                ->join('carts','carts.detail_product_id','=','detail_products.id')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
                 ->join('products','products.id','=','detail_products.product_id')
                 ->join('sellers','detail_products.seller_id','=','sellers.id')
-                ->where('carts.reservation_id','=',$prod->reservation_id)
+                ->where('detail_reservations.reservation_id','=',$prod->reservation_id)
                 ->select(
                     'reservations.created_at',
                     'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
@@ -238,25 +238,25 @@ class HomeController extends Controller
             }
 
 //accept
-            $productSellerAccepted = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            $productSellerAccepted = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->where('reservations.status','=','2')
-            ->where('carts.status','=','1')
+            ->where('detail_reservations.status','=','1')
             ->get();
 
 
             foreach ($productSellerAccepted as $prod) {
 
                 $prod->detProd = DB::table('detail_products')
-                ->join('carts','carts.detail_product_id','=','detail_products.id')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
                 ->join('products','products.id','=','detail_products.product_id')
                 ->join('sellers','detail_products.seller_id','=','sellers.id')
-                ->where('carts.reservation_id','=',$prod->reservation_id)
+                ->where('detail_reservations.reservation_id','=',$prod->reservation_id)
                 ->select(
                     'reservations.created_at',
                     'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
@@ -272,24 +272,24 @@ class HomeController extends Controller
             }
 
 //rejected
-            $productSellerRejected = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            $productSellerRejected = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->where('reservations.status','=','2')
-            ->where('carts.status','=','2')
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            ->where('detail_reservations.status','=','2')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
             foreach ($productSellerRejected as $prod) {
 
                 $prod->detProd = DB::table('detail_products')
-                ->join('carts','carts.detail_product_id','=','detail_products.id')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
                 ->join('products','products.id','=','detail_products.product_id')
                 ->join('sellers','detail_products.seller_id','=','sellers.id')
-                ->where('carts.reservation_id','=',$prod->reservation_id)
+                ->where('detail_reservations.reservation_id','=',$prod->reservation_id)
                 ->select(
                     'reservations.created_at',
                     'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
@@ -305,24 +305,24 @@ class HomeController extends Controller
             }
 
 //shipping
-            $productSellerShipping = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            $productSellerShipping = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->where('reservations.status','=','2')
-            ->where('carts.status','=','3')
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            ->where('detail_reservations.status','=','3')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
             foreach ($productSellerShipping as $prod) {
 
                 $prod->detProd = DB::table('detail_products')
-                ->join('carts','carts.detail_product_id','=','detail_products.id')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
                 ->join('products','products.id','=','detail_products.product_id')
                 ->join('sellers','detail_products.seller_id','=','sellers.id')
-                ->where('carts.reservation_id','=',$prod->reservation_id)
+                ->where('detail_reservations.reservation_id','=',$prod->reservation_id)
                 ->select(
                     'reservations.created_at',
                     'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
@@ -338,24 +338,24 @@ class HomeController extends Controller
             }
 
             //shipping
-            $productSellerShipped = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            $productSellerShipped = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->where('reservations.status','=','2')
-            ->where('carts.status','=','4')
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            ->where('detail_reservations.status','=','4')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
             foreach ($productSellerShipped as $prod) {
 
                 $prod->detProd = DB::table('detail_products')
-                ->join('carts','carts.detail_product_id','=','detail_products.id')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
                 ->join('products','products.id','=','detail_products.product_id')
                 ->join('sellers','detail_products.seller_id','=','sellers.id')
-                ->where('carts.reservation_id','=',$prod->reservation_id)
+                ->where('detail_reservations.reservation_id','=',$prod->reservation_id)
                 ->select(
                     'reservations.created_at',
                     'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',
@@ -371,23 +371,23 @@ class HomeController extends Controller
             }
 
             //orderClosed
-            $productSellerClosed = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            $productSellerClosed = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('detail_products.seller_id','=',Auth::user()->id)
             ->where('reservations.status','=','4')
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
             foreach ($productSellerClosed as $prod) {
 
                 $prod->detProd = DB::table('detail_products')
-                ->join('carts','carts.detail_product_id','=','detail_products.id')
-                ->join('reservations','reservations.id','=','carts.reservation_id')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
                 ->join('products','products.id','=','detail_products.product_id')
                 ->join('sellers','detail_products.seller_id','=','sellers.id')
-                ->where('carts.reservation_id','=',$prod->reservation_id)
+                ->where('detail_reservations.reservation_id','=',$prod->reservation_id)
                 ->select(
                     'reservations.created_at',
                     'detail_products.id as detId','detail_products.type_product','detail_products.stock','detail_products.seller_id',

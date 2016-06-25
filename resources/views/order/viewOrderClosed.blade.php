@@ -228,15 +228,15 @@
                                                         <td>{{$prod->delivery_cost}}</td>
                                                         <td>{{$countPriceOrder[$j]}}</td>
 
-                                                        @if($prod->cartStatus == 0)
+                                                        @if($prod->detResStat == 0)
                                                         <td>Pending</td>
-                                                        @elseif($prod->cartStatus == 1)
+                                                        @elseif($prod->detResStat == 1)
                                                         <td>Accepted</td>
-                                                        @elseif($prod->cartStatus == 2)
+                                                        @elseif($prod->detResStat == 2)
                                                         <td>Rejected</td>
-                                                        @elseif($prod->cartStatus == 3)
+                                                        @elseif($prod->detResStat == 3)
                                                         <td>Shipping</td>
-                                                        @elseif($prod->cartStatus == 4)
+                                                        @elseif($prod->detResStat == 4)
                                                         <td>Shipped</td>
                                                         @endif
                                                         <td>{{$prod->updated_at}}</td>
@@ -281,15 +281,15 @@
                                                     <td>{{$prod->profit[$i]}}</td>
                                                     <td>{{$prod->delivPrice}}</td>
                                                     <td>{{$countPrice[$i]}}</td>
-                                                    @if($prod->cartStatus == 0)
+                                                    @if($prod->detResStat == 0)
                                                         <td>Pending</td>
-                                                        @elseif($prod->cartStatus == 1)
+                                                        @elseif($prod->detResStat == 1)
                                                         <td>Accepted</td>
-                                                        @elseif($prod->cartStatus == 2)
+                                                        @elseif($prod->detResStat == 2)
                                                         <td>Rejected</td>
-                                                        @elseif($prod->cartStatus == 3)
+                                                        @elseif($prod->detResStat == 3)
                                                         <td>Shipping</td>
-                                                        @elseif($prod->cartStatus == 4)
+                                                        @elseif($prod->detResStat == 4)
                                                         <td>Shipped</td>
                                                         @endif
                                                         <td>{{$prod->updated_at}}</td>

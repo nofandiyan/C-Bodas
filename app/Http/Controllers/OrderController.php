@@ -37,29 +37,29 @@ class OrderController extends Controller
     
     public function orderAdmin($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
             ->join('products','products.id','=','detail_products.product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId',
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId',
                 'products.category_id')
             ->first();
 
@@ -81,16 +81,16 @@ class OrderController extends Controller
             ->first();
         }   
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('reservations.id','=',$resvId)
             ->where('reservations.status','=','1')
             
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.schedule')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.schedule')
             ->get();
 
         $totPriceSeller = 0;
@@ -113,31 +113,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -148,11 +148,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -179,29 +179,29 @@ class OrderController extends Controller
 
     public function orderValid($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
             ->join('products','products.id','=','detail_products.product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId',
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId',
                 'products.category_id')
             ->first();
 
@@ -223,16 +223,16 @@ class OrderController extends Controller
             ->first();
         }   
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('reservations.id','=',$resvId)
             ->where('reservations.status','=','2')
             
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.schedule')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.schedule')
             ->get();
 
         $totPriceSeller = 0;
@@ -255,31 +255,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -290,11 +290,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -320,28 +320,28 @@ class OrderController extends Controller
 
     public function orderInvalid($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -362,16 +362,16 @@ class OrderController extends Controller
             ->first();
         }   
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('reservations.id','=',$resvId)
             ->where('reservations.status','=','3')
             
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.schedule')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.schedule')
             ->get();
 
         $totPriceSeller = 0;
@@ -394,31 +394,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -429,11 +429,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -459,28 +459,28 @@ class OrderController extends Controller
 
     public function orderAdminShipping($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -501,16 +501,16 @@ class OrderController extends Controller
             ->first();
         }
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('reservations.id','=',$resvId)
-            ->where('carts.status','=','3')
+            ->where('detail_reservations.status','=','3')
             
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.schedule','carts.updated_at')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.schedule','detail_reservations.updated_at')
             ->get();
 
         $totPriceSeller = 0;
@@ -533,31 +533,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -568,11 +568,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -597,29 +597,29 @@ class OrderController extends Controller
 
      public function orderPending($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
             ->join('products','detail_products.product_id','=','products.id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId','products.category_id')
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId','products.category_id')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -640,26 +640,25 @@ class OrderController extends Controller
             ->first();
         }
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
             ->where(function ($query) {
-                $query->where('carts.status','=','0')
+                $query->where('detail_reservations.status','=','0')
                       ->orWhere(function($querys){
                         $querys ->where('products.category_id','=',3)
-                                ->where('carts.status','=','4');
+                                ->where('detail_reservations.status','=','4');
                       });
             })
 
-            // ->where('carts.status','=','0')
             ->where('detail_products.seller_id','=',Auth::user()->id)
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId')
-            ->orderBy('cartStatus', 'asc')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId')
+            ->orderBy('detResStat', 'asc')
             ->get();
 
         $totPriceSeller = 0;
@@ -682,31 +681,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -717,11 +716,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
 
                 $countPrice[$i] = $prod->sumPrice + $prod->delivPrice;
@@ -742,7 +741,7 @@ class OrderController extends Controller
         }
 
         foreach ($productSeller as $ps) {
-            if ($ps->cartStatus == 4) {
+            if ($ps->detResStat == 4) {
                 return redirect ('/');
             }else{
                 return view ('order.viewOrderPending', compact('products','order','productSeller','totPriceSeller','countPrice','countProfit','prices','priceDeliv'));
@@ -752,28 +751,28 @@ class OrderController extends Controller
 
     public function orderAccepted($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId','carts.updated_at')
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId','detail_reservations.updated_at')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -794,21 +793,21 @@ class OrderController extends Controller
             ->first();
         }
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
             ->where(function ($query) {
-                $query->where('carts.status','=','1')
-                      ->orWhere('carts.status','=','4');
+                $query->where('detail_reservations.status','=','1')
+                      ->orWhere('detail_reservations.status','=','4');
             })
             ->where('detail_products.seller_id','=',Auth::user()->id)
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id')
-            ->orderBy('cartStatus', 'asc')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.updated_at','products.category_id')
+            ->orderBy('detResStat', 'asc')
             ->get();
 
         $totPriceSeller = 0;
@@ -831,31 +830,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -866,11 +865,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;       
@@ -890,7 +889,7 @@ class OrderController extends Controller
         }       
         
         foreach ($productSeller as $ps) {
-            if ($ps->cartStatus == 4) {
+            if ($ps->detResStat == 4) {
                 return redirect ('/');
             }else{
                 return view ('order.viewOrderAccepted', compact('products','order','productSeller','totPriceSeller','countPrice','countProfit','prices','priceDeliv'));
@@ -901,28 +900,28 @@ class OrderController extends Controller
 
     public function orderRejected($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -943,17 +942,17 @@ class OrderController extends Controller
             ->first();
         }
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
-            ->where('carts.status','=','2')
+            ->where('detail_reservations.status','=','2')
             ->where('detail_products.seller_id','=',Auth::user()->id)
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.updated_at','products.category_id')
             ->get();
 
         $totPriceSeller = 0;
@@ -976,31 +975,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -1011,11 +1010,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -1040,28 +1039,28 @@ class OrderController extends Controller
 
     public function orderShipping($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -1082,17 +1081,17 @@ class OrderController extends Controller
             ->first();
         }
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
-            ->where('carts.status','=','3')
+            ->where('detail_reservations.status','=','3')
             ->where('detail_products.seller_id','=',Auth::user()->id)
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.updated_at','products.category_id')
             ->get();
 
         $totPriceSeller = 0;
@@ -1115,31 +1114,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -1150,11 +1149,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -1179,28 +1178,28 @@ class OrderController extends Controller
 
     public function orderShipped($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -1221,15 +1220,15 @@ class OrderController extends Controller
             ->first();
         }
 
-        $productOrder = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productOrder = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule','carts.transfer')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.updated_at','products.category_id','detail_reservations.schedule','detail_reservations.transfer')
             ->get();
 
         $totPriceOrder = 0;
@@ -1250,31 +1249,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -1285,11 +1284,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -1308,16 +1307,16 @@ class OrderController extends Controller
             $i++;
         }   
 
-        $productAdmin = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productAdmin = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
-            ->where('carts.status','=','4')
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule','carts.transfer')
+            ->where('detail_reservations.status','=','4')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.updated_at','products.category_id','detail_reservations.schedule','detail_reservations.transfer')
             ->get();
 
         $totPriceAdmin = 0;
@@ -1340,31 +1339,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profitAdmin[$i] = $prod->sumPrice * 0.05;
@@ -1375,11 +1374,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profitAdmin[$i] = $prod->sumPrice * 0.05;                
@@ -1398,18 +1397,17 @@ class OrderController extends Controller
             $i++;
         }   
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
-            ->where('carts.status','=','4')
-            // ->where('reservations.status','=','2')
+            ->where('detail_reservations.status','=','4')
             ->where('detail_products.seller_id','=',Auth::user()->id)
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule','carts.transfer')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.updated_at','products.category_id','detail_reservations.schedule','detail_reservations.transfer')
             ->get();
 
         $totPriceSeller = 0;
@@ -1432,31 +1430,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -1467,11 +1465,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -1497,28 +1495,28 @@ class OrderController extends Controller
 
     public function orderClosed($resvId)
     {
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId')
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId')
             ->first();
 
             $ord->city = DB::table('cities')
@@ -1539,15 +1537,15 @@ class OrderController extends Controller
             ->first();
         }
 
-        $productOrder = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productOrder = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule','detail_products.seller_id','carts.transfer')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.updated_at','products.category_id','detail_reservations.schedule','detail_products.seller_id','detail_reservations.transfer')
             ->get();
 
         $totPriceOrder = 0;
@@ -1569,31 +1567,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -1604,11 +1602,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -1617,7 +1615,7 @@ class OrderController extends Controller
 
             }
 
-            if ($prod->cartStatus == 4) {
+            if ($prod->detResStat == 4) {
                 
                 $priceDelivOrder += $prod->delivPrice;
 
@@ -1633,17 +1631,17 @@ class OrderController extends Controller
 
         }
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->join('products','detail_products.product_id','=','products.id')
             ->where('reservations.id','=',$resvId)
             ->where('reservations.status','=','4')
             ->where('detail_products.seller_id','=',Auth::user()->id)
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.updated_at','products.category_id','carts.schedule','carts.transfer')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.updated_at','products.category_id','detail_reservations.schedule','detail_reservations.transfer')
             ->get();
 
         $totPriceSeller = 0;
@@ -1666,31 +1664,31 @@ class OrderController extends Controller
             ->first();
 
             $prod->priceProd = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->select('prices_products.price')
                 ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==1) {
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                 ]);
 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;
@@ -1701,11 +1699,11 @@ class OrderController extends Controller
                 
                 $prod->delivPrice = 0;
 
-                $prod->setDelivCost = DB::table('carts')
-                    ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                    ->where('carts.reservation_id','=',$resvId)
+                $prod->setDelivCost = DB::table('detail_reservations')
+                    ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                    ->where('detail_reservations.reservation_id','=',$resvId)
                     ->update([
-                        'carts.delivery_cost' => $prod->delivPrice
+                        'detail_reservations.delivery_cost' => $prod->delivPrice
                     ]);
                 
                 $prod->profit[$i] = $prod->sumPrice * 0.05;                
@@ -1714,7 +1712,7 @@ class OrderController extends Controller
 
             }
 
-            if ($prod->cartStatus == 4) {
+            if ($prod->detResStat == 4) {
 
             $priceDeliv += $prod->delivPrice;
 
@@ -1748,21 +1746,21 @@ class OrderController extends Controller
                 'updated_at'   => $now
                 ]);
 
-        DB::table('carts')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+        DB::table('detail_reservations')
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
             ->join('products','detail_products.product_id','=','products.id')
-            ->where('carts.reservation_id','=', $resvId)
+            ->where('detail_reservations.reservation_id','=', $resvId)
             ->where('products.category_id','=', 3)
             ->update([
-                'carts.status'          => 4,
-                'carts.updated_at'      => $now
+                'detail_reservations.status'          => 4,
+                'detail_reservations.updated_at'      => $now
                 ]);
 
         $sold = DB::table('detail_products')
-            ->join('carts', 'detail_products.id', '=', 'carts.detail_product_id')
+            ->join('detail_reservations', 'detail_products.id', '=', 'detail_reservations.detail_product_id')
             ->join('products','detail_products.product_id','=','products.id')
-            ->where('carts.reservation_id', '=', $resvId)
-            ->select('carts.amount','detail_products.stock','products.category_id')
+            ->where('detail_reservations.reservation_id', '=', $resvId)
+            ->select('detail_reservations.amount','detail_products.stock','products.category_id')
             ->get();
 
         foreach ($sold as $sol) {
@@ -1770,9 +1768,9 @@ class OrderController extends Controller
             if ($sol->category_id == 1 || $sol->category_id == 2) {
                 $countSold = $sol->stock - $sol->amount;
                 $updateStock = DB::table('detail_products')
-                ->join('carts', 'detail_products.id', '=', 'carts.detail_product_id')
+                ->join('detail_reservations', 'detail_products.id', '=', 'detail_reservations.detail_product_id')
                 ->join('products','detail_products.product_id','=','products.id')
-                ->where('carts.reservation_id', '=', $resvId)
+                ->where('detail_reservations.reservation_id', '=', $resvId)
                 ->where('products.category_id', '=', $sol->category_id)
                 ->update([
                     'detail_products.stock' => $countSold
@@ -1780,29 +1778,29 @@ class OrderController extends Controller
             }
         }
 
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
             ->join('products','products.id','=','detail_products.product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId', 'carts.reservation_id',
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId', 'detail_reservations.reservation_id',
                 'products.category_id')
             ->first();
 
@@ -1824,15 +1822,15 @@ class OrderController extends Controller
             ->first();
         }   
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('reservations.id','=',$resvId)
             ->where('reservations.status','=','2')
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.schedule')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.schedule')
             ->get();
 
         $sumPriceSeller = 0;
@@ -1851,16 +1849,16 @@ class OrderController extends Controller
             ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==2) {
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->sum(DB::raw($prod->sumPrice*0.05));
 
                 // $countPrice[$i] = $prod->sumPrice - $prod->delivPrice;
@@ -1869,10 +1867,10 @@ class OrderController extends Controller
             }elseif($prod->detProd->category_id==1 || $prod->detProd->category_id==3){
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
                 $countPrice[$i] = $prod->sumPrice + $prod->delivPrice;
                 
@@ -1915,29 +1913,29 @@ class OrderController extends Controller
                 'updated_at'   => $now
                 ]);
 
-        $order = DB::table('carts')
-            ->join('reservations','carts.reservation_id', '=', 'reservations.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->select(DB::raw('DISTINCT(carts.reservation_id)'))
+        $order = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id', '=', 'reservations.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
             ->get();
 
         foreach ($order as $ord) {
 
             $ord->totPrice = DB::table('prices_products')
-            ->join('carts', 'carts.price_id','=', 'prices_products.id')
-            ->where('carts.reservation_id','=',$resvId)
-            ->sum(DB::raw('carts.amount * prices_products.price + carts.delivery_cost'));
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$resvId)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
 
-            $ord->cust = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
+            $ord->cust = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
             ->join('users','reservations.customer_id','=','users.id')
-            ->join('detail_products','detail_products.id','=','carts.detail_product_id')
+            ->join('detail_products','detail_products.id','=','detail_reservations.detail_product_id')
             ->join('products','products.id','=','detail_products.product_id')
-            ->where('carts.reservation_id','=',$resvId)
+            ->where('detail_reservations.reservation_id','=',$resvId)
             ->select('users.id as customer_id','users.name','users.email','users.phone','users.city_id','users.street','users.zip_code',
                 'reservations.id as resvId','reservations.delivery_id','reservations.status as resvStatus', 'reservations.bank_name','reservations.bank_account','reservations.payment_proof',
                 'reservations.created_at',
-                'carts.status as cartStatus','carts.resi','carts.detail_product_id as detId', 'carts.reservation_id',
+                'detail_reservations.status as detResStat','detail_reservations.resi','detail_reservations.detail_product_id as detId', 'detail_reservations.reservation_id',
                 'products.category_id')
             ->first();
 
@@ -1959,15 +1957,15 @@ class OrderController extends Controller
             ->first();
         }   
 
-        $productSeller = DB::table('carts')
-            ->join('reservations','carts.reservation_id','=','reservations.id')
-            ->join('detail_products','carts.detail_product_id','=','detail_products.id')
+        $productSeller = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
             ->join('users','detail_products.seller_id','=','users.id')
-            ->join('prices_products','carts.price_id','=','prices_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
             ->where('reservations.id','=',$resvId)
             ->where('reservations.status','=','3')
-            ->select('carts.reservation_id','carts.detail_product_id','carts.amount','prices_products.price','carts.delivery_cost','carts.status as cartStatus ','carts.resi',
-                'carts.detail_product_id as detId','carts.reservation_id as resvId','carts.schedule')
+            ->select('detail_reservations.reservation_id','detail_reservations.detail_product_id','detail_reservations.amount','prices_products.price','detail_reservations.delivery_cost','detail_reservations.status as detResStat ','detail_reservations.resi',
+                'detail_reservations.detail_product_id as detId','detail_reservations.reservation_id as resvId','detail_reservations.schedule')
             ->get();
 
         $sumPriceSeller = 0;
@@ -1986,16 +1984,16 @@ class OrderController extends Controller
             ->first();
 
             $prod->sumPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('(carts.amount * prices_products.price)'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('(detail_reservations.amount * prices_products.price)'));
 
             if ($prod->detProd->category_id==2) {
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
                 ->sum(DB::raw($prod->sumPrice*0.05));
 
                 // $countPrice[$i] = $prod->sumPrice - $prod->delivPrice;
@@ -2004,10 +2002,10 @@ class OrderController extends Controller
             }elseif($prod->detProd->category_id==1 || $prod->detProd->category_id==3){
 
                 $prod->delivPrice = DB::table('prices_products')
-                ->join('carts', 'carts.price_id','=', 'prices_products.id')
-                ->where('carts.detail_product_id','=',$prod->detProd->detId)
-                ->where('carts.reservation_id','=',$resvId)
-                ->sum(DB::raw('carts.delivery_cost'));
+                ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+                ->where('detail_reservations.detail_product_id','=',$prod->detProd->detId)
+                ->where('detail_reservations.reservation_id','=',$resvId)
+                ->sum(DB::raw('detail_reservations.delivery_cost'));
 
                 $countPrice[$i] = $prod->sumPrice + $prod->delivPrice;
                 
@@ -2042,7 +2040,7 @@ class OrderController extends Controller
         $dt->tz('America/Toronto')->setTimezone('Asia/Jakarta');
         $now = $dt->toDateTimeString();
 
-        DB::table('carts')
+        DB::table('detail_reservations')
 
             ->where('reservation_id','=', $resvId)
             ->where('detail_product_id','=', $detId)
@@ -2060,7 +2058,7 @@ class OrderController extends Controller
         $dt->tz('America/Toronto')->setTimezone('Asia/Jakarta');
         $now = $dt->toDateTimeString();
 
-        DB::table('carts')
+        DB::table('detail_reservations')
 
             ->where('reservation_id','=', $resvId)
             ->where('detail_product_id','=', $detId)
@@ -2082,7 +2080,7 @@ class OrderController extends Controller
             'resi'          => 'required'
         ]);
 
-        $shipping = DB::table('carts')
+        $shipping = DB::table('detail_reservations')
             ->where('reservation_id','=',$resvId)
             ->where('detail_product_id','=',$detId)
             ->update([
@@ -2100,7 +2098,7 @@ class OrderController extends Controller
         $dt->tz('America/Toronto')->setTimezone('Asia/Jakarta');
         $now = $dt->toDateTimeString();
 
-        $shipping = DB::table('carts')
+        $shipping = DB::table('detail_reservations')
             ->where('reservation_id','=',$resvId)
             ->where('detail_product_id','=',$detId)
             ->update([
@@ -2117,7 +2115,7 @@ class OrderController extends Controller
         $dt->tz('America/Toronto')->setTimezone('Asia/Jakarta');
         $now = $dt->toDateTimeString();
 
-        $cartsShipped = DB::table('carts')
+        $cartsShipped = DB::table('detail_reservations')
             ->where('reservation_id','=',$resvId)
             ->where('detail_product_id','=',$detId)
             ->update([
@@ -2147,7 +2145,7 @@ class OrderController extends Controller
     Public function transfer($resvId, $detId)
     {
 
-        $cartsShipped = DB::table('carts')
+        $cartsShipped = DB::table('detail_reservations')
             ->where('reservation_id','=',$resvId)
             ->where('detail_product_id','=',$detId)
             ->update([
