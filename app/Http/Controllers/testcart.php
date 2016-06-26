@@ -28,27 +28,14 @@ class testcart extends Controller
       
         	$harga=$c['price'];
         	$jumlah=$c['jumlah'];
-        	$total=$harga*$jumlah;
         }
-       
 
        /* $cart=$take;*/
-    return view('templates.cart',compact('cart','total','jumlah'));
+    return view('templates.cart',compact('cart','jumlah'));
 
     }
 
-    public function b(Request $request){
-       
-        $take=$request->session()->get('$datacart');
-        $cart=$take;
-       /* echo "<pre>";
-
-        var_dump($cart);
-        die();*/
-
-    return view('templates.cartsub',compact('cart'));
-
-    }
+  
 
 
     

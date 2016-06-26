@@ -64,20 +64,7 @@
                         </div>
                         <!-- WIDGET:CATEGORIES - END -->
                         
-                        <!-- WIDGET:PRICE - START -->
-                        <div class="widget widget-price">
-                            <h3><a role="button" data-toggle="collapse" href="#widget-price-collapse" aria-expanded="true" aria-controls="widget-price-collapse">Filter Berdasarkan Harga</a></h3>
-                            <div class="collapse in" id="widget-price-collapse" aria-expanded="true" role="tabpanel">
-                                <div class="widget-body">
-                                    <div class="price-slider">  
-                                        <input type="text" class="pull-left" id="amount" readonly> 
-                                        <input type="text" class="pull-right" id="amount2" readonly>                       
-                                        <div id="slider-range"></div>  
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- WIDGET:PRICE - END -->
+                        
                         
                     </aside>
                 </div>
@@ -121,9 +108,9 @@
                                             </span>
                                             <p>{{$bar->description}}</p>
                                             <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+                                               
+
+                                               <input type="submit" class="btn btn-primary btn-sm add-to-cart" value="Tambahkan ke Keranjang">
                                             </div>
                                         </div>
                                     </div>

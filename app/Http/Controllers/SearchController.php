@@ -32,7 +32,7 @@ class SearchController extends Controller
             ->join('products', 'detail_products.product_id', '=', 'products.id')
             ->join('category_products', 'products.category_id', '=', 'category_products.id')
             ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
-            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price')
+            ->select('detail_products.id','products.name','detail_products.description','detail_products.stock','prices_products.price','category_products.id as category_id')
             ->where('name','like','%'.$search.'%')
             ->orderBy('name')
             ->paginate(9);

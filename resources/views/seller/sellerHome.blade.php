@@ -301,11 +301,13 @@
                             </div>
                         </div>
 
+                        <div class="col-md-3"></div>
+
                         <div class="col-md-9">
                            
                                 <div class="panel">
 
-                                    <div id="listOrder" class="panel-collapse collapse showHideProduct" align="center">
+                                    <div id="listOrder" class="panel-collapse collapse" align="center">
                                     <h4><label>List Order</label></h4>
                                         <div id="accordionProduct">
                                             <div class="panel">

@@ -64,20 +64,7 @@
                         </div>
                         <!-- WIDGET:CATEGORIES - END -->
                         
-                        <!-- WIDGET:PRICE - START -->
-                        <div class="widget widget-price">
-                            <h3><a role="button" data-toggle="collapse" href="#widget-price-collapse" aria-expanded="true" aria-controls="widget-price-collapse">Filter Berdasarkan Harga</a></h3>
-                            <div class="collapse in" id="widget-price-collapse" aria-expanded="true" role="tabpanel">
-                                <div class="widget-body">
-                                    <div class="price-slider">  
-                                        <input type="text" class="pull-left" id="amount" readonly> 
-                                        <input type="text" class="pull-right" id="amount2" readonly>                       
-                                        <div id="slider-range"></div>  
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- WIDGET:PRICE - END -->
+                        
                         
                     </aside>
                 </div>
@@ -85,7 +72,7 @@
                     <div class="row grid" id="products">
                         
 
-                         @foreach ($barang as $bar)
+                        @foreach ($barang as $bar)
 
                         <div class="col-sm-4 col-xs-6">
                          <form action="{{action('CartController@additemsayurorganik')}}" method="post">
@@ -105,23 +92,21 @@
                                     <div class="col-sm-9">
                                         <div class="product-body">
                                        
-                                            <h3>{{$bar->name}}</h3>
+                                            <a href="single-product"> <h3>{{$bar->name}}</h3></a>
                                             <h4>{{$bar->sellername}}</h4> 
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="jumlah" value="5">
                                             <input type="hidden" name="name" value="{{$bar->name}}"/>
                                             <input type="hidden" name="price" value="{{$bar->price}}"/>
                                             <input type="hidden" name="detailproductid" value="{{$bar->detailproductid}}"/>
+                                            <input type="hidden" name="type_product" value="{{$bar->type_product}}"/>
+                                            <input type="hidden" name="category_id" value="{{$bar->category_id}}"/>
                                             <input type="hidden" name="pricesproductid" value="{{$bar->pricesproductid}}"/>
 
                                             <div class="product-labels">
                                             </div>
                                             <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
+                                            <input id="rating" name="input-name" type="number" class="rating" min=0 max=5 step=0.01 data-rtl="false" value="{{$avgRat}}" data-size="xs">    
                                             </div>
                                             <span class="price">
                                                 <span class="amount">Rp {{$bar->price}}</span>

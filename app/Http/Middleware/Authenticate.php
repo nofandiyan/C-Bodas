@@ -22,7 +22,8 @@ class Authenticate
                 return response('Unauthorized.', 401);
             } else {
                 // return redirect()->guest('login');
-                return view('templates.homepage');
+                if(!($request->path() == "/"))
+                    return view('auth.login');
             }
         }
 

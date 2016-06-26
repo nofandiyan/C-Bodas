@@ -29,6 +29,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (Auth::check())
+        {
         if(Auth::user()->role == "admin"){
             $profiles = User::where('id', Auth::user()->id)->first();
             
@@ -405,13 +407,94 @@ class HomeController extends Controller
             return view ('seller.sellerHome', compact('profile','products','orders','productSeller','productSellerAccepted','productSellerRejected','productSellerShipping','productSellerShipped','productSellerClosed'));
             
         }elseif(Auth::user()->role == "customer"){
-            $profiles   = DB::table('users')
-            ->join('customers', function ($join) {
-                $join->on('users.id', '=', 'customers.id')
-                     ->where('customers.id', '=', Auth::user()->id);
-            })
-            ->get();
-            return view ('templates\homepage');
+                $profiles   = DB::table('users')
+                ->join('customers', function ($join) {
+                    $join->on('users.id', '=', 'customers.id')
+                    ->where('customers.id', '=', Auth::user()->id);
+                })
+                ->get();
+                
+                $barang = DB::table('detail_products')
+                ->join('products', 'detail_products.product_id', '=', 'products.id')
+                ->join('category_products', 'products.category_id', '=', 'category_products.id')
+                ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
+                ->join('users', 'detail_products.seller_id', '=', 'users.id')
+                ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername', 'category_products.id as category_id')
+                ->orderByRaw("RAND()")
+                ->limit(6)->get();
+
+                foreach ($barang as $bar) {
+                    $bar->image = DB::table('images_products')
+                    ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
+                    ->where('images_products.detail_product_id','=', $bar->detailproductid)
+                    ->get();
+                }
+
+                foreach ($barang as $rev) {
+                    $rev = DB::table('reviews')
+                    ->join('users','users.id','=','reviews.customer_id')
+                    ->join('detail_products','reviews.detail_product_id','=','detail_products.id')
+                    ->select('reviews.id as idRev','users.name as custName','reviews.detail_product_id as detId','reviews.rating','reviews.review','reviews.created_at')
+                    ->where('reviews.detail_product_id','=', $rev->detailproductid)
+                    ->get();
+
+                    $i=0;
+                    $sumRat=0;
+                    foreach ($rev as $re) {
+                        $sumRat += $re->rating;
+                        $i++;
+                    }
+
+                    if ($i == 0) {
+                        $avgRat = $sumRat;
+                    }else{
+                        $avgRat = $sumRat/$i;
+                    }
+                } 
+
+                return view('templates.homepage', compact('barang','reviews','avgRat')); 
+            }
         }
+        else
+
+        $barang = DB::table('detail_products')
+       ->join('products', 'detail_products.product_id', '=', 'products.id')
+       ->join('category_products', 'products.category_id', '=', 'category_products.id')
+       ->join('prices_products', 'detail_products.id', '=', 'prices_products.detail_product_id')
+       ->join('users', 'detail_products.seller_id', '=', 'users.id')
+       ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername', 'category_products.id as category_id')
+       ->orderByRaw("RAND()")
+        ->limit(6)->get();
+
+       foreach ($barang as $bar) {
+        $bar->image = DB::table('images_products')
+        ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
+        ->where('images_products.detail_product_id','=', $bar->detailproductid)
+        ->get();
+        }
+
+        foreach ($barang as $rev) {
+            $rev = DB::table('reviews')
+            ->join('users','users.id','=','reviews.customer_id')
+            ->join('detail_products','reviews.detail_product_id','=','detail_products.id')
+            ->select('reviews.id as idRev','users.name as custName','reviews.detail_product_id as detId','reviews.rating','reviews.review','reviews.created_at')
+            ->where('reviews.detail_product_id','=', $rev->detailproductid)
+            ->get();
+
+            $i=0;
+            $sumRat=0;
+            foreach ($rev as $re) {
+                $sumRat += $re->rating;
+                $i++;
+            }
+
+            if ($i == 0) {
+                $avgRat = $sumRat;
+            }else{
+                $avgRat = $sumRat/$i;
+            }
+        } 
+
+        return view('templates.homepage', compact('barang','reviews','avgRat')); 
     }
 }

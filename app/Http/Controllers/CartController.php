@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 use App\SellerModel;
+
+use App\Reservation;
 
 use App\User;
 
@@ -20,11 +24,11 @@ class CartController extends Controller
 {
 
     public function __construct(){
-   
-    $this->middleware('auth');
+
+        $this->middleware('auth');
     }
 
-  
+    
 
     public function jml(Request $request){
         $post=$request->all();
@@ -32,90 +36,106 @@ class CartController extends Controller
             ['price'=>'required',
             'jumlah'=>'required'
             ]
-        ); 
+            ); 
 
         $lala = $request->session()->push('$datacart',array(
-                'price'=>$post['price'],
-                'jumlah'=>$post['jumlah'],
-                'total'=>$post['total']
-                )
-            );
+            'price'=>$post['price'],
+            'jumlah'=>$post['jumlah'],
+            'total'=>$post['total']
+            )
+        );
 
         echo "<pre>";
         var_dump($lala);
         die();
 
-    return redirect('/cart', compact('total'));
-}
+        return redirect('/cart', compact('total'));
+    }
 
-    public function additemsayuranorganik(Request $request){
-        $post=$request->all();
-        $v=\Validator::make($request->all(),
-            ['detailproductid'=>'required',
-            'pricesproductid'=>'required',
-            'name'=>'required',
-            'price'=>'required',
-            'jumlah'=>'required',
-            ]
-        );
-
-           /* $datacart = array(
-                'detail_product_id'=>$post['detailproductid'],
-                'price_id'=>$post['pricesproductid'],
-                
-                );
-
-*/ /*var_dump($post['detailproductid']);
-        die();*/
-                
-      
-        $cart=$request->session()->get('$datacart');
-        $flag=false;
-        $index = 0;
-        if($cart!=null)
+     public function addhome(Request $request){
+       $post=$request->all();
+       $v=\Validator::make($request->all(),
+        ['detailproductid'=>'required',
+        'pricesproductid'=>'required',
+        'name'=>'required',
+        'price'=>'required',
+        'jumlah'=>'required',
+        'category_id'=>'required'
+        ]
+        );                
+       $cart=$request->session()->get('$datacart');
+       $flag=false;
+       $index = 0;
+       if($cart!=null)
         foreach ($cart as $c) {
-                if($c['detail_product_id']==$post['detailproductid']){
-                    $cart[$index]['jumlah'] = $c['jumlah']+1;
-                    $request->session()->set('$datacart',$cart);
-                    $flag=true;
-                    break;
-                }
+            if($c['detail_product_id']==$post['detailproductid']){
 
-                $index++;
-                
+                $cart[$index]['jumlah'] = $c['jumlah']+1;
+                $request->session()->set('$datacart',$cart);
+                $flag=true;
+                break;
+            }
+
+            $index++;
         }
-            
+        
         if(!$flag) {
             $request->session()->push('$datacart',array(
-            'detail_product_id'=>$post['detailproductid'],
+                'detail_product_id'=>$post['detailproductid'],
                 'price_id'=>$post['pricesproductid'],
                 'name'=>$post['name'],
                 'price'=>$post['price'],
-                'jumlah'=>$post['jumlah']
+                'jumlah'=>$post['jumlah'],
+                'category_id'=>$post['category_id']
                 )
             );
 
         }
-        
-        /*$take = $request->session()->get('$datacart');
-         $request->session()->put('$totaldatacart',array('take'=>$take));
+        return redirect('/');
+    }
+
+    public function additemsayuranorganik(Request $request){
+       $post=$request->all();
+       $v=\Validator::make($request->all(),
+        ['detailproductid'=>'required',
+        'pricesproductid'=>'required',
+        'name'=>'required',
+        'price'=>'required',
+        'jumlah'=>'required',
+        'category_id'=>'required'
+        ]
+        );                
+
+       $cart=$request->session()->get('$datacart');
+       $flag=false;
+       $index = 0;
+       if($cart!=null)
+        foreach ($cart as $c) {
+            if($c['detail_product_id']==$post['detailproductid']){
+                $cart[$index]['jumlah'] = $c['jumlah']+1;
+                $request->session()->set('$datacart',$cart);
+                $flag=true;
+                break;
+            }
+
+            $index++;
             
-       $taketotal =  $request->session()->get('$totaldatacart');*/
-
+        }
         
+        if(!$flag) {
+            $request->session()->push('$datacart',array(
+                'detail_product_id'=>$post['detailproductid'],
+                'price_id'=>$post['pricesproductid'],
+                'name'=>$post['name'],
+                'price'=>$post['price'],
+                'jumlah'=>$post['jumlah'],
+                'category_id'=>$post['category_id']
+                )
+            );
 
-        /*echo "<pre>";
-
-        var_dump();
-        die();*/
-      /* $dc = DB::table('cart_tmp')->insert($datacart);*/
-
-       /*echo "<pre>";
-
-        var_dump($dc);
-        die();*/
+        }
         return redirect('/katalogsayuranorganik');
-       
+        
        /* $datacart = Input::all();
             $datacart->name=Input::get('name');
             $datacart->price=Input::get('price');
@@ -126,42 +146,85 @@ class CartController extends Controller
 
         return Redirect::back();*/
     }
-
-
-    public function additemsayurorganik(Request $request){
-        $post=$request->all();
-        $v=\Validator::make($request->all(),
-            ['detailproductid'=>'required',
-            'pricesproductid'=>'required',
-            'name'=>'required',
-            'price'=>'required',
-            'jumlah'=>'required',
-            ]
+    public function addsingleproduct(Request $request){
+       $post=$request->all();
+       $v=\Validator::make($request->all(),
+        ['detailproductid'=>'required',
+        'pricesproductid'=>'required',
+        'name'=>'required',
+        'price'=>'required',
+        'jumlah'=>'required',
+        'category_id'=>'required'
+        ]
         );                
-      
-        $cart=$request->session()->get('$datacart');
-        $flag=false;
-        $index = 0;
-        if($cart!=null)
-        foreach ($cart as $c) {
-                if($c['detail_product_id']==$post['detailproductid']){
-                    $cart[$index]['jumlah'] = $c['jumlah']+1;
-                    $request->session()->set('$datacart',$cart);
-                    $flag=true;
-                    break;
-                }
 
-                $index++;
-                
-        }
+       $cart=$request->session()->get('$datacart');
+       $flag=false;
+       $index = 0;
+       if($cart!=null)
+        foreach ($cart as $c) {
+            if($c['detail_product_id']==$post['detailproductid']){
+                $cart[$index]['jumlah'] = $c['jumlah']+1;
+                $request->session()->set('$datacart',$cart);
+                $flag=true;
+                break;
+            }
+
+            $index++;
             
+        }
+        
         if(!$flag) {
             $request->session()->push('$datacart',array(
-            'detail_product_id'=>$post['detailproductid'],
+                'detail_product_id'=>$post['detailproductid'],
                 'price_id'=>$post['pricesproductid'],
                 'name'=>$post['name'],
                 'price'=>$post['price'],
-                'jumlah'=>$post['jumlah']
+                'jumlah'=>$post['jumlah'],
+                'category_id'=>$post['category_id']
+                )
+            );
+
+        }
+        return redirect('/katalogsayurorganik');
+    }
+
+    public function additemsayurorganik(Request $request){
+       $post=$request->all();
+       $v=\Validator::make($request->all(),
+        ['detailproductid'=>'required',
+        'pricesproductid'=>'required',
+        'name'=>'required',
+        'price'=>'required',
+        'jumlah'=>'required',
+        'category_id'=>'required'
+        ]
+        );                
+
+       $cart=$request->session()->get('$datacart');
+       $flag=false;
+       $index = 0;
+       if($cart!=null)
+        foreach ($cart as $c) {
+            if($c['detail_product_id']==$post['detailproductid']){
+                $cart[$index]['jumlah'] = $c['jumlah']+1;
+                $request->session()->set('$datacart',$cart);
+                $flag=true;
+                break;
+            }
+
+            $index++;
+            
+        }
+        
+        if(!$flag) {
+            $request->session()->push('$datacart',array(
+                'detail_product_id'=>$post['detailproductid'],
+                'price_id'=>$post['pricesproductid'],
+                'name'=>$post['name'],
+                'price'=>$post['price'],
+                'jumlah'=>$post['jumlah'],
+                'category_id'=>$post['category_id']
                 )
             );
 
@@ -178,14 +241,15 @@ class CartController extends Controller
             'name'=>'required',
             'price'=>'required',
             'jumlah'=>'required',
+            'category_id'=>'required'
             ]
-        );                
-      
+            );                
+        
         $cart=$request->session()->get('$datacart');
         $flag=false;
         $index = 0;
         if($cart!=null)
-        foreach ($cart as $c) {
+            foreach ($cart as $c) {
                 if($c['detail_product_id']==$post['detailproductid']){
                     $cart[$index]['jumlah'] = $c['jumlah']+1;
                     $request->session()->set('$datacart',$cart);
@@ -195,202 +259,354 @@ class CartController extends Controller
 
                 $index++;
                 
-        }
+            }
             
-        if(!$flag) {
-            $request->session()->push('$datacart',array(
-            'detail_product_id'=>$post['detailproductid'],
-                'price_id'=>$post['pricesproductid'],
-                'name'=>$post['name'],
-                'price'=>$post['price'],
-                'jumlah'=>$post['jumlah']
-                )
-            );
+            if(!$flag) {
+                $request->session()->push('$datacart',array(
+                    'detail_product_id'=>$post['detailproductid'],
+                    'price_id'=>$post['pricesproductid'],
+                    'name'=>$post['name'],
+                    'price'=>$post['price'],
+                    'jumlah'=>$post['jumlah'],
+                    'category_id'=>$post['category_id']
+                    )
+                );
 
+            }
+            return redirect('/katalogbuahanorganik');
         }
-        return redirect('/katalogbuahanorganik');
-    }
 
-    public function additembuahorganik(Request $request){
-        $post=$request->all();
-        $v=\Validator::make($request->all(),
-            ['detailproductid'=>'required',
-            'pricesproductid'=>'required',
-            'name'=>'required',
-            'price'=>'required',
-            'jumlah'=>'required',
-            ]
-        );                
-      
-        $cart=$request->session()->get('$datacart');
-        $flag=false;
-        $index = 0;
-        if($cart!=null)
-        foreach ($cart as $c) {
-                if($c['detail_product_id']==$post['detailproductid']){
-                    $cart[$index]['jumlah'] = $c['jumlah']+1;
-                    $request->session()->set('$datacart',$cart);
-                    $flag=true;
-                    break;
+        public function additembuahorganik(Request $request){
+            $post=$request->all();
+            $v=\Validator::make($request->all(),
+                ['detailproductid'=>'required',
+                'pricesproductid'=>'required',
+                'name'=>'required',
+                'price'=>'required',
+                'jumlah'=>'required',
+                ]
+                );                
+            
+            $cart=$request->session()->get('$datacart');
+            $flag=false;
+            $index = 0;
+            if($cart!=null)
+                foreach ($cart as $c) {
+                    if($c['detail_product_id']==$post['detailproductid']){
+                        $cart[$index]['jumlah'] = $c['jumlah']+1;
+                        $request->session()->set('$datacart',$cart);
+                        $flag=true;
+                        break;
+                    }
+
+                    $index++;
+                    
+                }
+                
+                if(!$flag) {
+                    $request->session()->push('$datacart',array(
+                        'detail_product_id'=>$post['detailproductid'],
+                        'price_id'=>$post['pricesproductid'],
+                        'name'=>$post['name'],
+                        'price'=>$post['price'],
+                        'jumlah'=>$post['jumlah'],
+                        'category_id'=>$post['category_id']
+                        )
+                    );
+
+                }
+                return redirect('/katalogbuahorganik');
+            }
+
+            public function additempeternakan(Request $request){
+               $post=$request->all();
+               $v=\Validator::make($request->all(),
+                ['detailproductid'=>'required',
+                'pricesproductid'=>'required',
+                'name'=>'required',
+                'price'=>'required',
+                'jumlah'=>'required',
+                'category_id'=>'required'
+                ]
+                );                
+
+               $cart=$request->session()->get('$datacart');
+               $flag=false;
+               $index = 0;
+               if($cart!=null)
+                foreach ($cart as $c) {
+                    if($c['detail_product_id']==$post['detailproductid']){
+                        $cart[$index]['jumlah'] = $c['jumlah']+1;
+                        $request->session()->set('$datacart',$cart);
+                        $flag=true;
+                        break;
+                    }
+
+                    $index++;
+                    
+                }
+                
+                if(!$flag) {
+                    $request->session()->push('$datacart',array(
+                        'detail_product_id'=>$post['detailproductid'],
+                        'price_id'=>$post['pricesproductid'],
+                        'name'=>$post['name'],
+                        'price'=>$post['price'],
+                        'jumlah'=>$post['jumlah'],
+                        'category_id'=>$post['category_id']
+                        )
+                    );
+
+                }
+                return redirect('/katalogpeternakan');
+            }
+
+            public function additempariwisata(Request $request){
+               $post=$request->all();
+               $v=\Validator::make($request->all(),
+                ['detailproductid'=>'required',
+                'pricesproductid'=>'required',
+                'name'=>'required',
+                'price'=>'required',
+                'jumlah'=>'required',
+                'category_id'=>'required'
+                ]
+                );                
+
+               $cart=$request->session()->get('$datacart');
+               $flag=false;
+               $index = 0;
+               if($cart!=null)
+                foreach ($cart as $c) {
+                    if($c['detail_product_id']==$post['detailproductid']){
+                        $cart[$index]['jumlah'] = $c['jumlah']+1;
+                        $request->session()->set('$datacart',$cart);
+                        $flag=true;
+                        break;
+                    }
+
+                    $index++;
+                    
+                }
+                
+                if(!$flag) {
+                    $request->session()->push('$datacart',array(
+                        'detail_product_id'=>$post['detailproductid'],
+                        'price_id'=>$post['pricesproductid'],
+                        'name'=>$post['name'],
+                        'price'=>$post['price'],
+                        'jumlah'=>$post['jumlah'],
+                        'category_id'=>$post['category_id']
+                        )
+                    );
+
+                }
+                return redirect('/katalogpariwisata');
+            }
+
+            public function additemsearch(Request $request){
+                $post=$request->all();
+                $v=\Validator::make($request->all(),
+                    ['detailproductid'=>'required',
+                    'pricesproductid'=>'required',
+                    'name'=>'required',
+                    'price'=>'required',
+                    'jumlah'=>'required',
+                    'category_id'=>'required'
+                    ]
+                    );                
+                
+                $cart=$request->session()->get('$datacart');
+                $flag=false;
+                $index = 0;
+                if($cart!=null)
+                    foreach ($cart as $c) {
+                        if($c['detail_product_id']==$post['detailproductid']){
+                            $cart[$index]['jumlah'] = $c['jumlah']+1;
+                            $request->session()->set('$datacart',$cart);
+                            $flag=true;
+                            break;
+                        }
+
+                        $index++;
+                        
+                    }
+                    
+                    if(!$flag) {
+                        $request->session()->push('$datacart',array(
+                            'detail_product_id'=>$post['detailproductid'],
+                            'price_id'=>$post['pricesproductid'],
+                            'name'=>$post['name'],
+                            'price'=>$post['price'],
+                            'jumlah'=>$post['jumlah'],
+                            'category_id'=>$post['category_id']
+                            )
+                        );
+
+                    }
+                    return redirect('/searchresult');
                 }
 
-                $index++;
-                
-        }
-            
-        if(!$flag) {
-            $request->session()->push('$datacart',array(
-            'detail_product_id'=>$post['detailproductid'],
-                'price_id'=>$post['pricesproductid'],
-                'name'=>$post['name'],
-                'price'=>$post['price'],
-                'jumlah'=>$post['jumlah']
-                )
-            );
+                public function additemsingleproduct(Request $request){
+                    $post=$request->all();
+                    $v=\Validator::make($request->all(),
+                        ['detailproductid'=>'required',
+                        'pricesproductid'=>'required',
+                        'name'=>'required',
+                        'price'=>'required',
+                        'jumlah'=>'required',
+                        'category_id'=>'required'
+                        ]
+                        );                
+                    
+                    $cart=$request->session()->get('$datacart');
+                    $flag=false;
+                    $index = 0;
+                    if($cart!=null)
+                        foreach ($cart as $c) {
+                            if($c['detail_product_id']==$post['detailproductid']){
+                                $cart[$index]['jumlah'] = $c['jumlah']+1;
+                                $request->session()->set('$datacart',$cart);
+                                $flag=true;
+                                break;
+                            }
 
-        }
-        return redirect('/katalogbuahorganik');
-    }
+                            $index++;
+                            
+                        }
+                        
+                        if(!$flag) {
+                            $request->session()->push('$datacart',array(
+                                'detail_product_id'=>$post['detailproductid'],
+                                'price_id'=>$post['pricesproductid'],
+                                'name'=>$post['name'],
+                                'price'=>$post['price'],
+                                'jumlah'=>$post['jumlah'],
+                                'category_id'=>$post['category_id']
+                                )
+                            );
+                            
+                        }
+                        return redirect('/single-product/'.$post['detailproductid']);
+                    }
 
-    public function additempeternakan(Request $request){
-       $post=$request->all();
-        $v=\Validator::make($request->all(),
-            ['detailproductid'=>'required',
-            'pricesproductid'=>'required',
-            'name'=>'required',
-            'price'=>'required',
-            'jumlah'=>'required',
-            ]
-        );                
-      
-        $cart=$request->session()->get('$datacart');
-        $flag=false;
-        $index = 0;
-        if($cart!=null)
-        foreach ($cart as $c) {
-                if($c['detail_product_id']==$post['detailproductid']){
-                    $cart[$index]['jumlah'] = $c['jumlah']+1;
-                    $request->session()->set('$datacart',$cart);
-                    $flag=true;
-                    break;
+
+                    public function removeItem(Request $request){
+                     $post=$request->all();
+                     $cart=$request->session()->get('$datacart');
+                     $index = 0;
+
+                     if($cart!=null)
+                        foreach ($cart as $c) {
+                            if($c['detail_product_id']==$post['detailproductid']){
+                                unset($cart[$index]);
+                                $request->session()->set('$datacart',$cart);
+                                $flag=true;
+                                break;
+                            }
+
+                            $index++;
+                            
+                        }
+                        
+                        return redirect('/cart');
+                    }
+
+                    public function order(){
+
+                        $customer = DB::table('customers')->where('id', Auth::user()->id)->value('id');   
+                        $informasi = DB::table('users')
+
+                        ->join('cities','users.city_id','=','cities.id')
+                        ->join('provinces','cities.province_id','=','provinces.id')
+                        ->select('users.street','users.name','users.zip_code','cities.city','users.phone','provinces.province','cities.province_id','users.city_id', 'cities.type','users.id as customer_id')
+                        ->where('users.id','=',$customer)
+                        ->first();
+
+                        $province = DB::table('provinces')
+                        ->select('provinces.id', 'provinces.province')
+                        ->get();
+
+                        $cities = DB::table('cities')
+                        ->join('provinces','cities.province_id','=','provinces.id')
+                        ->select('cities.id','cities.city','cities.province_id', 'cities.type','provinces.province')
+                        ->get();
+         // dd($cities);
+                        
+
+                        return view ('templates.checkout',compact('informasi','province','cities'));
+                    }
+
+                    public function addalamatbaru(){
+                       $pengiriman= DB::table('delivery_address')
+                       ->insert([
+                        'customer_id'   => auth()->user()->id,
+                        'city_id'       => Input::get('city_id'),
+                        'name'          => Input::get('name'),
+                        'phone'         => Input::get('phone'),
+                        'street'        => Input::get('street'),
+                        'zip_code'      => Input::get('zip_code'),
+                        'created_at'    => Carbon::now()    
+                        ]);
+
+                       return redirect('/checkout-shipping');
+                   }
+
+                   public function addalamatlama(){
+              
+                    $pengiriman= DB::table('delivery_address')
+                    ->insert([
+                        'customer_id'   => auth()->user()->id,
+                        'city_id'       => Input::get('city_id'),
+                        'name'          => Input::get('name'),
+                        'phone'         => Input::get('phone'),
+                        'street'        => Input::get('street'),
+                        'zip_code'      => Input::get('zip_code'),
+                        'created_at'    => Carbon::now() 
+
+                        ]);
+
+                    return redirect('/checkout-shipping');
                 }
 
-                $index++;
-                
-        }
-            
-        if(!$flag) {
-            $request->session()->push('$datacart',array(
-            'detail_product_id'=>$post['detailproductid'],
-                'price_id'=>$post['pricesproductid'],
-                'name'=>$post['name'],
-                'price'=>$post['price'],
-                'jumlah'=>$post['jumlah']
-                )
-            );
 
-        }
-        return redirect('/katalogpeternakan');
-    }
-
-    public function additempariwisata(Request $request){
-       $post=$request->all();
-        $v=\Validator::make($request->all(),
-            ['detailproductid'=>'required',
-            'pricesproductid'=>'required',
-            'name'=>'required',
-            'price'=>'required',
-            'jumlah'=>'required',
-            ]
-        );                
-      
-        $cart=$request->session()->get('$datacart');
-        $flag=false;
-        $index = 0;
-        if($cart!=null)
-        foreach ($cart as $c) {
-                if($c['detail_product_id']==$post['detailproductid']){
-                    $cart[$index]['jumlah'] = $c['jumlah']+1;
-                    $request->session()->set('$datacart',$cart);
-                    $flag=true;
-                    break;
+                public function showcheckoutreview(){
+                    return view('templates.checkout-review');
                 }
 
-                $index++;
-                
-        }
-            
-        if(!$flag) {
-            $request->session()->push('$datacart',array(
-            'detail_product_id'=>$post['detailproductid'],
-                'price_id'=>$post['pricesproductid'],
-                'name'=>$post['name'],
-                'price'=>$post['price'],
-                'jumlah'=>$post['jumlah']
-                )
-            );
+                public function postcart(Request $request){
+                $customer = DB::table('customers')->where('id', Auth::user()->id)->value('id'); 
+                $delivery= DB::table('delivery_address')
+                    ->join('customers','delivery_address.customer_id', '=', 'customers.id')
+                    ->join('cities','delivery_address.city_id','=','cities.id')
+                    ->select('customers.id','cities.province_id','cities.id as city_id','delivery_address.created_at','delivery_address.id as delivid')
+                    ->where('customers.id', '=' , $customer )
+                    ->orderby ('created_at', 'DESC')
+                    ->first(); 
 
-        }
-        return redirect('/katalogpariwisata');
-    }
+                $post=$request->all();
+                $bank=$request->session()->get('$databank');
+                $hargaongkir=$request->session()->get('$ongkir');
+                $cart=$request->session()->get('$datacart');
+                $reservasi=Reservation::create([
+                        'customer_id'             => auth()->user()->id,
+                        'delivery_id'     => $delivery->delivid,
+                        'bank_name'               => $bank['bank_name'], 
+                        'bank_account'            => $bank['bank_account']
+                        ]);
 
-// very first cart controller
-    // public function addCart($prodid,$prodname,$prodpriceid){
+                foreach ($cart as $c){
+                $pengiriman= DB::table('detail_reservations')
+                    ->insert([
+                        'detail_product_id'     => $c['detail_product_id'],
+                        'price_id'              => $c['price_id'],
+                        'amount'                => $c['jumlah'],
+                        'delivery_cost'         => $hargaongkir['harga_ongkir'],
+                        'created_at'            => Carbon::now(), 
+                        'reservation_id'        => $reservasi->id
+                        ]);
+                }    
+                    return view('templates.ordercomplete');
+                }
 
-    //     $cart = DB::table('carts')
-    //     ->join('detail_products','detail_products.id','=','carts.detail_product_id')
-    //     ->where('detail_products.id',$prodid)
-    //     ->insert([
-    //         'detail_product_id' => $prodid,
-    //         'reservation_id'    => '1',
-    //         'price_id'          => $prodpriceid,
-    //         'amount'            => '1',
-    //         'status'            => '0',
-
-    //         ]);
-    //     return redirect('/katalogsayuranorganik');
-    // }
-
-    // public function showCart(){
-    //       $cart = DB::table('cart_tmp')
-    //         ->join('detail_products','cart_tmp.detail_product_id','=','detail_products.id')
-    //         ->join('prices_products', 'cart_tmp.price_id', '=', 'prices_products.id')
-    //         ->join('products', 'detail_products.product_id', '=', 'products.id')
-    //         ->join('category_products', 'products.category_id', '=', 'category_products.id')
-            
-    //         ->join('users', 'detail_products.seller_id', '=', 'users.id')
-    //         ->select('detail_products.id as detailproductid','prices_products.id as pricesproductid','products.name','detail_products.description','detail_products.stock','prices_products.price','users.name AS sellername')
-    //        // ->where('auth' )
-    //         ->get();
-
-
-    //     foreach ($cart as $c) {
-    //         $c->image = DB::table('images_products')
-    //         ->select('images_products.link','images_products.detail_product_id as idDetProdIm')
-    //         ->where('images_products.detail_product_id','=', $c->detailproductid)
-    //         ->get();
-    //     }
-    //     /*$subtotal=0;
-    //     foreach ($cart as $c) {
-    //         $subtotal+=$*/
-            
-       
-
-    //     return view('templates.cart',compact('cart'));
-    // }
- 
-    public function removeItem($id){
- 
-        CartItem::destroy($id);
-        return redirect('/cart');
-    }
- 
-    /*public function showCheckout(){
-
-        $alamat= DB::table('delivery_address')
-        ->join('customers','delivery_address.customer.id','customers.id')
-        ->join('cities','delivery_address.city_id','cities.id')
-        ->select('cities.provinces')
-        return view('templates.checkout');
-    }*/
 }	

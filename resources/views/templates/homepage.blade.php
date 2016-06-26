@@ -100,279 +100,70 @@
                     
                     <div class="row grid" id="products">
                         
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
+                        <!-- PRODUCT KATALOG -->
+                        
+                        @foreach ($barang as $bar)
+
+                        <div class="col-sm-4 col-xs-6">
+                         <form action="{{action('CartController@addhome')}}" method="post">
+                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="product-overlay">
                                             <div class="product-mask"></div>
                                             <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/sapi_1.jpg" class="img-responsive" alt="">
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/sapi_2.jpg" class="img-responsive product-image-2" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
+                                            <img style="border:0px; width:300px; height:200px;" src="{{ url($bar->image[0]->link) }}" class="img-responsive" alt="">
+
+                                            
                                         </div>
                                     </div>
                                     <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Sapi Limosin Silang Simmental</h3>
+                                        <div class="product-body">
+                                       
+                                            <h3><a href="/single-product/{{$bar->detailproductid}}">{{$bar->name}}</a></h3>
+                                            <h4>{{$bar->sellername}}</h4> 
+
+                                            @if($bar->category_id == 1)
+                                            <input type="hidden" name="jumlah" value="5">
+                                            @endif
+                                            @if($bar->category_id == 2)
+                                            <input type="hidden" name="jumlah" value="1">
+                                            @endif
+                                            @if($bar->category_id == 3)
+                                            <input type="hidden" name="jumlah" value="1">
+                                            @endif
+                                            <input type="hidden" name="name" value="{{$bar->name}}"/>
+                                            <input type="hidden" name="price" value="{{$bar->price}}"/>
+                                            <input type="hidden" name="detailproductid" value="{{$bar->detailproductid}}"/>
+                                            <input type="hidden" name="category_id" value="{{$bar->category_id}}"/>
+                                            <input type="hidden" name="pricesproductid" value="{{$bar->pricesproductid}}"/>
+
                                             <div class="product-labels">
-                                               
-                                                <span class="label label-danger">Sale</span>
                                             </div>
+                                            
                                             <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
+                                            <input id="rating" name="input-name" type="number" class="rating" min=0 max=5 step=0.01 data-rtl="false" value="{{$avgRat}}" data-size="xs">    
                                             </div>
                                             <span class="price">
-                                                <del><span class="amount">Rp 18.000.000<br></span></del>
-                                                <ins><span class="amount">Rp 17.200.000</span></ins>
+                                                <span class="amount">Rp {{$bar->price}}</span>
                                             </span>
-                                            <p>Sapi Limosin terbaik usia 1,2 tahun. Berat badan 400 Kg. Sehat, tidak ada cacat, pemberian obat cacing rutin. </p>
+                                            <p>{{$bar->description}}</p>
                                             <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pertanian/brokoli_1.jpg" class="img-responsive" alt="">
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pertanian/brokoli_2.png" class="img-responsive product-image-2" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Brokoli</h3>
-                                            <div class="product-labels">
-                                               
-                                                <span class="label label-danger">Sale</span>
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <del><span class="amount">Rp 23.000<br></span></del>
-                                                <ins><span class="amount">Rp 21.000</span></ins>
-                                            </span>
-                                            <p>Brokoli Terbaik </p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pertanian/tomat1.png" class="img-responsive" alt="">
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pertanian/tomat2.jpg" class="img-responsive product-image-2" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Tomat Super</h3>
-                                            <div class="product-labels">
-                                               
-                                                <span class="label label-danger">Sale</span>
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <del><span class="amount">Rp 15.000<br></span></del>
-                                                <ins><span class="amount">Rp 11.000</span></ins>
-                                            </span>
-                                            <p>Brokoli terbaik </p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/domba.jpg" class="img-responsive" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Domba</h3>
-                                            <div class="product-labels">
                                                 
-                                                <span class="label label-danger">sale</span>
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <del><span class="amount">Rp 4.500.000<br></span></del>
-                                                <ins><span class="amount">Rp 4.200.000</span></ins>
-                                            </span>
-                                            <p>Domba terawat, umur 2 tahun dengan bobot 30Kg. </p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Peternakan/metal.jpg" class="img-responsive" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Sapi Limosin</h3>
-                                            <div class="product-labels">
-                                                
-                                                <span class="label label-danger">sale</span>
-                                            </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <del><span class="amount">Rp 16.000.000<br></span></del>
-                                                <ins><span class="amount">Rp 15.000.000</span></ins>
-                                            </span>
-                                            <p>Sapi Limosin murni umur 1 tahun bobot 300 Kg</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <!-- PRODUCT - END -->
-                        
-                        <!-- PRODUCT - START -->
-                    	<div class="col-sm-4 col-xs-6">
-                            <article class="product-item">
-                            	<div class="row">
-                                	<div class="col-sm-3">
-                                    	<div class="product-overlay">
-                                            <div class="product-mask"></div>
-                                            <a href="single-product.html" class="product-permalink"></a>
-                                        	<img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pariwisata/the lodge.jpg" class="img-responsive" alt="">
-                                            <img style="border:0px; width:300px; height:200px;" src="assets/images/products/Pariwisata/thelodge.jpg" class="img-responsive product-image-2" alt="">
-                                            <div class="product-quickview">
-                                                <a class="btn btn-quickview" data-toggle="modal" data-target="#product-quickview">Quick View</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                    	<div class="product-body">
-                                            <h3>Tiket The Lodge</h3>
-                                            <div class="product-labels">
-                                               
+                                                <input type="submit" class="btn btn-primary btn-sm add-to-cart" value="Tambahkan ke Keranjang">
                                                 
                                             </div>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                            <span class="price">
-                                                <del><span class="amount">Rp 15.000<br></span></del>
-                                                <ins><span class="amount">Rp 10.000</span></ins>
-                                            </span>
-                                            <p>Hamparan alam dan kenikmatan kuliner tersedia di satu tempat yang asri.</p>
-                                            <div class="buttons">
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-exchange"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </article>
+                            </form>
                         </div>
-                        <!-- PRODUCT - END -->
+                        @endforeach
+                        
+                        
                         
                     </div>
                                         
@@ -405,7 +196,7 @@
                 <div class="col-xs-6 col-sm-4">
                     <div class="service">
                         <i class="fa fa-heart"></i>
-                        <h3>JAMINAN TIDAK BARANG SAMPAI ATAU UANG KEMBALI 100%</h3>
+                        <h3>JAMINAN BARANG SAMPAI ATAU UANG KEMBALI 100%</h3>
                         <p>Anda tidak perlu merasa khawatir untuk bertransaki di C-Bodas.com karena kami bertindak sebagai escrow (rekening bersama) sehingga uang yang anda bayarkan tidak langsung diberikan kepada penjual dan uang dapat dengan mudah dikembalikan apabila barang tidak sampai</p>
                     </div>
                 </div>

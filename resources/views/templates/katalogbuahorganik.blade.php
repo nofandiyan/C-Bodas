@@ -64,20 +64,7 @@
                         </div>
                         <!-- WIDGET:CATEGORIES - END -->
                         
-                        <!-- WIDGET:PRICE - START -->
-                        <div class="widget widget-price">
-                            <h3><a role="button" data-toggle="collapse" href="#widget-price-collapse" aria-expanded="true" aria-controls="widget-price-collapse">Filter Berdasarkan Harga</a></h3>
-                            <div class="collapse in" id="widget-price-collapse" aria-expanded="true" role="tabpanel">
-                                <div class="widget-body">
-                                    <div class="price-slider">  
-                                        <input type="text" class="pull-left" id="amount" readonly> 
-                                        <input type="text" class="pull-right" id="amount2" readonly>                       
-                                        <div id="slider-range"></div>  
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- WIDGET:PRICE - END -->
+                        
                         
                     </aside>
                 </div>
@@ -115,15 +102,12 @@
                                             <input type="hidden" name="price" value="{{$bar->price}}"/>
                                             <input type="hidden" name="detailproductid" value="{{$bar->detailproductid}}"/>
                                             <input type="hidden" name="pricesproductid" value="{{$bar->pricesproductid}}"/>
-
+                                            <input type="hidden" name="category_id" value="{{$bar->category_id}}"/>
+                                            <input type="hidden" name="type_product" value="{{$bar->type_product}}"/>
                                             <div class="product-labels">
                                             </div>
                                             <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
+                                            <input id="rating" name="input-name" type="number" class="rating" min=0 max=5 step=0.01 data-rtl="false" value="{{$avgRat}}" data-size="xs">    
                                             </div>
                                             <span class="price">
                                                 <span class="amount">Rp {{$bar->price}}</span>

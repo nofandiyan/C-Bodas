@@ -98,7 +98,7 @@ Route::group(['middleware' => 'web'], function () {
 
     // --------------------------------------------------------------------------
 
-    Route::get('/single-product', 'SingleproductController@showSingleproduct');
+    Route::get('/single-product/{detailproductid}', 'KatalogController@showSingleproduct');
 
     Route::get('/lost-password', 'LostpasswordController@showLostpassword');
 
@@ -116,9 +116,22 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/katalogbuahanorganik', 'KatalogController@showBuahanorganik');
 
+
+
+    
+
    // Route::get('/addProduct/{prodId}/{prodName}/{prodPriceId}', 'CartController@addCart');
 
-    Route::get('/single-product','katalogController@showSingleproduct');
+   // Route::get('/single-product','katalogController@showSingleproduct');
+    
+
+    Route::get('/reviewrating', 'ReviewratingController@showreviewrating');
+
+    Route::post('/reviewratingberhasil', 'ReviewratingController@insertreviewrating');
+
+    Route::post('/single-product', array('uses'=>'CartController@additemsingleproduct'));
+
+    Route::get('/checkout','CartController@alamatbaru');
 
     Route::post('/katalogsayuranorganik', array('uses'=>'CartController@additemsayuranorganik'));
 
@@ -131,23 +144,47 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/katalogpeternakan', array('uses'=>'CartController@additempeternakan'));
 
     Route::post('/katalogpariwisata', array('uses'=>'CartController@additempariwisata'));
+
+    Route::any('/homepage', array('uses'=>'CartController@addhome'));
+
+    Route::get('/buktipembayaranupdated','Confirmationcontroller@showconfirmation');
+
+    Route::post('/searchresult', array('uses'=>'CartController@additemsearch'));
+
+    Route::post('/checkout-payment', array('uses'=>'ApiShippingController@pilihongkir'));
+
+    //Route::post('/single-product/{detailproductid}', array('uses'=>'CartController@additemsingleproduct'));
     //--------------------------------------------------------------------------
 
     Route::get('/searchresult', 'SearchController@cari');
 
+    // Route::get('/stores', array('uses'=>'ApiShippingController@pilihongkir'));
+
+    Route::post('/buktipembayaranupdated', 'ConfirmationController@paymentConfirmation');
+
+    Route::get('/konfirmasipembayaran', 'ConfirmationController@showconfirmation');
+
     //-------------------------------------------------------------------------
 
-    Route::get('/cart', 'CartController@showCart');
+    Route::post('/ordercomplete', 'CartController@postcart');
 
-    Route::get('/checkout', 'CartController@showCheckout');
+    Route::post('/checkout', 'CartController@addalamatbaru');
+
+    Route::post('/checkout', 'CartController@addalamatlama');
+
+    Route::post('/checkout-review', array('uses'=>'ApiShippingController@reviewpemesanan'));
+
+    //Route::get('/checkout-review', 'ApiShippingController@reviewpemesanan');
+
+    Route::get('checkout-shipping', 'ApiShippingController@hitungongkir');
 
     Route::get('/cart', 'testcart@a');
 
-    Route::get('/cartsub', 'testcart@b');
+    Route::get('/checkout', 'CartController@order');
 
-    Route::post('/cart', array('uses'=>'CartController@jml'));
+    Route::post('/cart/', 'CartController@removeItem');
 
-
+    // Route::get('/single-product','KatalogController@detailProduct');
     // -----------------------------------------------------------------------
     // Route::resource('profile', 'ProfileController@index');
 
