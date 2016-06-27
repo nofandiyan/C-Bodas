@@ -14,7 +14,7 @@
                         {!! csrf_field() !!}
                         <input type="hidden" name="_method" value="put">
                         <input type="hidden" name='id' value="{{$profiles->id}}">
-                        <input type="hidden" name='role' value="admin">
+                        <input type="hidden" name='role' value="super">
 
                         <div align="center"><h2><label>Perbaharui Profil <br> <font color="E87169">{{$profiles->name}}</font></label></h2></div>
                         <hr style="height:3px;border:none;color:#777777;background-color:#777777;" />

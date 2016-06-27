@@ -31,6 +31,169 @@ class HomeController extends Controller
     {
         if (Auth::check())
         {
+        if(Auth::user()->role == "super"){
+            $profiles = User::where('id', Auth::user()->id)->first();
+
+            $admin = DB::table('users')
+                ->where('users.role','admin')
+                ->get();
+
+            $sellers = DB::table('sellers')
+                ->join('users', 'sellers.id', '=', 'users.id')
+                ->select('sellers.id', 'sellers.id', 'users.name', 'users.role')
+                ->get();
+
+            $customers = DB::table('customers')
+                ->join('users', 'customers.id', '=', 'users.id')
+                ->select('customers.id', 'customers.id', 'users.name', 'users.role')
+                ->get();
+
+            $products = DB::table('products')
+            ->join('category_products', 'products.category_id', '=', 'category_products.id')
+            ->join('detail_products', 'products.id', '=', 'detail_products.product_id')
+            ->join('sellers', 'detail_products.seller_id', '=', 'sellers.id')
+            ->select('detail_products.id','products.name', 'products.category_id', 'detail_products.description', 'detail_products.seller_id')
+            ->get();
+
+            //OrderPending
+            $orders = DB::table('detail_reservations')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
+                ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
+                ->where('reservations.status','=','1')
+                ->get();
+
+            foreach ($orders as $ord) {
+
+            $ord->resv = DB::table('reservations')
+            ->join('users','reservations.customer_id','=','users.id')
+            ->where('reservations.id','=',$ord->reservation_id)
+            ->select('reservations.id','reservations.customer_id','reservations.status','reservations.created_at','users.name')
+            ->first();
+
+             $ord->totPrice = DB::table('prices_products')
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
+            }
+
+//orderValid
+            $orderValid = DB::table('detail_reservations')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
+                ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
+                ->where('reservations.status','=','2')
+                ->get();
+            
+            foreach ($orderValid as $ord) {
+            $ord->resv = DB::table('reservations')
+            ->join('users','reservations.customer_id','=','users.id')
+            ->where('reservations.id','=',$ord->reservation_id)
+            ->select('reservations.id','reservations.customer_id','reservations.status','reservations.created_at','users.name')
+            ->first();
+
+             $ord->totPrice = DB::table('prices_products')
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
+
+            }
+
+//orderInvalid
+            $orderInvalid = DB::table('detail_reservations')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
+                ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
+                ->where('reservations.status','=','3')
+                ->get();
+            
+            foreach ($orderInvalid as $ord) {
+
+            $ord->resv = DB::table('reservations')
+            ->join('users','reservations.customer_id','=','users.id')
+            ->where('reservations.id','=',$ord->reservation_id)
+            ->select('reservations.id','reservations.customer_id','reservations.status','reservations.created_at','users.name')
+            ->first();
+
+             $ord->totPrice = DB::table('prices_products')
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
+
+            }
+
+            $orderAdminShipping= DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
+            ->where('reservations.status','=','2')
+            ->where('detail_reservations.status','=','3')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
+            ->get();
+
+            foreach ($orderAdminShipping as $prodShip) {
+
+                $prodShip->prod = DB::table('detail_products')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
+                ->join('sellers','detail_products.seller_id','=','sellers.id')
+                ->where('detail_reservations.reservation_id','=',$prodShip->reservation_id)
+                
+                ->select('detail_reservations.updated_at')
+                ->first();
+
+                $prodShip->cust = DB::table('reservations')
+                ->join('users','reservations.customer_id','=','users.id')
+                ->select('users.name as custName','users.id as custId')
+                ->first();
+            }
+
+//Shipped
+            $orderAdminShipped = DB::table('detail_reservations')
+            ->join('reservations','detail_reservations.reservation_id','=','reservations.id')
+            ->join('detail_products','detail_reservations.detail_product_id','=','detail_products.id')
+            ->join('prices_products','detail_reservations.price_id','=','prices_products.id')
+            ->where('reservations.status','=','2')
+            ->where('detail_reservations.status','=','4')
+            ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
+            ->get();
+
+            foreach ($orderAdminShipped as $prodShip) {
+
+                $prodShip->prod = DB::table('detail_products')
+                ->join('detail_reservations','detail_reservations.detail_product_id','=','detail_products.id')
+                ->join('sellers','detail_products.seller_id','=','sellers.id')
+                ->where('detail_reservations.reservation_id','=',$prodShip->reservation_id)
+                
+                ->select('detail_reservations.updated_at')
+                ->first();
+
+                $prodShip->cust = DB::table('reservations')
+                ->join('users','reservations.customer_id','=','users.id')
+                ->select('users.name as custName','users.id as custId')
+                ->first();
+            }
+
+//orderClosed
+            $orderClosed = DB::table('detail_reservations')
+                ->join('reservations','reservations.id','=','detail_reservations.reservation_id')
+                ->select(DB::raw('DISTINCT(detail_reservations.reservation_id)'))
+                ->where('reservations.status','=','4')
+                ->get();
+            
+            foreach ($orderClosed as $ord) {
+
+            $ord->resv = DB::table('reservations')
+            ->join('users','reservations.customer_id','=','users.id')
+            ->where('reservations.id','=',$ord->reservation_id)
+            ->select('reservations.id','reservations.customer_id','reservations.status','reservations.created_at','users.name')
+            ->first();
+
+             $ord->totPrice = DB::table('prices_products')
+            ->join('detail_reservations', 'detail_reservations.price_id','=', 'prices_products.id')
+            ->where('detail_reservations.reservation_id','=',$ord->reservation_id)
+            ->sum(DB::raw('detail_reservations.amount * prices_products.price + detail_reservations.delivery_cost'));
+
+            }
+            return view ('admin.SuperAdminHome', compact('profiles','admin', 'category','products','sellers', 'customers','orders','orderValid','orderInvalid','orderClosed','orderAdminShipping','orderAdminShipped'));
+        }
+
         if(Auth::user()->role == "admin"){
             $profiles = User::where('id', Auth::user()->id)->first();
             

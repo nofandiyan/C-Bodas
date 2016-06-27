@@ -84,9 +84,9 @@ class RegistrationController extends Controller
                 ->subject('Konfirmasi alamat email anda');
         });
  
-        Session::flash('message', 'Terima kasih telah mendaftar, silahkan cek email anda untuk konfirmasi.');
+        // Session::flash('message', 'Terima kasih telah mendaftar, silahkan cek email anda untuk konfirmasi.');
  
-        return Redirect::to('login');
+        return Redirect::to('/');
     }
 
     public function postRegisterSeller()

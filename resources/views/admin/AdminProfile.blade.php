@@ -67,9 +67,12 @@
                                     <div class="col-md-6" align="right">
                                         <a href="/" class="btn btn-primary" role="button">Kembali</a>
                                     </div>
+                                    @if(Auth::user()->role == 'admin')
                                     <div class="col-md-6" align="left">
                                         <a href="/admin/{{$profiles->id}}/edit" class="btn btn-primary" role="button">Edit Profile</a>
                                     </div>
+                                    @endif
+
                                 </div>
                         
                     </form>

@@ -45,6 +45,12 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('admin', 'AdminController');
 
+    Route::resource('viewAdminProfile', 'AdminController');
+
+    Route::resource('SuperAdminProfile', 'SuperAdminController@index');
+
+    Route::resource('SuperAdmin', 'SuperAdminController');
+
     Route::resource('seller', 'SellerController');
     Route::get('/SellerSignUp', 'SellerController@showSignUp');
     Route::resource('SellerProfile', 'SellerController@index');

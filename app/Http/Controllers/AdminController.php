@@ -46,6 +46,23 @@ class AdminController extends Controller
             return view ('admin.AdminProfile', compact('profiles'));
     }
 
+    public function show($id)
+    {
+       $profiles   = DB::table('users')
+            ->join('cities','cities.id','=','users.city_id')
+            ->join('provinces','provinces.id','=','cities.province_id')
+            ->select('users.id','users.email','users.name','users.gender','users.phone','users.street','cities.city','cities.type','provinces.province','users.zip_code')
+            ->where('users.id','=', $id)
+            ->first();
+
+        if (count($profiles) == 0) {
+            return redirect('/');
+        }
+
+            return view ('admin.AdminProfile', compact('profiles'));
+    }
+
+
     public function edit()
     {
         $province = DB::table('provinces')

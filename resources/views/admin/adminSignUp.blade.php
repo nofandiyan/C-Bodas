@@ -163,14 +163,14 @@
                                 @endif
                             </div>
                             <br>
-                            <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
+                            <!-- <div class="{{ $errors->has('myCheck') ? ' has-error' : '' }}">
                                     <div class="col-md-1">
                                         <input type="checkbox" id="myCheck" name="myCheck" required>
                                     </div>
                                     <div class="col-md-offset-1" align="justify">
                                         Data tersebut saya isi dengan jujur dan apa adanya, apabila terdapat kesalahan pada isi formulir merupakan murni dari kesalahan saya dan pihak C-Bodas tidak ikut menanggung kesalahan yang telah saya perbuat.
                                     </div>
-                            </div>
+                            </div> -->
 
                         <!-- -------------------------------------------------------- -->
                         <br>
