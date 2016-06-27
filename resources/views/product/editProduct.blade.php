@@ -140,12 +140,12 @@
                                 @if($product->category_id == 1)
                                     <label class="col-md-4 control-label">Stok Tersedia</label>
                                     <div class="col-md-3">
-                                        <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $product->stock }}">
+                                        <input type="number" class="form-control" name="stock" step="1" placeholder="Kilogram" value="{{ $product->stock }}" min="0">
                                     </div>
                                     @elseif($product->category_id == 2)
                                     <label class="col-md-4 control-label">Stok Tersedia</label>
                                     <div class="col-md-3">
-                                        <input type="number" class="form-control" name="stock" step="1" placeholder="Jumlah Sapi Tersedia" value="{{ $product->stock }}">
+                                        <input type="number" class="form-control" name="stock" step="1" placeholder="Jumlah Sapi Tersedia" value="{{ $product->stock }}" min="0">
                                     </div>
                                     @elseif($product->category_id == 3)
                                     <!-- <label class="col-md-4 control-label">Stok Tersedia</label>

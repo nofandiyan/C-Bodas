@@ -591,6 +591,10 @@ class OrderController extends Controller
             $i++;
         }       
         
+        if (count($productSeller)==0) {
+            return redirect ('/');
+        }
+
         return view ('order.viewOrderAdminShipping', compact('products','order','productSeller','totPriceSeller','countPrice','countProfit','prices','priceDeliv'));
         
     }
@@ -738,6 +742,10 @@ class OrderController extends Controller
             $totPriceSeller += $countPrice[$i];
             $i++;
 
+        }
+
+        if (count($productSeller)==0) {
+            return redirect ('/');
         }
 
         foreach ($productSeller as $ps) {
@@ -888,6 +896,10 @@ class OrderController extends Controller
             $i++;
         }       
         
+        if (count($productSeller)==0) {
+            return redirect ('/');
+        }
+
         foreach ($productSeller as $ps) {
             if ($ps->detResStat == 4) {
                 return redirect ('/');
@@ -1171,7 +1183,11 @@ class OrderController extends Controller
             $totPriceSeller += $countPrice[$i];
             $i++;
         }       
-        
+              
+        if (count($productSeller)==0) {
+            return redirect ('/');
+        }
+
         return view ('order.viewOrderShipping', compact('products','order','productSeller','totPriceSeller','countPrice','countProfit','prices','priceDeliv'));
         
     }
@@ -1895,8 +1911,6 @@ class OrderController extends Controller
             $message = $resvId.'-Pembayaran Telah Diterima. Terima Kasih';
             $this->sendNotification($message);
             
-        
-
         return redirect('/');
     }
 
@@ -2048,8 +2062,9 @@ class OrderController extends Controller
                 'status'      => 1,
                 'updated_at'=>$now
                 ]);
-
-            return redirect('/OrderPending/'.$resvId);
+        
+        return redirect('/OrderPending/'.$resvId);
+        
     }
 
     public function rejected($resvId, $detId)
@@ -2089,7 +2104,7 @@ class OrderController extends Controller
                 'updated_at'=>$now
                 ]);
 
-        return redirect('/');
+        return redirect('/OrderAccepted/'.$resvId);
     }
 
     public function shippingTernak($resvId, $detId)
@@ -2106,7 +2121,7 @@ class OrderController extends Controller
                 'updated_at'=>$now
                 ]);
 
-        return redirect('/');
+        return redirect('/OrderAccepted/'.$resvId);
     }
 
     Public function shipped($resvId, $detId)
@@ -2123,7 +2138,7 @@ class OrderController extends Controller
                 'updated_at'=>$now
                 ]);
 
-        return redirect('/');
+        return redirect('/OrderAdminShipping/'.$resvId);
     }
 
     Public function closed($resvId)
@@ -2144,7 +2159,6 @@ class OrderController extends Controller
 
     Public function transfer($resvId, $detId)
     {
-
         $cartsShipped = DB::table('detail_reservations')
             ->where('reservation_id','=',$resvId)
             ->where('detail_product_id','=',$detId)

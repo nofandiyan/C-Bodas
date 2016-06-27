@@ -24,7 +24,7 @@ trait Notification{
 	        ->to($model->device_token);
 	        $collection->adapter->setAdapterParameters(['sslverifypeer' => false]);
 	        $collection->send($msgDate);
-	        var_dump($collection);
+	        // var_dump($collection);
 	        // return $collection;
 		}
 

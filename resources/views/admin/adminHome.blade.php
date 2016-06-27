@@ -90,7 +90,7 @@
                             </div>
                             <br>
                             <h4 align="center"><label>Order</label></h4>
-                            <div class="panel panel-default">
+                            <!-- <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrder">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle">
@@ -98,7 +98,7 @@
                                         </a>
                                     </h4>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="panel panel-default">
                                 <div class="panel-heading clickable" data-toggle="collapse" data-parent="#accordion" data-target="#listOrderValid">
@@ -396,7 +396,8 @@
                                       <hr>
                                 </div>
 
-                                <div id="listOrder" class="panel-collapse collapse" align="center">
+                                <!-- <div id="listOrder" class="panel-collapse collapse" align="center"> -->
+                                <div>
                                     <h4><label>List Order Request</label></h4>
                                         <div id="accordionUser">
                                             <div class="panel">

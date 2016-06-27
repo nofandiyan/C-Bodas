@@ -326,6 +326,13 @@
                                                     <td>{{$countPrice[$i]}}</td>
                                                     <td>{{$prod->updated_at}}</td>
                                                     <td>{{$prod->resi}}</td>
+                                                    <td>
+                                                        @if($prod->transfer == 0)
+                                                            Pending
+                                                        @else
+                                                            Transfered
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                                 <?php $i++; ?>
                                             @endforeach

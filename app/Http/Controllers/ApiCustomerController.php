@@ -27,7 +27,7 @@ class ApiCustomerController extends Controller{
     public function testNotif(){
         
             // $deviceToken = 'none';
-            $message = '1-We have successfully sent a push notification!';
+            $message = '13-We have successfully sent a push notification!';
             // var_dump();
             return $this->sendNotification($message);
             // return $this->reservationsExpired();
